@@ -4,31 +4,7 @@ import styled, { createGlobalStyle } from "styled-components";
 
 // 전역 스타일 설정
 const GlobalStyle = createGlobalStyle`
-@font-face {
-    font-family: "Neue Haas Grotesk Display Pro";
-    src: url("../../public/assets/fonts/NeueHaasDisplayLight.ttf") format("truetype");
-    font-weight: 300; /* Light */
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Neue Haas Grotesk Display Pro";
-    src: url("../../public/assets/fonts/NeueHaasDisplayLight.ttf") format("truetype");
-    font-weight: 500; /* Medium */
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Neue Haas Grotesk Display Pro";
-    src: url("../../public/assets/fonts/NeueHaasDisplayLight.ttf") format("truetype");
-    font-weight: 700; /* Bold */
-    font-style: normal;
-    font-display: swap;
-  }
-
-  * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
