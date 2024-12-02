@@ -42,7 +42,13 @@ const Loading = () => {
               <ThirdText2>THREADS</ThirdText2>
             </InnerBox>
           </FirstBox>
-          <SecondBox></SecondBox>
+          <SecondBox>
+            <LastBox>
+              <FirstText3>FOLLOW</FirstText3>
+              <SecondText3>SCARLET</SecondText3>
+              <ThirdText3>THREADS</ThirdText3>
+            </LastBox>
+          </SecondBox>
         </SemiContainer>
       </ScaledContainer>
     </>
@@ -74,7 +80,7 @@ const SemiContainer = styled.div`
 const TextStyle = `
   color: #000;
   font-family: "Neue Haas Grotesk Display Pro";
-  font-size: 200px;
+  font-size: 230px;
   font-style: normal;
   font-weight: 500;
   text-transform: uppercase;
@@ -155,6 +161,37 @@ const ThirdText2 = styled.div`
   transform: translate(275px, 0);
 `;
 
-const SecondBox = styled.div``;
+const SecondBox = styled.div`
+  display: flex;
+  width: 226.64px;
+  height: 293.56px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  position: absolute; /* 절대 위치로 설정 */
+  top: 50%; /* 세로 중앙 정렬 */
+  left: 50%; /* 가로 중앙 정렬 */
+  transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
+`;
+
+
+const LastBox = styled.div`
+  width: 195.8px;
+  height: 272.3px;
+  transform: rotate(-6.8deg);
+  flex-shrink: 0;
+  background-color: #D90206;
+  box-shadow: 
+    inset 0 0 20px rgba(0, 0, 0, 0.3), /* 내부 가장자리 부드러운 그림자 */
+    inset 0 0 40px rgba(0, 0, 0, 0.2), /* 조금 더 퍼진 그림자 */
+    inset 0 0 60px rgba(0, 0, 0, 0.1); /* 가장 부드러운 외곽 그림자 */
+  overflow: hidden; /* 영역 밖 콘텐츠 숨기기 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+`;
 
 export default Loading;
