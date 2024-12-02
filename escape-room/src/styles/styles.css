@@ -1,0 +1,31 @@
+:root {
+  /* Red 색상 */
+  --red-1: #fbe6e6;
+  --red-2: #f6c2c3;
+  --red-3: #ef9294;
+  --red-4: #e76062;
+  --red-5: #e03033;
+  --red-6: #d90206; /* 기본값 */
+  --red-7: #b80205;
+  --red-8: #9a0104;
+  --red-9: #7d0103;
+  --red-10: #620103;
+
+  /* Black 색상 */
+  --black-1: #ffffff;
+  --black-2: #fcfcfc;
+  --black-3: #f5f5f5;
+  --black-4: #f0f0f0;
+  --black-5: #d9d9d9;
+  --black-6: #bfbfbf;
+  --black-7: #8c8c8c;
+  --black-8: #595959;
+  --black-9: #454545;
+  --black-10: #262626;
+  --black-11: #1f1f1f;
+  --black-12: #141414;
+  --black-13: #000000;
+}
+
+
+/* 현재 다크모드 관련 코드는 index.css에 들어가 있음 */

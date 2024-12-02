@@ -1,0 +1,141 @@
+/* Global Styles */
+@font-face {
+  font-family: "Neue Haas Grotesk Display Pro";
+  src: url("/assets/fonts/NeueHaasDisplayLight.ttf") format("truetype");
+  font-weight: 300; /* Light */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Haas Grotesk Display Pro";
+  src: url("/assets/fonts/NeueHaasDisplayMedium.ttf") format("truetype");
+  font-weight: 500; /* Medium */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Haas Grotesk Display Pro";
+  src: url("/assets/fonts/NeueHaasDisplayBold.ttf") format("truetype");
+  font-weight: 700; /* Bold */
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Neue Haas Grotesk Display Pro", sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Styled Components */
+
+.scaled-container {
+  transform: scale(var(--scale)); /* scale 속성 적용 */
+  transform-origin: top left; /* 확대/축소 기준 */
+  width: 1440px; /* 기준 너비 */
+  height: 900px; /* 기준 높이 */
+  background: #D90206; /* 전체 배경색 */
+  display: flex;
+  justify-content: center;
+}
+
+.semi-container {
+  width: 1037px;
+  height: 100%;
+  background: #D90206;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.text-style {
+  color: #000;
+  font-family: "Neue Haas Grotesk Display Pro", sans-serif;
+  font-size: 200px;
+  font-style: normal;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.first-text {
+  composes: text-style;
+  transform: rotate(-9.775deg) translate(175px, 0); /* 기울기와 위치 조정 */
+}
+
+.second-text {
+  composes: text-style;
+  transform: rotate(-9.775deg) translate(-300px, 20px); /* 기울기와 위치 조정 */
+}
+
+.third-text {
+  composes: text-style;
+  transform: rotate(-9.775deg) translate(250px, 40px); /* 기울기와 위치 조정 */
+}
+
+.first-box {
+  position: absolute; /* 다른 요소들에 영향을 주지 않음 */
+  top: 48%; /* 화면 세로 중앙 */
+  left: 50%; /* 화면 가로 중앙 */
+  transform: translate(-50%, -50%); /* 정확한 중앙 배치 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 425.06px;
+  height: 539.34px;
+  background: transparent; /* 투명 배경 */
+}
+
+.inner-box {
+  width: 352.25px;
+  height: 489.95px;
+  transform: rotate(9.77deg);
+  flex-shrink: 0;
+  background-color: #D90206;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3), /* 내부 가장자리 부드러운 그림자 */
+              inset 0 0 40px rgba(0, 0, 0, 0.2), /* 조금 더 퍼진 그림자 */
+              inset 0 0 60px rgba(0, 0, 0, 0.1); /* 가장 부드러운 외곽 그림자 */
+  overflow: hidden; /* 영역 밖 콘텐츠 숨기기 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+}
+
+.text-style2 {
+  color: #000; /* 텍스트 색상 */
+  font-family: "Neue Haas Grotesk Display Pro", sans-serif;
+  font-size: 180px; /* 폰트 크기 */
+  font-style: normal;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-align: center; /* 중앙 정렬 */
+}
+
+.first-text2 {
+  composes: text-style2;
+  margin-bottom: 5px; /* 텍스트 간 간격 */
+  transform: translate(130px, 0);
+}
+
+.second-text2 {
+  composes: text-style2;
+  margin-bottom: 5px;
+  transform: translate(-265px, 0);
+}
+
+.third-text2 {
+  composes: text-style2;
+  transform: translate(275px, 0);
+}
