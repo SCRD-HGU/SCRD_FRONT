@@ -194,4 +194,30 @@ const LastBox = styled.div`
   z-index: 10;
 `;
 
+const TextStyle3 = `
+  color: #000; /* 텍스트 색상 */
+  font-family: "Neue Haas Grotesk Display Pro", sans-serif;
+  font-size: 150px; /* 폰트 크기 */
+  font-style: normal;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-align: center; /* 중앙 정렬 */
+  line-height: 0.8;
+`;
+
+const FirstText3 = styled.div`
+  ${TextStyle3}
+  transform: rotate(6.8deg) translateX(120px); /* 회전 후 X축 이동 */
+`;
+
+const SecondText3 = styled.div`
+  ${TextStyle3}
+  transform: rotate(6.8deg) translateX(-220px);
+`;
+
+const ThirdText3 = styled.div`
+  ${TextStyle3}
+  transform: rotate(6.8deg) translateX(200px);
+`;
+
 export default Loading;
