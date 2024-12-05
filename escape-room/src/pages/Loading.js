@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { keyframes, createGlobalStyle } from "styled-components";
 
 // 전역 스타일 설정
 const GlobalStyle = createGlobalStyle`
@@ -8,6 +8,24 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+`;
+
+const moveLeft = keyframes`
+  0% {
+    transform: rotate(-9.775deg) translateX(0);
+  }
+  100% {
+    transform: rotate(-9.775deg) translateX(-400px);
+  }
+`;
+
+const moveRight = keyframes`
+  0% {
+    transform: rotate(-9.775deg) translateX(0);
+  }
+  100% {
+    transform: rotate(-9.775deg) translateX(400px);
   }
 `;
 
@@ -49,6 +67,10 @@ const Loading = () => {
               <ThirdText3>THREADS</ThirdText3>
             </LastBox>
           </SecondBox>
+          {/* ESCAPE ROOM TEAM MATCHING 텍스트 추가 */}
+          <MatchingText1>{"ESCAPE ROOM\nTEAM MATCHING"}</MatchingText1>
+          <MatchingText2>{"ESCAPE ROOM\nTEAM MATCHING"}</MatchingText2>
+          <MatchingText3>{"ESCAPE ROOM\nTEAM MATCHING"}</MatchingText3>
         </SemiContainer>
       </ScaledContainer>
     </>
@@ -89,16 +111,19 @@ const TextStyle = `
 const FirstText = styled.div`
   ${TextStyle}
   transform: rotate(-9.775deg) translate(175px, 0); /* 기울기와 위치 조정 */
+  animation: ${moveLeft} 1s ease-out forwards;
 `;
 
 const SecondText = styled.div`
   ${TextStyle}
   transform: rotate(-9.775deg) translate(-300px, 20px); /* 기울기와 위치 조정 */
+  animation: ${moveRight} 1s ease-out forwards;
 `;
 
 const ThirdText = styled.div`
   ${TextStyle}
   transform: rotate(-9.775deg) translate(250px, 40px); /* 기울기와 위치 조정 */
+  animation: ${moveLeft} 1s ease-out forwards;
 `;
 
 const FirstBox = styled.div`
@@ -219,5 +244,36 @@ const ThirdText3 = styled.div`
   ${TextStyle3}
   transform: rotate(6.8deg) translateX(200px);
 `;
+
+const MatchingText = styled.div`
+  position: absolute;
+  color: #fff;
+  font-family: "Neue Haas Grotesk Display Pro", sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+  transform: rotate(-9.775deg); /* 기울기 */
+  white-space: pre-line;
+`; 
+
+const MatchingText1 = styled(MatchingText)`
+  top: 5vh; /* 화면 높이의 20% */
+  left: 30vw; /* 화면 너비의 15% */
+  z-index: 10;
+`;
+
+const MatchingText2 = styled(MatchingText)`
+  top: 35vh;
+  right: 23vw;
+  z-index: 10;
+`;
+
+const MatchingText3 = styled(MatchingText)`
+  bottom: 3vh;
+  left: 20vw;
+  z-index: 10;
+`;
+
 
 export default Loading;
