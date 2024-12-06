@@ -29,6 +29,60 @@ const moveRight = keyframes`
   }
 `;
 
+const moveLeftForText2 = keyframes`
+  0% {
+    transform: rotate(9.77deg) translateX(0);
+  }
+  100% {
+    transform: rotate(9.77deg) translateX(-400px);
+  }
+`;
+
+const moveRightForText2 = keyframes`
+  0% {
+    transform: rotate(9.77deg) translateX(0);
+  }
+  100% {
+    transform: rotate(9.77deg) translateX(400px);
+  }
+`;
+
+const moveLeftForText3 = keyframes`
+  0% {
+    transform: rotate(6.8deg) translateX(0);
+  }
+  100% {
+    transform: rotate(6.8deg) translateX(-400px);
+  }
+`;
+
+const moveRightForText3 = keyframes`
+  0% {
+    transform: rotate(6.8deg) translateX(0);
+  }
+  100% {
+    transform: rotate(6.8deg) translateX(400px);
+  }
+`;
+
+const rotateCounterClock = keyframes`
+  0% {
+    transform: rotate(9.77deg); /* 초기 상태 */
+  }
+  100% {
+    transform: rotate(0deg); /* 반시계 방향으로 한 바퀴 회전 */
+  }
+`;
+
+const rotateClock = keyframes`
+  0% {
+    transform: rotate(-9.77deg); /* 초기 상태 */
+  }
+  100% {
+    transform: rotate(0deg); /* 반시계 방향으로 한 바퀴 회전 */
+  }
+`;
+
 const Loading = () => {
   const navigate = useNavigate();
 
@@ -111,19 +165,19 @@ const TextStyle = `
 const FirstText = styled.div`
   ${TextStyle}
   transform: rotate(-9.775deg) translate(175px, 0); /* 기울기와 위치 조정 */
-  animation: ${moveLeft} 1s ease-out forwards;
+  animation: ${moveLeft} 2s ease-out forwards;
 `;
 
 const SecondText = styled.div`
   ${TextStyle}
   transform: rotate(-9.775deg) translate(-300px, 20px); /* 기울기와 위치 조정 */
-  animation: ${moveRight} 1s ease-out forwards;
+  animation: ${moveRight} 2s ease-out forwards;
 `;
 
 const ThirdText = styled.div`
   ${TextStyle}
   transform: rotate(-9.775deg) translate(250px, 40px); /* 기울기와 위치 조정 */
-  animation: ${moveLeft} 1s ease-out forwards;
+  animation: ${moveLeft} 2s ease-out forwards;
 `;
 
 const FirstBox = styled.div`
@@ -157,6 +211,8 @@ const InnerBox = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0;
+
+  animation: ${rotateCounterClock} 1s ease-out forwards;
 `;
 
 const TextStyle2 = `
@@ -173,17 +229,20 @@ const FirstText2 = styled.div`
   ${TextStyle2}
   margin-bottom: 5px; /* 텍스트 간 간격 */
   transform: translate(130px, 0);
+  animation: ${moveLeftForText2} 2s ease-out forwards;
 `;
 
 const SecondText2 = styled.div`
   ${TextStyle2}
   margin-bottom: 5px;
   transform: translate(-265px, 0);
+  animation: ${moveRightForText2} 2s ease-out forwards;
 `;
 
 const ThirdText2 = styled.div`
   ${TextStyle2}
   transform: translate(275px, 0);
+  animation: ${moveLeftForText2} 2s ease-out forwards;
 `;
 
 const SecondBox = styled.div`
@@ -217,6 +276,8 @@ const LastBox = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 10;
+
+  animation: ${rotateClock} 1s ease-out forwards;
 `;
 
 const TextStyle3 = `
@@ -233,16 +294,20 @@ const TextStyle3 = `
 const FirstText3 = styled.div`
   ${TextStyle3}
   transform: rotate(6.8deg) translateX(120px); /* 회전 후 X축 이동 */
+  animation: ${moveLeftForText3} 2s ease-out forwards;
+
 `;
 
 const SecondText3 = styled.div`
   ${TextStyle3}
   transform: rotate(6.8deg) translateX(-220px);
+  animation: ${moveRightForText3} 2s ease-out forwards;
 `;
 
 const ThirdText3 = styled.div`
   ${TextStyle3}
   transform: rotate(6.8deg) translateX(200px);
+  animation: ${moveLeftForText3} 2s ease-out forwards;
 `;
 
 const MatchingText = styled.div`
