@@ -1,11 +1,11 @@
 import React from 'react';
 import { ThemeProvider } from './ThemeContext';
-import Router from './Router'; // Router.js를 불러옵니다.
+import AppRouter from './Router'; // 수정된 Router.js
 
 const App = () => {
   return (
     <ThemeProvider>
-      <Router />
+      <AppRouter /> {/* AppRouter로 변경 */}
     </ThemeProvider>
   );
 };

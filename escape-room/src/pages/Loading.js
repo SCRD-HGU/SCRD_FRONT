@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
 
@@ -65,26 +65,28 @@ const moveRightForText3 = keyframes`
   }
 `;
 
-const rotateCounterClock = keyframes`
-  0% {
-    transform: rotate(9.77deg); /* 초기 상태 */
-  }
-  100% {
-    transform: rotate(0deg); /* 반시계 방향으로 한 바퀴 회전 */
-  }
-`;
+// const rotateCounterClock = keyframes`
+//   0% {
+//     transform: rotate(9.77deg); /* 초기 상태 */
+//   }
+//   100% {
+//     transform: rotate(0deg); /* 반시계 방향으로 한 바퀴 회전 */
+//   }
+// `;
 
-const rotateClock = keyframes`
-  0% {
-    transform: rotate(-9.77deg); /* 초기 상태 */
-  }
-  100% {
-    transform: rotate(0deg); /* 반시계 방향으로 한 바퀴 회전 */
-  }
-`;
+// const rotateClock = keyframes`
+//   0% {
+//     transform: rotate(-9.77deg); /* 초기 상태 */
+//   }
+//   100% {
+//     transform: rotate(0deg); /* 반시계 방향으로 한 바퀴 회전 */
+//   }
+// `;
 
 const Loading = () => {
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
 
   // 뷰포트 크기를 기준으로 scale 업데이트
   useEffect(() => {
@@ -99,36 +101,50 @@ const Loading = () => {
     return () => window.removeEventListener("resize", updateScale); // 클린업
   }, []);
 
-  return (
-    <>
-      <GlobalStyle /> {/* 전역 스타일 적용 */}
-      <ScaledContainer>
-        <SemiContainer>
-          <FirstText>FOLLOW</FirstText>
-          <SecondText>SCARLET</SecondText>
-          <ThirdText>THREADS</ThirdText>
-          <FirstBox>
-            <InnerBox>
-              <FirstText2>FOLLOW</FirstText2>
-              <SecondText2>SCARLET</SecondText2>
-              <ThirdText2>THREADS</ThirdText2>
-            </InnerBox>
-          </FirstBox>
-          <SecondBox>
-            <LastBox>
-              <FirstText3>FOLLOW</FirstText3>
-              <SecondText3>SCARLET</SecondText3>
-              <ThirdText3>THREADS</ThirdText3>
-            </LastBox>
-          </SecondBox>
-          {/* ESCAPE ROOM TEAM MATCHING 텍스트 추가 */}
-          <MatchingText1>{"ESCAPE ROOM\nTEAM MATCHING"}</MatchingText1>
-          <MatchingText2>{"ESCAPE ROOM\nTEAM MATCHING"}</MatchingText2>
-          <MatchingText3>{"ESCAPE ROOM\nTEAM MATCHING"}</MatchingText3>
-        </SemiContainer>
-      </ScaledContainer>
-    </>
-  );
+  useEffect(() => {
+    const timer = setTimeout(() => {
+        setLoading(false);
+        navigate("/main");
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
+  if(loading) {
+    return (
+      <>
+        <GlobalStyle /> {/* 전역 스타일 적용 */}
+        <ScaledContainer>
+          <SemiContainer>
+            <FirstText>FOLLOW</FirstText>
+            <SecondText>SCARLET</SecondText>
+            <ThirdText>THREADS</ThirdText>
+            <FirstBox>
+              <InnerBox>
+                <FirstText2>FOLLOW</FirstText2>
+                <SecondText2>SCARLET</SecondText2>
+                <ThirdText2>THREADS</ThirdText2>
+              </InnerBox>
+            </FirstBox>
+            <SecondBox>
+              <LastBox>
+                <FirstText3>FOLLOW</FirstText3>
+                <SecondText3>SCARLET</SecondText3>
+                <ThirdText3>THREADS</ThirdText3>
+              </LastBox>
+            </SecondBox>
+            {/* ESCAPE ROOM TEAM MATCHING 텍스트 추가 */}
+            <MatchingText1>{"ESCAPE ROOM\nTEAM MATCHING"}</MatchingText1>
+            <MatchingText2>{"ESCAPE ROOM\nTEAM MATCHING"}</MatchingText2>
+            <MatchingText3>{"ESCAPE ROOM\nTEAM MATCHING"}</MatchingText3>
+          </SemiContainer>
+        </ScaledContainer>
+      </>
+    );
+  }
+
+  return null;
+
 };
 
 // 화면 비율 고정 컨테이너
@@ -211,8 +227,6 @@ const InnerBox = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0;
-
-  animation: ${rotateCounterClock} 1s ease-out forwards;
 `;
 
 const TextStyle2 = `
@@ -276,8 +290,6 @@ const LastBox = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 10;
-
-  animation: ${rotateClock} 1s ease-out forwards;
 `;
 
 const TextStyle3 = `
