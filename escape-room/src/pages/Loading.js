@@ -354,3 +354,6 @@ const MatchingText3 = styled(MatchingText)`
 
 
 export default Loading;
+
+
+{/* fadeout 적용 시켜야 함 */ }
