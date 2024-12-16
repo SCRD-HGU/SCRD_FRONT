@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
+import LogoImage from "../assets/Logo.svg";
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -24,6 +25,7 @@ const MyPage = () => {
             colourless skein{"\n"}
             of life
           </TextArea>
+          <Logo src={LogoImage} alt="Logo" />
         </SemiContainer>
       </ScaledContainer>
     </>
@@ -43,12 +45,8 @@ const ScaledContainer = styled.div`
 
 const SemiContainer = styled.div`
   width: 1037px;
-  height: 100%;
   background: #000;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   overflow: hidden;
 `;
 
@@ -62,6 +60,17 @@ const TextArea = styled.div`
   line-height: 80px;
   text-transform: uppercase;
   white-space: pre-wrap; /* \n 줄바꿈 적용 */
+
+  margin-top: 38px;
+  margin-left: 38px;
+`;
+
+const Logo = styled.img`
+  width: 55px;
+  height: 55px;
+
+  margin-top: 38px;
+  margin-right: 38px;
 `;
 
 export default MyPage;
