@@ -45,17 +45,17 @@ const MyPage = () => {
                 <TitleText1>
                   고객 센터
                 </TitleText1>
-                <SubText1>
-                  문의하기<br />공지사항<br />리뷰 일괄 입력
-                </SubText1>
+                <SubText1>문의하기</SubText1>
+                <SubText1>공지사항</SubText1>
+                <SubText1>리뷰 일괄 입력</SubText1>
               </Circle1>
               <Circle2>
                 <TitleText2>
                   더보기
                 </TitleText2>
-                <SubText2>
-                  ABOUT USCRD<br />NEWS<br />방탈출예약제휴
-                </SubText2>
+                <SubText2>ABOUT USCRD</SubText2>
+                <SubText2>NEWS</SubText2>
+                <SubText2>방탈출예약제휴</SubText2>
               </Circle2>
             </CircleMenu>
           </ButtonCircleWrapper>
@@ -231,8 +231,13 @@ const SubText1 = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
+  cursor: pointer;
 
-  margin-top: 12px;
+  margin-top: 6px;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const SubText2 = styled.div`
@@ -242,8 +247,13 @@ const SubText2 = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
+  cursor: pointer;
 
-  margin-top: 12px;
+  margin-top: 6px;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const Logo = styled.img`
