@@ -42,20 +42,24 @@ const MyPage = () => {
             </ToggleButtonWrapper>
             <CircleMenu>
               <Circle1>
-                <TitleText1>
-                  고객 센터
-                </TitleText1>
-                <SubText1>문의하기</SubText1>
-                <SubText1>공지사항</SubText1>
-                <SubText1>리뷰 일괄 입력</SubText1>
+                <TitleSubWrapper>
+                  <TitleText1>
+                    고객 센터
+                  </TitleText1>
+                  <SubText1>문의하기</SubText1>
+                  <SubText1>공지사항</SubText1>
+                  <SubText1>리뷰 일괄 입력</SubText1>
+                </TitleSubWrapper>
               </Circle1>
               <Circle2>
-                <TitleText2>
-                  더보기
-                </TitleText2>
-                <SubText2>ABOUT USCRD</SubText2>
-                <SubText2>NEWS</SubText2>
-                <SubText2>방탈출예약제휴</SubText2>
+                <TitleSubWrapper>
+                  <TitleText2>
+                    더보기
+                  </TitleText2>
+                  <SubText2>ABOUT USCRD</SubText2>
+                  <SubText2>NEWS</SubText2>
+                  <SubText2>방탈출예약제휴</SubText2>
+                </TitleSubWrapper>
               </Circle2>
             </CircleMenu>
           </ButtonCircleWrapper>
@@ -200,6 +204,10 @@ const Circle2 = styled.div`
   align-items: center;
   justify-content: center;
   border: 2px solid #FFF;
+`;
+
+const TitleSubWrapper = styled.div`
+  align-items: flex-start;
 `;
 
 const TitleText1 = styled.div`
