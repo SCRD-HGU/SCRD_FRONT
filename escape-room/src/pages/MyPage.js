@@ -233,6 +233,7 @@ const TitleText2 = styled.div`
 `;
 
 const SubText1 = styled.div`
+  position: relative; /* ::after의 위치 설정을 위해 추가 */
   color: #000;
   font-family: Pretendard;
   font-size: 16px;
@@ -240,27 +241,56 @@ const SubText1 = styled.div`
   font-weight: 400;
   line-height: 22px;
   cursor: pointer;
-
   margin-top: 6px;
 
   &:hover {
-    text-decoration: underline;
+    font-weight: 700;
+  }
+
+  &:hover::after {
+    width: 100%; /* 밑줄이 전체로 확장 */
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0; /* 텍스트 아래에 밑줄 배치 */
+    left: 0;
+    width: 0; /* 초기 너비 */
+    height: 2px; /* 밑줄 두께 */
+    background-color: #000; /* 밑줄 색상 */
+    transition: width 0.3s ease-in-out; /* 애니메이션 효과 */
   }
 `;
 
 const SubText2 = styled.div`
+  position: relative; /* ::after의 위치 설정을 위해 추가 */
   color: #FFF;
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
   cursor: pointer;
-
   margin-top: 6px;
 
   &:hover {
-    text-decoration: underline;
+    font-weight: 700;
+  }
+
+  &:hover::after {
+    width: 100%; /* 밑줄이 전체로 확장 */
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0; /* 텍스트 아래에 밑줄 배치 */
+    left: 0;
+    width: 0; /* 초기 너비 */
+    height: 2px; /* 밑줄 두께 */
+    background-color: #FFF; /* 밑줄 색상 */
+    transition: width 0.3s ease-in-out; /* 애니메이션 효과 */
   }
 `;
 
