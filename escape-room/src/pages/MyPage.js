@@ -63,6 +63,11 @@ const MyPage = () => {
               </Circle2>
             </CircleMenu>
           </ButtonCircleWrapper>
+          <MovingArea>
+            <Ellipse>
+
+            </Ellipse>
+          </MovingArea>
         </SemiContainer>
       </Container>
     </>
@@ -292,6 +297,12 @@ const SubText2 = styled.div`
     background-color: #FFF; /* 밑줄 색상 */
     transition: width 0.3s ease-in-out; /* 애니메이션 효과 */
   }
+`;
+
+const MovingArea = styled.div`
+`;
+
+const Ellipse = styled.div`
 `;
 
 const Logo = styled.img`
