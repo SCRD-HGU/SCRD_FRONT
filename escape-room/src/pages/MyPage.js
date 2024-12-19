@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
 import LogoImage from "../assets/Logo.svg";
 import RectangleImage from "../assets/Rectangle 8.svg";
+import Arrow from "../assets/Arrow.svg";
+import { Link } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -63,11 +65,34 @@ const MyPage = () => {
               </Circle2>
             </CircleMenu>
           </ButtonCircleWrapper>
-          <MovingArea>
-            <Ellipse>
-
-            </Ellipse>
-          </MovingArea>
+          <MovingAreaWrapper>
+            <MovingArea>
+              <Ellipse>
+                <LinkText>
+                  REVIEW (52)
+                  <ArrowIcon src={Arrow} alt="Arrow Icon" />
+                </LinkText>
+                <LinkText>
+                  RECORD
+                  <ArrowIcon src={Arrow} alt="Arrow Icon" />
+                </LinkText>
+                <LinkText>
+                  MY THEME
+                  <ArrowIcon src={Arrow} alt="Arrow Icon" />
+                </LinkText>
+              </Ellipse>
+              <Ellipse>
+                <LinkText>
+                  MY CREW
+                  <ArrowIcon src={Arrow} alt="Arrow Icon" />
+                </LinkText>
+                <LinkText>
+                  ABOUT CREW
+                  <ArrowIcon src={Arrow} alt="Arrow Icon" />
+                </LinkText>
+              </Ellipse>
+            </MovingArea>
+          </MovingAreaWrapper>
         </SemiContainer>
       </Container>
     </>
@@ -92,7 +117,6 @@ const SemiContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
 `;
 
 const HeaderLogoWrapper = styled.div`
@@ -116,6 +140,7 @@ const ButtonCircleWrapper = styled.div`
   justify-content: center;
   align-items: center; /* 수직 중앙 정렬 추가 */
   gap: 272px;
+  margin-bottom: 82px;
 `;
 
 const ToggleButtonWrapper = styled.div`
@@ -299,10 +324,59 @@ const SubText2 = styled.div`
   }
 `;
 
+const MovingAreaWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  width: 100%;
+  margin-left: 60px;
+`;
+
 const MovingArea = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 const Ellipse = styled.div`
+  width: 372px;
+  height: 182px;
+  border-radius: 90px;
+  border: 2px solid #FFF;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 69px;
+  gap: 14px;
+
+  transition: all 0.3s ease-in-out;
+
+  position: relative;
+
+  &:hover {
+    transform: scale(1.2);
+    z-index: 10;
+  }
+`;
+
+const LinkText = styled.div`
+  display: flex; /* 텍스트와 아이콘을 가로로 배치 */
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: space-between; /* 텍스트와 아이콘 간격 조정 */
+  width: 100%; /* 전체 너비 사용 */
+
+  color: #FFF;
+  font-family: "Neue Haas Grotesk Text Pro";
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`;
+
+const ArrowIcon = styled.img`
+  width: 20px;
+  height: 20px;
 `;
 
 const Logo = styled.img`
