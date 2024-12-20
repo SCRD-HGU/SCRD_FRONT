@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
 import LogoImage from "../assets/Logo.svg";
 import Arrow from "../assets/Arrow.svg";
+import FirstVideo from "../assets/FirstVideo.mp4";
+import SecondVideo from "../assets/SecondVideo.mp4";
 import { Link } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
@@ -66,7 +68,8 @@ const MyPage = () => {
           </ButtonCircleWrapper>
           <MovingAreaWrapper>
             <MovingArea>
-              <Ellipse>
+            <Ellipse>
+                <video src={FirstVideo} autoPlay loop muted />
                 <LinkText>
                   REVIEW (52)
                   <ArrowIcon src={Arrow} alt="Arrow Icon" />
@@ -81,8 +84,9 @@ const MyPage = () => {
                 </LinkText>
               </Ellipse>
               <Ellipse>
+                <video src={SecondVideo} autoPlay loop muted />
                 <LinkText>
-                  MY CREW
+                  MY THEME
                   <ArrowIcon src={Arrow} alt="Arrow Icon" />
                 </LinkText>
                 <LinkText>
@@ -348,6 +352,7 @@ const Ellipse = styled.div`
   justify-content: center;
   padding: 69px;
   gap: 14px;
+  overflow: hidden;
 
   transition: all 0.3s ease-in-out;
 
@@ -357,9 +362,21 @@ const Ellipse = styled.div`
     transform: scale(1.2);
     z-index: 10;
   }
+
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
 `;
 
 const LinkText = styled.div`
+  position: relative;
+  z-index: 2;
   display: flex; /* 텍스트와 아이콘을 가로로 배치 */
   align-items: center; /* 수직 중앙 정렬 */
   justify-content: space-between; /* 텍스트와 아이콘 간격 조정 */
