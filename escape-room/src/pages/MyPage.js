@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
 import LogoImage from "../assets/Logo.svg";
-import RectangleImage from "../assets/Rectangle 8.svg";
 import Arrow from "../assets/Arrow.svg";
 import { Link } from "react-router-dom";
 
