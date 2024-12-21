@@ -84,7 +84,7 @@ const MyPage = () => {
                 </LinkText>
               </Ellipse>
               <Ellipse>
-                <video src={SecondVideo} autoPlay loop muted />
+                <StyledVideo src={SecondVideo} autoPlay loop muted />
                 <LinkText>
                   MY THEME
                   <ArrowIcon src={Arrow} alt="Arrow Icon" />
@@ -372,6 +372,10 @@ const Ellipse = styled.div`
     object-fit: cover;
     z-index: 1;
   }
+`;
+
+const StyledVideo = styled.video`
+  filter: grayscale(100%);
 `;
 
 const LinkText = styled.div`
