@@ -159,7 +159,7 @@ const ToggleButtonWrapper = styled.div`
 
 const ExpandBackground = keyframes`
   from {
-    width: 0;
+    width: 48%;
   }
   to {
     width: 100%;
@@ -170,11 +170,11 @@ const ToggleButtonBackground = styled.div`
   position: absolute;
   top: 0;
   right: 0; /* 오른쪽에서 왼쪽으로 확장 */
-  width: ${(props) => (props.hovered ? "100%" : "0")};
+  width: ${(props) => (props.hovered ? "100%" : "50%")};
   height: 100%;
   background: #FFF;
-  animation: ${(props) => (props.hovered ? ExpandBackground : "none")} 0.5s forwards;
-  transition: width 0.5s ease-out;
+  transition: width 0.5s ease-in-out;
+  border-radius: 50px;
 `;
 
 const ToggleButtonTextLeft = styled.div`
