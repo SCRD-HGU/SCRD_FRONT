@@ -65,28 +65,11 @@ const moveRightForText3 = keyframes`
   }
 `;
 
-// const rotateCounterClock = keyframes`
-//   0% {
-//     transform: rotate(9.77deg); /* 초기 상태 */
-//   }
-//   100% {
-//     transform: rotate(0deg); /* 반시계 방향으로 한 바퀴 회전 */
-//   }
-// `;
-
-// const rotateClock = keyframes`
-//   0% {
-//     transform: rotate(-9.77deg); /* 초기 상태 */
-//   }
-//   100% {
-//     transform: rotate(0deg); /* 반시계 방향으로 한 바퀴 회전 */
-//   }
-// `;
-
 const Loading = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
 
   // 뷰포트 크기를 기준으로 scale 업데이트
   useEffect(() => {
@@ -103,8 +86,11 @@ const Loading = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      setFadeOut(true);
+      setTimeout(() => {
         setLoading(false);
         navigate("/main");
+      }, 1000);
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -114,7 +100,7 @@ const Loading = () => {
     return (
       <>
         <GlobalStyle /> {/* 전역 스타일 적용 */}
-        <ScaledContainer>
+        <ScaledContainer fadeOut={fadeOut}>
           <SemiContainer>
             <FirstText>FOLLOW</FirstText>
             <SecondText>SCARLET</SecondText>
@@ -156,6 +142,8 @@ const ScaledContainer = styled.div`
   background: #D90206; /* 전체 배경색 */
   display: flex;
   justify-content: center;
+  opacity: ${(props) => (props.fadeOut ? 0 : 1)};
+  transition: opacity 1s ease-out;
 `;
 
 const SemiContainer = styled.div`
