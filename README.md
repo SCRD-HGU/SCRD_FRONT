@@ -1,53 +1,76 @@
-# Escape_room
+# Loading.js and MyPage.js Components
+
+## Overview
+This project contains two main components:
+1. **Loading.js** - Implements an animated loading screen.
+2. **MyPage.js** - Displays an interactive user interface for navigation and content exploration.
+
+Below is a detailed explanation of each component, their functionalities, and the styling approach used.
 
 ---
 
-## **파일 구조**
+## Loading.js
 
-### `src/ThemeContext.js`
-- 다크모드 및 라이트모드 상태를 관리하는 컨텍스트를 정의합니다.
-- 테마 상태를 로컬 스토리지에 저장하고, HTML의 `data-theme` 속성에 반영합니다.
-- `toggleTheme` 메서드를 통해 테마를 전환할 수 있습니다.
+### Description
+The `Loading.js` file creates a visually appealing loading screen with animations and transitions. The loading screen displays three rotating and translating texts, along with matching text positioned dynamically. The screen redirects to the main page (`/main`) after a brief delay.
 
-### `src/Router.js`
-- React Router를 활용하여 라우팅을 관리합니다.
-- `/` 경로에서는 로딩 페이지(`Loading.js`)를, `/main` 경로에서는 메인 페이지(`MainPage.js`)를 렌더링합니다.
+### Features
+- **Global Style**: Resets default styles using `createGlobalStyle` from styled-components.
+- **Dynamic Scaling**: Maintains consistent UI scaling across different viewport sizes.
+- **Text Animation**: Animates text elements to rotate and translate, creating a dynamic appearance.
+- **Fade-out Effect**: Adds a smooth fade-out transition before navigating to the next page.
+- **Dynamic Positioning**: Positions text and elements dynamically based on animations.
 
-### `src/App.js`
-- `ThemeProvider`와 `Router`를 통합하여 앱의 루트 컴포넌트를 구성합니다.
+### Key Components
+- **ScaledContainer**: Ensures the container scales uniformly across devices.
+- **SemiContainer**: Center-aligns child elements and ensures overflow is hidden.
+- **Text Animations**: Uses keyframes for text rotation and translation effects (`moveLeft`, `moveRight`, etc.).
+- **Matching Texts**: Adds thematic texts for additional visual elements.
 
-### `src/pages/Loading.js`
-- 로딩 화면을 담당하는 컴포넌트입니다.
-- 3초 후 메인 페이지로 자동 이동합니다.
-- 빨간 배경과 확대 축소 애니메이션 효과를 포함한 로딩 메시지를 보여줍니다.
-
-### `src/pages/MainPage.js`
-- 메인 페이지를 담당하는 컴포넌트입니다.
-- 현재 테마를 보여주고, 버튼 클릭으로 테마를 전환할 수 있습니다.
+### Navigation
+Automatically navigates to `/main` after a 2-second delay, with a fade-out transition.
 
 ---
 
-## **스타일 파일**
+## MyPage.js
 
-### `src/Style/Loading.css`
-- 로딩 화면의 스타일을 정의합니다.
-- 화면 중앙에 텍스트를 배치하고, 배경색과 애니메이션 효과를 설정합니다.
+### Description
+The `MyPage.js` component serves as a user interface, featuring a logo, interactive buttons, circular menus, and hover effects. It includes embedded videos and links for enhanced interactivity.
 
-### `src/index.css`
-- 글로벌 스타일을 정의합니다.
-- 기본 폰트, 반응형 스타일, 다크모드/라이트모드 색상 변수를 포함합니다.
+### Features
+- **Global Style**: Ensures uniform styling across the page.
+- **Header Section**: Displays a thematic header text with the company logo.
+- **Toggle Button**: A horizontally split toggle button with hover animations.
+- **Circular Menus**: Interactive circular menus containing subtexts with hover effects.
+- **Moving Areas**: Hoverable video containers that scale on hover, providing links for navigation.
 
-### `src/styles.css`
-- 프로젝트에서 활용 가능한 다양한 색상 변수를 정의합니다.
-- 현재는 사용되지 않지만, 향후 프로젝트 확장을 위해 준비된 색상 팔레트를 포함합니다.
+### Key Components
+- **HeaderLogoWrapper**: Combines the header text and logo.
+- **ToggleButtonWrapper**: A toggle button with a dynamically expanding background on hover.
+- **CircleMenu**: Contains circular buttons with associated subtexts.
+- **MovingArea**: Displays linked videos with a hover-based scaling effect.
+- **StyledVideo**: Applies grayscale styling to videos for a distinct visual theme.
+
+### Navigation
+Integrates links within `LinkText` for navigation to other pages or sections.
 
 ---
 
-## **기타 파일**
+## Styling Approach
+Both components use **styled-components** for CSS-in-JS styling, offering modular and scoped styles. Key animations and transitions include:
+- **Keyframes**: For animations like scaling, rotation, and translation.
+- **Hover Effects**: For interactive elements like buttons and videos.
+- **Dynamic Properties**: Uses props for conditional styling (e.g., hover states).
 
-### `public/index.html`
-- React 애플리케이션이 렌더링되는 기본 HTML 파일입니다.
+### Colors and Fonts
+- Primary Color: `#D90206` (Loading.js background)
+- Secondary Color: `#FFF` (MyPage.js elements)
+- Font Family: `Neue Haas Grotesk Display Pro`, `Pretendard`
+- Typography: Emphasizes uppercase text with bold styles for a modern appearance.
 
-### `src/index.js`
-- React 애플리케이션의 진입점 파일입니다.
-- `App` 컴포넌트를 DOM에 렌더링합니다.
+---
+
+## How to Use
+1. **Setup**: Ensure all assets (e.g., `Logo.svg`, `FirstVideo.mp4`) are available in the specified paths.
+2. **Navigation**: Configure your `React Router` routes to include `/main` and other navigable pages.
+3. **Styling Adjustments**: Customize colors, fonts, and animations in the styled-components as needed.
