@@ -12,6 +12,11 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
+
+  html, body {
+    overflow-x: hidden;
+    width: 100%
+  }
 `;
 
 const MyPage = () => {
@@ -110,6 +115,8 @@ const Container = styled.div`
   background: #000; /* 전체 배경색 */
   display: flex;
   justify-content: center;
+
+  overflow-x: hidden;
 `;
 
 const SemiContainer = styled.div`
@@ -120,6 +127,8 @@ const SemiContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  overflow-x: hidden;
 `;
 
 const HeaderLogoWrapper = styled.div`

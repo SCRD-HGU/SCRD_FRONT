@@ -9,6 +9,11 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
+
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
 `;
 
 const moveLeft = keyframes`
