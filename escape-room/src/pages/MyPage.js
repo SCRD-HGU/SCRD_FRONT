@@ -4,7 +4,7 @@ import LogoImage from "../assets/Logo.svg";
 import Arrow from "../assets/Arrow.svg";
 import FirstVideo from "../assets/FirstVideo.mp4";
 import SecondVideo from "../assets/SecondVideo.mp4";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
 
 const MyPage = () => {
   const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -43,10 +44,17 @@ const MyPage = () => {
               onMouseLeave={() => setHovered(false)}
             >
               <ToggleButtonBackground hovered={hovered} />
-              <ToggleButtonTextLeft hovered={hovered}>
+              <ToggleButtonTextLeft 
+                hovered={hovered} 
+                onClick={() => navigate("/tier")}
+              >
                 {hovered ? "TIER" : "scarlet"}
               </ToggleButtonTextLeft>
-              <ToggleButtonTextRight>HOLMES (59)</ToggleButtonTextRight>
+              <ToggleButtonTextRight 
+                onClick={() => navigate("/tier")}
+              >
+                HOLMES (59)
+              </ToggleButtonTextRight>
             </ToggleButtonWrapper>
             <CircleMenu>
               <Circle1>
@@ -197,6 +205,8 @@ const ToggleButtonTextLeft = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  cursor: pointer;
 `;
 
 const ToggleButtonTextRight = styled.div`
@@ -215,6 +225,8 @@ const ToggleButtonTextRight = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  cursor: pointer;
 `;
 
 const CircleMenu = styled.div`

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const Loading = lazy(() => import("./pages/Loading"));
 const MyPage = lazy(() => import("./pages/MyPage"));
+const TierPage = lazy(() => import("./pages/TierPage"));
 
 const AppRouter = () => {
   return (
@@ -11,6 +12,7 @@ const AppRouter = () => {
         <Routes>
           <Route path="/" element={<Loading />} />
           <Route path="/main" element={<MyPage />} />
+          <Route path="/tier" element={<TierPage />} />
         </Routes>
       </Suspense>
     </Router>
