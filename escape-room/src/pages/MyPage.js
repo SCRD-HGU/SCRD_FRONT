@@ -115,8 +115,6 @@ const Container = styled.div`
   background: #000; /* 전체 배경색 */
   display: flex;
   justify-content: center;
-
-  overflow-x: hidden;
 `;
 
 const SemiContainer = styled.div`
@@ -127,8 +125,6 @@ const SemiContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  overflow-x: hidden;
 `;
 
 const HeaderLogoWrapper = styled.div`
