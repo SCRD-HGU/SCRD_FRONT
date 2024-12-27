@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
@@ -10,11 +10,13 @@ const GlobalStyle = createGlobalStyle`
   
   html, body {
     overflow-x: hidden;
-    width: 100%
+    width: 100%;
   }
 `;
 
 const TierPage = () => {
+  const [hoveredTier, setHoveredTier] = useState(null);
+
   return (
     <>
       <GlobalStyle />
@@ -32,55 +34,65 @@ const TierPage = () => {
             </Discription>
           </UserTier>
           <ScrollTier>
-            <Tier1>
+            <Tier1
+              isHovered={hoveredTier !== null && hoveredTier !== "Tier1"}
+              onMouseEnter={() => setHoveredTier("Tier1")}
+              onMouseLeave={() => setHoveredTier(null)}
+            >
               <TierName>
-                <span className = "large">NEEDLE<br /><br /><br /></span>
-                <span className = "medium">Number of<br />Rooms Escaped<br /><br /></span>
-                <span className = "small">Less Than 50</span>
+                <span className="large">NEEDLE<br /><br /><br /></span>
+                <span className="medium">Number of<br />Rooms Escaped<br /><br /></span>
+                <span className="small">Less Than 50</span>
               </TierName>
-              <TierNumber>
-                01
-              </TierNumber>
+              <TierNumber>01</TierNumber>
             </Tier1>
-            <Tier2>
-              <TierNumber>
-                02
-              </TierNumber>
+            <Tier2
+              isHovered={hoveredTier !== null && hoveredTier !== "Tier2"}
+              onMouseEnter={() => setHoveredTier("Tier2")}
+              onMouseLeave={() => setHoveredTier(null)}
+            >
+              <TierNumber>02</TierNumber>
               <TierName>
-                <span className = "large">CLIP<br /><br /><br /></span>
-                <span className = "medium">Number of<br />Rooms Escaped<br /><br /></span>
-                <span className = "small">Less Than 100</span>
+                <span className="large">CLIP<br /><br /><br /></span>
+                <span className="medium">Number of<br />Rooms Escaped<br /><br /></span>
+                <span className="small">Less Than 100</span>
               </TierName>
             </Tier2>
-            <Tier3>
+            <Tier3
+              isHovered={hoveredTier !== null && hoveredTier !== "Tier3"}
+              onMouseEnter={() => setHoveredTier("Tier3")}
+              onMouseLeave={() => setHoveredTier(null)}
+            >
               <TierName>
-                <span className = "large">KEY<br /><br /><br /></span>
-                <span className = "medium">Number of<br />Rooms Escaped<br /><br /></span>
-                <span className = "small">Less Than 150</span>
+                <span className="large">KEY<br /><br /><br /></span>
+                <span className="medium">Number of<br />Rooms Escaped<br /><br /></span>
+                <span className="small">Less Than 150</span>
               </TierName>
-              <TierNumber>
-                03
-              </TierNumber>
+              <TierNumber>03</TierNumber>
             </Tier3>
-            <Tier4>
-              <TierNumber>
-                04
-              </TierNumber>
+            <Tier4
+              isHovered={hoveredTier !== null && hoveredTier !== "Tier4"}
+              onMouseEnter={() => setHoveredTier("Tier4")}
+              onMouseLeave={() => setHoveredTier(null)}
+            >
+              <TierNumber>04</TierNumber>
               <TierName>
-                <span className = "large">IRIS<br /><br /><br /></span>
-                <span className = "medium">Number of<br />Rooms Escaped<br /><br /></span>
-                <span className = "small">Less Than 200</span>
+                <span className="large">IRIS<br /><br /><br /></span>
+                <span className="medium">Number of<br />Rooms Escaped<br /><br /></span>
+                <span className="small">Less Than 200</span>
               </TierName>
             </Tier4>
-            <Tier5>
+            <Tier5
+              isHovered={hoveredTier !== null && hoveredTier !== "Tier5"}
+              onMouseEnter={() => setHoveredTier("Tier5")}
+              onMouseLeave={() => setHoveredTier(null)}
+            >
               <TierName>
-                <span className = "large">HOLMES<br /><br /><br /></span>
-                <span className = "medium">Number of<br />Rooms Escaped<br /><br /></span>
-                <span className = "small">Less Than 250</span>
+                <span className="large">HOLMES<br /><br /><br /></span>
+                <span className="medium">Number of<br />Rooms Escaped<br /><br /></span>
+                <span className="small">Less Than 250</span>
               </TierName>
-              <TierNumber>
-                05
-              </TierNumber>
+              <TierNumber>05</TierNumber>
             </Tier5>
           </ScrollTier>
         </SemiContainer>
@@ -90,11 +102,11 @@ const TierPage = () => {
 };
 
 const Container = styled.div`
-  transform: scale(var(--scale)); /* scale 속성 적용 */
-  transform-origin: top left; /* 확대/축소 기준 */
-  width: 1440px; /* 기준 너비 */
-  height: 900px; /* 기준 높이 */
-  background: #000; /* 전체 배경색 */
+  transform: scale(var(--scale));
+  transform-origin: top left;
+  width: 1440px;
+  height: 900px;
+  background: #000;
   display: flex;
   justify-content: center;
 `;
@@ -107,6 +119,27 @@ const SemiContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+`;
+
+const ScrollTier = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: calc(100% - 316px);
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  &::-webkit-scrollbar {
+    height: 0;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #222;
+  }
 `;
 
 const UserTier = styled.div`
@@ -194,27 +227,6 @@ const TierNumber = styled.div`
   line-height: normal;
 `;
 
-const ScrollTier = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: calc(100% - 316px); /* UserTier를 제외한 나머지 공간 */
-  height: 100%;
-  overflow-x: auto; /* 가로 스크롤 활성화 */
-  overflow-y: hidden; /* 세로 스크롤 제거 */
-  white-space: nowrap; /* 자식 요소 한 줄로 정렬 */
-  
-  &::-webkit-scrollbar {
-    height: 0; /* 스크롤바 높이 */
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #444; /* 스크롤바 색상 */
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-track {
-    background: #222; /* 스크롤 트랙 색상 */
-  }
-`;
-
 const TierContainer = styled.div`
   display: inline-flex;
   flex-direction: column;
@@ -225,8 +237,16 @@ const TierContainer = styled.div`
   transition: background-color 0.5s ease;
 
   &:hover {
-    background-color: #D90206
+    background-color: #D90206;
   }
+
+  ${props =>
+    props.isHovered &&
+    `
+    ${TierName}, ${TierNumber} {
+      color: rgba(255, 255, 255, 0.40);
+    }
+  `}
 `;
 
 const Tier1 = styled(TierContainer)`
@@ -290,13 +310,5 @@ const Tier5 = styled(TierContainer)`
     margin-left: -47px;
   }
 `;
-
-  // &:nth-of-type(even) ${Line} {
-  //   transform: translate(-50%, -50%) scaleY(-1);
-  // }
-
-  // &:nth-of-type(odd) ${Line} {
-  //   transform: translate(-50%, -50%) scaleY(1);
-  // }
 
 export default TierPage;
