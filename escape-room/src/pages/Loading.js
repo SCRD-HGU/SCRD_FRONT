@@ -347,3 +347,5 @@ const MatchingText3 = styled(MatchingText)`
 
 
 export default Loading;
+
+// CSS가 관리하기 편할지 아니면, 스타일드 컴포넌트가 편할지 모르겠음
