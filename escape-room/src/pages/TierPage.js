@@ -365,3 +365,5 @@ const Tier5 = styled(TierContainer)`
 `;
 
 export default TierPage;
+
+// 일단 현재는 SVG를 따로 저장하는 것이 아닌 불러오는 것이 좋을 것이라는 판단.
