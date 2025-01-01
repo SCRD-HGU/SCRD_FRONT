@@ -46,9 +46,7 @@ const MyPage = () => {
             <CircleMenu>
               <Circle1>
                 <TitleSubWrapper>
-                  <TitleText1>
-                    고객 센터
-                  </TitleText1>
+                  <TitleText1>고객 센터</TitleText1>
                   <SubText1>문의하기</SubText1>
                   <SubText1>공지사항</SubText1>
                   <SubText1>리뷰 일괄 입력</SubText1>
@@ -56,9 +54,7 @@ const MyPage = () => {
               </Circle1>
               <Circle2>
                 <TitleSubWrapper>
-                  <TitleText2>
-                    더보기
-                  </TitleText2>
+                  <TitleText2>더보기</TitleText2>
                   <SubText2>ABOUT USCRD</SubText2>
                   <SubText2>NEWS</SubText2>
                   <SubText2>방탈출예약제휴</SubText2>
@@ -68,7 +64,7 @@ const MyPage = () => {
           </ButtonCircleWrapper>
           <MovingAreaWrapper>
             <MovingArea>
-            <Ellipse>
+              <Ellipse>
                 <video src={FirstVideo} autoPlay loop muted />
                 <LinkText>
                   REVIEW (52)
@@ -129,7 +125,7 @@ const HeaderLogoWrapper = styled.div`
 `;
 
 const HeaderText = styled.div`
-  color: #FFF;
+  color: #fff;
   font-family: "Neue Haas Grotesk Display Pro";
   font-size: 72px;
   font-style: normal;
@@ -152,7 +148,7 @@ const ToggleButtonWrapper = styled.div`
   width: 372px;
   height: 72px;
   border-radius: 50px;
-  border: 2px solid #FFF;
+  border: 2px solid #fff;
   overflow: hidden;
   margin: auto; /* 중앙 정렬 보장 */
 `;
@@ -172,7 +168,7 @@ const ToggleButtonBackground = styled.div`
   right: 0; /* 오른쪽에서 왼쪽으로 확장 */
   width: ${(props) => (props.hovered ? "100%" : "50%")};
   height: 100%;
-  background: #FFF;
+  background: #fff;
   transition: width 0.5s ease-in-out;
   border-radius: 50px;
 `;
@@ -220,7 +216,7 @@ const Circle1 = styled.div`
   width: 162px;
   height: 162px;
   border-radius: 50%;
-  background: #FFF;
+  background: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -236,7 +232,7 @@ const Circle2 = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px solid #FFF;
+  border: 2px solid #fff;
 `;
 
 const TitleSubWrapper = styled.div`
@@ -255,7 +251,7 @@ const TitleText1 = styled.div`
 `;
 
 const TitleText2 = styled.div`
-  color: #FFF;
+  color: #fff;
   font-family: Pretendard;
   font-size: 23px;
   font-style: normal;
@@ -298,7 +294,7 @@ const SubText1 = styled.div`
 
 const SubText2 = styled.div`
   position: relative; /* ::after의 위치 설정을 위해 추가 */
-  color: #FFF;
+  color: #fff;
   font-family: Pretendard;
   font-size: 15px;
   font-style: normal;
@@ -322,7 +318,7 @@ const SubText2 = styled.div`
     left: 0;
     width: 0; /* 초기 너비 */
     height: 2px; /* 밑줄 두께 */
-    background-color: #FFF; /* 밑줄 색상 */
+    background-color: #fff; /* 밑줄 색상 */
     transition: width 0.3s ease-in-out; /* 애니메이션 효과 */
   }
 `;
@@ -344,7 +340,7 @@ const Ellipse = styled.div`
   width: 372px;
   height: 182px;
   border-radius: 90px;
-  border: 2px solid #FFF;
+  border: 2px solid #fff;
 
   display: flex;
   flex-direction: column;
@@ -386,7 +382,7 @@ const LinkText = styled.div`
   justify-content: space-between; /* 텍스트와 아이콘 간격 조정 */
   width: 100%; /* 전체 너비 사용 */
 
-  color: #FFF;
+  color: #fff;
   font-family: "Neue Haas Grotesk Text Pro";
   font-size: 25px;
   font-style: normal;

@@ -89,14 +89,14 @@ const Loading = () => {
       setFadeOut(true);
       setTimeout(() => {
         setLoading(false);
-        navigate("/main");
+        navigate("/login");
       }, 1000);
     }, 2000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
 
-  if(loading) {
+  if (loading) {
     return (
       <>
         <GlobalStyle /> {/* 전역 스타일 적용 */}
@@ -130,7 +130,6 @@ const Loading = () => {
   }
 
   return null;
-
 };
 
 // 화면 비율 고정 컨테이너
@@ -139,7 +138,7 @@ const ScaledContainer = styled.div`
   transform-origin: top left; /* 확대/축소 기준 */
   width: 1440px; /* 기준 너비 */
   height: 900px; /* 기준 높이 */
-  background: #D90206; /* 전체 배경색 */
+  background: #d90206; /* 전체 배경색 */
   display: flex;
   justify-content: center;
   opacity: ${(props) => (props.fadeOut ? 0 : 1)};
@@ -149,7 +148,7 @@ const ScaledContainer = styled.div`
 const SemiContainer = styled.div`
   width: 1037px;
   height: 100%;
-  background: #D90206;
+  background: #d90206;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -193,7 +192,7 @@ const FirstBox = styled.div`
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  
+
   width: 425.06px;
   height: 539.34px;
   background: transparent; /* 투명 배경 */
@@ -204,11 +203,10 @@ const InnerBox = styled.div`
   height: 489.95px;
   transform: rotate(9.77deg);
   flex-shrink: 0;
-  background-color: #D90206;
-  box-shadow: 
-    inset 0 0 20px rgba(0, 0, 0, 0.3), /* 내부 가장자리 부드러운 그림자 */
-    inset 0 0 40px rgba(0, 0, 0, 0.2), /* 조금 더 퍼진 그림자 */
-    inset 0 0 60px rgba(0, 0, 0, 0.1); /* 가장 부드러운 외곽 그림자 */
+  background-color: #d90206;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3),
+    /* 내부 가장자리 부드러운 그림자 */ inset 0 0 40px rgba(0, 0, 0, 0.2),
+    /* 조금 더 퍼진 그림자 */ inset 0 0 60px rgba(0, 0, 0, 0.1); /* 가장 부드러운 외곽 그림자 */
   overflow: hidden; /* 영역 밖 콘텐츠 숨기기 */
   display: flex;
   flex-direction: column;
@@ -261,17 +259,15 @@ const SecondBox = styled.div`
   transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
 `;
 
-
 const LastBox = styled.div`
   width: 195.8px;
   height: 272.3px;
   transform: rotate(-6.8deg);
   flex-shrink: 0;
-  background-color: #D90206;
-  box-shadow: 
-    inset 0 0 20px rgba(0, 0, 0, 0.3), /* 내부 가장자리 부드러운 그림자 */
-    inset 0 0 40px rgba(0, 0, 0, 0.2), /* 조금 더 퍼진 그림자 */
-    inset 0 0 60px rgba(0, 0, 0, 0.1); /* 가장 부드러운 외곽 그림자 */
+  background-color: #d90206;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3),
+    /* 내부 가장자리 부드러운 그림자 */ inset 0 0 40px rgba(0, 0, 0, 0.2),
+    /* 조금 더 퍼진 그림자 */ inset 0 0 60px rgba(0, 0, 0, 0.1); /* 가장 부드러운 외곽 그림자 */
   overflow: hidden; /* 영역 밖 콘텐츠 숨기기 */
   display: flex;
   flex-direction: column;
@@ -295,7 +291,6 @@ const FirstText3 = styled.div`
   ${TextStyle3}
   transform: rotate(6.8deg) translateX(120px); /* 회전 후 X축 이동 */
   animation: ${moveLeftForText3} 2s ease-out forwards;
-
 `;
 
 const SecondText3 = styled.div`
@@ -320,7 +315,7 @@ const MatchingText = styled.div`
   text-transform: uppercase;
   transform: rotate(-9.775deg); /* 기울기 */
   white-space: pre-line;
-`; 
+`;
 
 const MatchingText1 = styled(MatchingText)`
   top: 5vh; /* 화면 높이의 20% */
@@ -339,6 +334,5 @@ const MatchingText3 = styled(MatchingText)`
   left: 20vw;
   z-index: 10;
 `;
-
 
 export default Loading;

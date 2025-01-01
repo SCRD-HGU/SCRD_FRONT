@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
 
 const LoginPage = () => {
   const clickLogin = () => {
-    console.log("Login button clicked!");
+    window.location.href = process.env.REACT_APP_KAKAO_URL;
   };
   return (
     <>
