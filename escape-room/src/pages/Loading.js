@@ -9,6 +9,11 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
+
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
 `;
 
 const moveLeft = keyframes`
@@ -335,4 +340,6 @@ const MatchingText3 = styled(MatchingText)`
   z-index: 10;
 `;
 
+
 export default Loading;
+// CSS가 관리하기 편할지 아니면, 스타일드 컴포넌트가 편할지 모르겠음

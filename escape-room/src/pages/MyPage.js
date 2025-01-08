@@ -8,12 +8,18 @@ import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import useApi from "../hooks/useApi";
 import { tokenState, refreshTokenState } from "../store/atom";
+import { useNavigate } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+
+  html, body {
+    overflow-x: hidden;
+    width: 100%
   }
 `;
 
@@ -33,6 +39,7 @@ const MyPage = () => {
       console.error("Error in everyApiClick:", error);
     }
   };
+  const navigate = useNavigate();
 
   return (
     <>
@@ -55,10 +62,17 @@ const MyPage = () => {
               onMouseLeave={() => setHovered(false)}
             >
               <ToggleButtonBackground hovered={hovered} />
-              <ToggleButtonTextLeft hovered={hovered}>
+              <ToggleButtonTextLeft 
+                hovered={hovered} 
+                onClick={() => navigate("/tier")}
+              >
                 {hovered ? "TIER" : "scarlet"}
               </ToggleButtonTextLeft>
-              <ToggleButtonTextRight>HOLMES (59)</ToggleButtonTextRight>
+              <ToggleButtonTextRight 
+                onClick={() => navigate("/tier")}
+              >
+                HOLMES (59)
+              </ToggleButtonTextRight>
             </ToggleButtonWrapper>
             <CircleMenu>
               <Circle1>
@@ -208,6 +222,8 @@ const ToggleButtonTextLeft = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  cursor: pointer;
 `;
 
 const ToggleButtonTextRight = styled.div`
@@ -226,6 +242,8 @@ const ToggleButtonTextRight = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  cursor: pointer;
 `;
 
 const CircleMenu = styled.div`

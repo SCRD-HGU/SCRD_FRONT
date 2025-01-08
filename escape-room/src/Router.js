@@ -5,6 +5,7 @@ const Loading = lazy(() => import("./pages/Loading"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const KakaoLoginPage = lazy(() => import("./pages/KakaoLogin"));
 const MyPage = lazy(() => import("./pages/MyPage"));
+const TierPage = lazy(() => import("./pages/TierPage"));
 
 const AppRouter = () => {
   return (
@@ -15,6 +16,7 @@ const AppRouter = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/login/oauth/kakao" element={<KakaoLoginPage />} />
           <Route path="/main" element={<MyPage />} />
+          <Route path="/tier" element={<TierPage />} />
         </Routes>
       </Suspense>
     </Router>
