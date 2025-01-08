@@ -5,6 +5,9 @@ import Arrow from "../assets/Arrow.svg";
 import FirstVideo from "../assets/FirstVideo.mp4";
 import SecondVideo from "../assets/SecondVideo.mp4";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import useApi from "../hooks/useApi";
+import { tokenState, refreshTokenState } from "../store/atom";
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -16,6 +19,20 @@ const GlobalStyle = createGlobalStyle`
 
 const MyPage = () => {
   const [hovered, setHovered] = useState(false);
+  const [token, setToken] = useRecoilState(tokenState); // 로그아웃 시 setToken, setRefreshToken null 처리
+  const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
+  const sendRequest = useApi(refreshToken);
+
+  // api 연결 예시
+  const testApiClick = async () => {
+    console.log(token);
+    try {
+      const response = await sendRequest(token, "/api/test", "GET");
+      console.log("Every API response:", response);
+    } catch (error) {
+      console.error("Error in everyApiClick:", error);
+    }
+  };
 
   return (
     <>
@@ -89,6 +106,9 @@ const MyPage = () => {
                   ABOUT CREW
                   <ArrowIcon src={Arrow} alt="Arrow Icon" />
                 </LinkText>
+                {/* <button style={{ zIndex: 2 }} onClick={testApiClick}>
+                  테스트 api 요청
+                </button>{" "} */}
               </Ellipse>
             </MovingArea>
           </MovingAreaWrapper>

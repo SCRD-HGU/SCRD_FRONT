@@ -1,7 +1,7 @@
 import axios from "axios";
 import decodeToken from "../utils/decodeToken";
 import { useSetRecoilState } from "recoil";
-import { tokenState, refreshTokenState } from "../atom";
+import { tokenState, refreshTokenState } from "../store/atom";
 
 // api 사용할 때 refreshToken을 같이 넘겨줘야하기 때문에 만들어둔 hook
 const useApi = (refreshToken) => {
