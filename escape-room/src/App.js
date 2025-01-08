@@ -1,11 +1,14 @@
-import React from 'react';
-import { ThemeProvider } from './ThemeContext';
-import AppRouter from './Router'; // 수정된 Router.js
+import React from "react";
+import { ThemeProvider } from "./ThemeContext";
+import AppRouter from "./Router"; // 수정된 Router.js
+import { RecoilRoot } from "recoil";
 
 const App = () => {
   return (
     <ThemeProvider>
-      <AppRouter /> {/* AppRouter로 변경 */}
+      <RecoilRoot>
+        <AppRouter /> {/* AppRouter로 변경 */}
+      </RecoilRoot>
     </ThemeProvider>
   );
 };
