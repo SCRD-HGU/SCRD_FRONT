@@ -105,6 +105,7 @@ const Loading = () => {
     return (
       <>
         <GlobalStyle /> {/* 전역 스타일 적용 */}
+        <FullscreenOverlay fadeOut={fadeOut} />
         <ScaledContainer fadeOut={fadeOut}>
           <SemiContainer>
             <FirstText>FOLLOW</FirstText>
@@ -143,11 +144,26 @@ const ScaledContainer = styled.div`
   transform-origin: top left; /* 확대/축소 기준 */
   width: 1440px; /* 기준 너비 */
   height: 900px; /* 기준 높이 */
-  background: #d90206; /* 전체 배경색 */
+  background: #d90206; /* 초기 배경색 */
   display: flex;
   justify-content: center;
-  opacity: ${(props) => (props.fadeOut ? 0 : 1)};
   transition: opacity 1s ease-out;
+  opacity: ${(props) => (props.fadeOut ? 0 : 1)}; /* 컨테이너 페이드아웃 */
+  position: relative; /* 오버레이와 함께 사용 */
+`;
+
+const FullscreenOverlay = styled.div`
+  position: fixed; /* 화면 전체 덮기 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0); /* 초기 투명 */
+  backdrop-filter: ${(props) => (props.fadeOut ? "blur(10px)" : "none")}; /* 블러 효과 */
+  transition: background 1s ease-out, backdrop-filter 1s ease-out; /* 배경색과 블러 전환 */
+  pointer-events: none; /* 클릭 방지 */
+  z-index: 100; /* 다른 요소 위로 */
+  background: ${(props) => (props.fadeOut ? "rgba(0, 0, 0, 1)" : "rgba(0, 0, 0, 0)")};
 `;
 
 const SemiContainer = styled.div`
