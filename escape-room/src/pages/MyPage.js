@@ -19,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
 
   html, body {
     overflow-x: hidden;
-    width: 100%
+    width: 100%;
   }
 `;
 
