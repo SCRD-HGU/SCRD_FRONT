@@ -11,8 +11,13 @@ const GlobalStyle = createGlobalStyle`
   }
   
   html, body {
+    display: flex;
+    justify-content: center;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: #000000;
+
     overflow-x: hidden;
-    width: 100%;
   }
 `;
 
