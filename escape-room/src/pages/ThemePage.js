@@ -67,6 +67,9 @@ const Carousel = () => {
             ))}
           </StyledSwiper>
         </CarouselContainer>
+        <More>MORE THEMES</More>
+        <MoreLine />
+        <MoreCircle />
       </PageContainer>
     </>
   );
@@ -93,7 +96,7 @@ const GlobalStyle = createGlobalStyle`
 // ✅ 헤더와 Carousel을 감싸는 컨테이너 추가
 const PageContainer = styled.div`
   width: 1034px;
-  min-height: 100vh;
+  min-height: 900px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -126,7 +129,7 @@ const SubTitle = styled.div`
 
 const CarouselContainer = styled.div`
   width: 1034px;
-  height: 900px;
+  height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -134,7 +137,7 @@ const CarouselContainer = styled.div`
 
 const StyledSwiper = styled(Swiper)`
   width: 80%;
-  height: 100%;
+  height: 400px;
   display: flex;  
   justify-content: center;  /* ✅ 중앙 정렬 */
   align-items: center;  /* ✅ 세로 중앙 정렬 */
@@ -171,16 +174,27 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   }
 `;
 
+const More = styled.div`
+  color: #FFF;
+  font-family: "Pretendard Variable";
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 50px;
+`;
 
-// const InfoOverlay = styled.div`
-//   position: absolute;
-//   bottom: 0;
-//   width: 100%;
-//   background: rgba(0, 0, 0, 0.7);
-//   color: white;
-//   padding: 10px;
-//   font-size: 16px;
-//   text-align: center;
-// `;
+const MoreLine = styled.div`
+  width: 1px;
+  height: 60px;
+  background-color: white;
+  margin-top: 10px;
+`;
+
+const MoreCircle = styled.div`
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%;
+`;
 
 export default Carousel;
