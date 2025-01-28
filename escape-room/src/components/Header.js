@@ -77,6 +77,7 @@ const LoginPart = styled.div`
 `;
 
 const LoginButton = styled.div`
+
   display: inline-flex;
   padding: 0px 16px;
   justify-content: center;
