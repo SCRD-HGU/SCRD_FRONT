@@ -10,6 +10,25 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/mousewheel";
 
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    display: flex;
+    justify-content: center;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: #000000;
+    overflow-x: hidden;
+  }
+`;
+
+
 const Carousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef(null);
@@ -43,7 +62,7 @@ const Carousel = () => {
             watchSlidesProgress={true}
             mousewheel={{ forceToAxis: true }}
             coverflowEffect={{
-              rotate: -15,
+              rotate: -16,
               stretch: 0,
               depth: 100,
               modifier: 1.2,
@@ -75,23 +94,6 @@ const Carousel = () => {
   );
 };
 
-const GlobalStyle = createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  html, body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 100vw;
-    min-height: 100vh;
-    background-color: #000000;
-    overflow-x: hidden;
-  }
-`;
 
 // ✅ 헤더와 Carousel을 감싸는 컨테이너 추가
 const PageContainer = styled.div`
@@ -145,6 +147,8 @@ const StyledSwiper = styled(Swiper)`
   background: transparent;
   padding: 40px 0;
   overflow: hidden;
+
+  margin-left:
 `;
 
 const StyledSwiperSlide = styled(SwiperSlide)`

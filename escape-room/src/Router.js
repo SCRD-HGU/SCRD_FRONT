@@ -7,6 +7,7 @@ const KakaoLoginPage = lazy(() => import("./pages/KakaoLogin"));
 const MyPage = lazy(() => import("./pages/MyPage"));
 const TierPage = lazy(() => import("./pages/TierPage"));
 const ThemePage = lazy(() => import("./pages/ThemePage"));
+const CardPage = lazy(() => import("./pages/CardPage"));
 
 const AppRouter = () => {
   return (
@@ -18,6 +19,7 @@ const AppRouter = () => {
           <Route path="/login/oauth/kakao" element={<KakaoLoginPage />} />
           <Route path="/main" element={<ThemePage />} />
           <Route path="/tier" element={<TierPage />} />
+          <Route path="/card" element={<CardPage />} />
         </Routes>
       </Suspense>
     </Router>

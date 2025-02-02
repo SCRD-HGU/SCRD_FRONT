@@ -90,7 +90,7 @@ const LoginButton = styled.div`
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  line-height: 50px;
+  line-height: 30px;
 `;
 
 export default Header;
