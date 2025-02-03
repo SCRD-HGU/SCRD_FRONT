@@ -98,18 +98,18 @@ const Carousel = () => {
 // ✅ 헤더와 Carousel을 감싸는 컨테이너 추가
 const PageContainer = styled.div`
   width: 1034px;
-  min-height: 900px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-image: url(${MainPage_Background});
-  background-size: cover;
-  background-position: center;
+  background-size: auto 130%;
+  background-position: center top;
   background-repeat: no-repeat;
 `;
 
 const Title = styled.div`
-  margin-top: 91px;
+  margin-top: 70px;
 
   color: #FFF;
   font-family: Pretendard;

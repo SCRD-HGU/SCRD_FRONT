@@ -20,6 +20,7 @@ const AppRouter = () => {
           <Route path="/main" element={<ThemePage />} />
           <Route path="/tier" element={<TierPage />} />
           <Route path="/card" element={<CardPage />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Routes>
       </Suspense>
     </Router>
