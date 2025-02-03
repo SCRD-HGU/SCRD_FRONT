@@ -1,21 +1,33 @@
 import styled from "styled-components";
 import HeaderLogo from "../assets/HeaderLogo.svg";
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleThemeClick = () => {
+    if (location.pathname === "/main") {
+      window.location.reload();
+    } else {
+      navigate("/main");
+    }
+  };
+
   return (
     <StyledHeader>
       <HeaderGap>
         <LogoPart>
           <Logo src={HeaderLogo} alt="HeaderLogo" />
           <Nav>
-            <NavItem>Theme</NavItem>
+            <NavItem onClick={handleThemeClick} className={location.pathname === "/main" ? "active" : ""}>Theme</NavItem>
             <NavItem>Social Matching</NavItem>
             <NavItem>Crew</NavItem>
-            <NavItem>Tier</NavItem>
+            <NavItem onClick={() => navigate("/tier")}>Tier</NavItem>
           </Nav>
         </LogoPart>
         <LoginPart>
-          <NavItem>My Page</NavItem>
+          <NavItem onClick={() => navigate("/mypage")}>My Page</NavItem>
           <LoginButton>Login</LoginButton>
         </LoginPart>
       </HeaderGap>
@@ -67,6 +79,10 @@ const NavItem = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: 50px;
+  cursor: pointer;
+  
+  &.active {
+    color: var(--foundation-red-normal-active, #D90206)}; 
 `;
 
 const LoginPart = styled.div`
