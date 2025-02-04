@@ -12,7 +12,7 @@ const CardPage = lazy(() => import("./pages/CardPage"));
 const AppRouter = () => {
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Loading />} />
           <Route path="/login" element={<LoginPage />} />
