@@ -18,7 +18,7 @@ const Header = () => {
     <StyledHeader>
       <HeaderGap>
         <LogoPart>
-          <Logo src={HeaderLogo} alt="HeaderLogo" />
+          <Logo src={HeaderLogo} alt="HeaderLogo" onClick={handleThemeClick} />
           <Nav>
             <NavItem onClick={handleThemeClick} className={location.pathname === "/main" ? "active" : ""}>Theme</NavItem>
             <NavItem>Social Matching</NavItem>
@@ -28,7 +28,7 @@ const Header = () => {
         </LogoPart>
         <LoginPart>
           <NavItem onClick={() => navigate("/mypage")}>My Page</NavItem>
-          <LoginButton>Login</LoginButton>
+          <LoginButton onClick={() => navigate("/login")}>Login</LoginButton>
         </LoginPart>
       </HeaderGap>
     </StyledHeader>
@@ -61,10 +61,12 @@ const LogoPart = styled.div`
   gap: 81px;
 `;
 
-const Logo = styled.div`
+const Logo = styled.img`
   width: 29px;
   height: 29px;
   flex-shrink: 0;
+
+  cursor: pointer;
 `;
 
 const Nav = styled.div`
@@ -93,7 +95,6 @@ const LoginPart = styled.div`
 `;
 
 const LoginButton = styled.div`
-
   display: inline-flex;
   padding: 0px 16px;
   justify-content: center;
@@ -107,6 +108,8 @@ const LoginButton = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: 30px;
+
+  cursor: pointer;
 `;
 
 export default Header;

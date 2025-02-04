@@ -74,12 +74,22 @@ const Carousel = () => {
           >
             {[...Array(7)].map((_, index) => (
               <StyledSwiperSlide key={index}>
-                <img src={dongsan} alt={`Slide ${index + 1}`} style={{ width: "231px", height: "314px", borderRadius: "5px" }} />
+                <img 
+                  src={dongsan}
+                  alt={`Slide ${index + 1}`}
+                  style={{ 
+                    width: "231px", 
+                    height: "314px",
+                    borderRadius: "5px",
+                    objectFit: "cover"
+                  }} 
+                />
                 {activeIndex === index && (
                 <InfoOverlay
                   title = "머니머니 부동산"
-                  location = "강남 | 케이스케이프 스테이션점"
                   rating = "5"
+                  location="강남"
+                  branch="케이스케이프 스테이션점"
                 />
                 )}
               </StyledSwiperSlide>
