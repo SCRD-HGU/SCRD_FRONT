@@ -1,11 +1,43 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import Puzzle from "../assets/puzzle.svg";
 import dongsan from "../assets/Theme.png";
 
 const Card = ({ item }) => {
+  const [isVisible, setIsVisible] = useState(true);
+  const [shouldHide, setShouldHide] = useState(true);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          setShouldHide(true);
+        } else {
+          setIsVisible(false);
+          setTimeout(() => {
+            setShouldHide(false);
+          }, 500);
+        }
+      },
+      {
+        root:null,
+        threshold: 0.1,
+      }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) observer.unobserve(cardRef.current);
+    };
+  }, []);
+
   return (
-    <CardWrapper>
+    <CardWrapper ref={cardRef} isVisible={isVisible} shouldHide={shouldHide}>
       <Thumbnail />
       <Info>
         <Title>{item.title}</Title>
@@ -34,6 +66,16 @@ const CardWrapper = styled.div`
   background: transparent;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   margin-bottom: 56px;
+
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  trnsform: ${({ isVisible }) => (isVisible ? "translateY(0px)" : "translateY(30px)")};
+
+  ${({ shouldHide }) => !shouldHide && `
+    opacity: 0;
+    transform: translateY(40px);
+    `}
 `;
 
 const Thumbnail = styled.div`

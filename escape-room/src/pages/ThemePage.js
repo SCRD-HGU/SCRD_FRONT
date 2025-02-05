@@ -5,6 +5,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import Header from "../components/Header.js";
 import InfoOverlay from "../components/InfoOverlay.js";
 import CardPage from "../pages/CardPage.js";
+import OptionBar from "../components/OptionBar.js";
 import MainPage_Background from "../assets/mainpage_background.svg";
 import dongsan from "../assets/Theme.png";
 import "swiper/css";
@@ -34,10 +35,30 @@ const Carousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef(null);
 
+  const [isCardPageVisible, setIsCardPageVisible] = useState(false);
+  const cardPageRef = useRef(null);
+
   useEffect(() => {
     if(swiperRef.current) {
       setActiveIndex(swiperRef.current.realIndex);
     }
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsCardPageVisible(entry.isIntersecting);
+      },
+      { threshold: 0.3 }
+    );
+
+    if (cardPageRef.current) {
+      observer.observe(cardPageRef.current);
+    }
+
+    return () => {
+      if (cardPageRef.current) observer.unobserve(cardPageRef.current);
+    };
   }, []);
 
   return (
@@ -61,7 +82,7 @@ const Carousel = () => {
             loop={true}
             loopAdditionalSlides={1}
             watchSlidesProgress={true}
-            mousewheel={{ forceToAxis: true }}
+            mousewheel={{ sensitivity: 0.5, releaseOnEdges: true }}
             coverflowEffect={{
               rotate: -16,
               stretch: 0,
@@ -98,13 +119,16 @@ const Carousel = () => {
           </StyledSwiper>
         </CarouselContainer>
         <More>MORE THEMES</More>
-        <MoreLine />
-        <MoreCircle />
+        <MoreContainer>
+          <MoreLine />
+          <MoreCircle />
+        </MoreContainer>
 
-        <CardPageContainer>
+        <CardPageContainer ref={cardPageRef}>
           <CardPage />
         </CardPageContainer>
 
+        {isCardPageVisible && <FixedFilterBar><OptionBar /></FixedFilterBar>}
       </PageContainer>
     </>
   );
@@ -114,18 +138,18 @@ const Carousel = () => {
 // ✅ 헤더와 Carousel을 감싸는 컨테이너 추가
 const PageContainer = styled.div`
   width: 1034px;
-  min-height: 900px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-image: url(${MainPage_Background});
-  background-size: 80%;
+  background-size: 100%;
   background-position: center top;
   background-repeat: no-repeat;
 `;
 
 const Title = styled.div`
-  margin-top: 70px;
+  margin-top: 147px;
 
   color: #FFF;
   font-family: Pretendard;
@@ -201,13 +225,22 @@ const More = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: 50px;
+
+  margin-top: 156px;
+`;
+
+const MoreContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
 `;
 
 const MoreLine = styled.div`
   width: 1px;
   height: 60px;
   background-color: white;
-  margin-top: 10px;
 `;
 
 const MoreCircle = styled.div`
@@ -218,10 +251,20 @@ const MoreCircle = styled.div`
 `;
 
 const CardPageContainer = styled.div`
-  width: 100%;
+  width: 1153px;
+  height: 907px;
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+
+  margin-top: -35px;
+`;
+
+const FixedFilterBar = styled.div`
+  position: fixed;
+  left: 50;
+  bottom: 60px;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 1000;
 `;
 
 export default Carousel;

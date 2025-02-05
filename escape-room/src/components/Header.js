@@ -36,13 +36,16 @@ const Header = () => {
 };
 
 const StyledHeader = styled.div`
+  position: fixed;
   width: 1440px;
   height: 56px;
   flex-shrink: 0;
-  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  z-index: 1000;
+  backdrop-filter: blur(7px);
 `;
 
 const HeaderGap = styled.div`
