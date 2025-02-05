@@ -4,6 +4,7 @@ import { EffectCoverflow, Mousewheel } from "swiper/modules";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "../components/Header.js";
 import InfoOverlay from "../components/InfoOverlay.js";
+import CardPage from "../pages/CardPage.js";
 import MainPage_Background from "../assets/mainpage_background.svg";
 import dongsan from "../assets/Theme.png";
 import "swiper/css";
@@ -99,6 +100,11 @@ const Carousel = () => {
         <More>MORE THEMES</More>
         <MoreLine />
         <MoreCircle />
+
+        <CardPageContainer>
+          <CardPage />
+        </CardPageContainer>
+
       </PageContainer>
     </>
   );
@@ -108,12 +114,12 @@ const Carousel = () => {
 // ✅ 헤더와 Carousel을 감싸는 컨테이너 추가
 const PageContainer = styled.div`
   width: 1034px;
-  min-height: 100vh;
+  min-height: 900px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-image: url(${MainPage_Background});
-  background-size: auto 130%;
+  background-size: 80%;
   background-position: center top;
   background-repeat: no-repeat;
 `;
@@ -209,6 +215,13 @@ const MoreCircle = styled.div`
   height: 10px;
   background-color: white;
   border-radius: 50%;
+`;
+
+const CardPageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 `;
 
 export default Carousel;
