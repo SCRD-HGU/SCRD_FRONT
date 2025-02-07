@@ -16,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
     min-width: 100vw;
     min-height: 100vh;
     background-color: #000000;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 `;
 
@@ -29,16 +29,39 @@ const LoginPage = () => {
   return (
     <>
       <GlobalStyle />
-      <LoginMark src={LoginMarkImage} />
-      <Logo src={LogoImage} alt="Company Logo" />
-      <LoginText>log in</LoginText>
-      <LoginBT onClick={clickLogin}>
-        <BsFillChatFill />
-        Log in with Kakao
-      </LoginBT>
+      <Container>
+        <SemiContainer>
+          <LoginMark src={LoginMarkImage} />
+          <Logo src={LogoImage} alt="Company Logo" />
+          <LoginText>log in</LoginText>
+          <LoginBT onClick={clickLogin}>
+          <BsFillChatFill />
+          Log in with Kakao
+          </LoginBT>
+        </SemiContainer>
+      </Container>
     </>
   );
 };
+
+const Container = styled.div`
+  transform: scale(var(--scale)); /* scale 속성 적용 */
+  transform-origin: top left; /* 확대/축소 기준 */
+  width: 1440px; /* 기준 너비 */
+  height: 900px; /* 기준 높이 */
+  background: #000; /* 전체 배경색 */
+  display: flex;
+  justify-content: center;
+`;
+
+const SemiContainer = styled.div`
+  width: 1037px;
+  height: 100%;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+`;
+
 const Logo = styled.img`
   width: 48px;
   height: 48px;
@@ -49,7 +72,7 @@ const Logo = styled.img`
 const LoginMark = styled.img`
   position: absolute;
   opacity: 0.5;
-  z-index: -1;
+  z-index: 1;
   width: 700px;
   height: 900px;
 `;
