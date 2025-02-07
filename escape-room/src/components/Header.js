@@ -22,12 +22,9 @@ const Header = () => {
           <Nav>
             <NavItem onClick={handleThemeClick} className={location.pathname === "/main" ? "active" : ""}>Theme</NavItem>
             <NavItem>Social Matching</NavItem>
-            <NavItem>Crew</NavItem>
-            <NavItem onClick={() => navigate("/tier")}>Tier</NavItem>
           </Nav>
         </LogoPart>
         <LoginPart>
-          <NavItem onClick={() => navigate("/mypage")}>My Page</NavItem>
           <LoginButton onClick={() => navigate("/login")}>Login</LoginButton>
         </LoginPart>
       </HeaderGap>
