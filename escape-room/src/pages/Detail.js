@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "../components/Header.js";
+import dongsan from "../assets/Theme.png";
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -24,10 +25,9 @@ const Detail = () => {
   return (
     <>
     <GlobalStyle />
-    <Header />
     <Container>
-      <ThemeImage>
-      </ThemeImage>
+      <Header />
+      <ThemeImage />
       <DetailInfo>
 
       </DetailInfo>
@@ -46,17 +46,29 @@ const Detail = () => {
 }
 
 const Container = styled.div`
-  transform: scale(var(--scale)); /* scale 속성 적용 */
-  transform-origin: top left; /* 확대/축소 기준 */
-  width: 1440px; /* 기준 너비 */
-  height: 900px; /* 기준 높이 */
-  background: #000; /* 전체 배경색 */
+  width: 1037px;
+  height: 100%;
+  background: #000;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
-const ThemeImage = styled.img`
+const ThemeImage = styled.div`
+  width: 1034px;
+  height: 305px;
+  border-radius: 5px; /* 모서리를 둥글게 */
+  
+  background: 
+    linear-gradient(0deg, #000 0%, rgba(0, 0, 0, 0.00) 100%), /* 검정색 그라디언트 */
+    url(${dongsan}) lightgray 0px 2.798px / 100% 336.924% no-repeat; /* 이미지 적용 */
+  
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
 `;
+
+
 
 const DetailInfo = styled.div`
 `;

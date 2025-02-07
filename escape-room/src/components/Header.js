@@ -42,7 +42,7 @@ const StyledHeader = styled.div`
   justify-content: center;
 
   z-index: 1000;
-  backdrop-filter: blur(7px);
+  backdrop-filter: blur(4px);
 `;
 
 const HeaderGap = styled.div`
