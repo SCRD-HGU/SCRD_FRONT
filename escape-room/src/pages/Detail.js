@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "../components/Header.js";
+import Reservation from "../components/Reservation.js";
 import dongsan from "../assets/Theme.png";
 import { IoTimeOutline } from "react-icons/io5";
 import { PiPuzzlePieceFill } from "react-icons/pi";
@@ -84,9 +85,9 @@ const Detail = () => {
           지금 바로 주문하세요!
         </Script>
       </DetailInfo>
-      <Reservation>
-
-      </Reservation>
+      <Date>
+        <Reservation />
+      </Date>
       <Review>
 
       </Review>
@@ -362,11 +363,13 @@ const Script = styled.div`
   margin-top: 38px;
 `;
 
-const Reservation = styled.div`
+const Date = styled.div`
+
 `;
 
 const Review = styled.div`
 `;
+
 
 const Buttons = styled.div`
 `;
