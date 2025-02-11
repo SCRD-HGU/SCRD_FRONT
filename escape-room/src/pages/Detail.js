@@ -75,7 +75,7 @@ const Detail = () => {
             </Activity>
           </Rest>
           <ReserveButton>
-            에약하기
+            예약하기
           </ReserveButton>
         </Puzzle>
         <Script>
@@ -340,6 +340,9 @@ const ReserveButton = styled.button`
   fill: #FFF;
   backdrop-filter: blur(2px);
   border-radius: 50px;
+  border: none;
+  transition: background 0.3s ease, fill 0.3s ease;
+  box-shadow: none;
 
   color: var(--foundation-red-normal-active, #D90206);
   font-family: Pretendard;
@@ -347,6 +350,13 @@ const ReserveButton = styled.button`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  &:hover {
+    backdrop-filter: blur(2px);
+    background: #B80205;
+    color: #FFF;
+    box-shadow: none;
+  }
 `;
 
 const Script = styled.div`
