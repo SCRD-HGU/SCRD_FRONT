@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import Header from "../components/Header.js";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Noti1 from "../assets/Noti1.svg";
-
+import CardSwiper from "../components/CardSwiper.js";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -56,6 +56,7 @@ const ThemePage = () => {
           <StyledSwiperSlide>Slide 8</StyledSwiperSlide>
           <StyledSwiperSlide>Slide 9</StyledSwiperSlide>
         </StyledSwiper>
+        <CardSwiper />
       </Container>
     </>
   );
