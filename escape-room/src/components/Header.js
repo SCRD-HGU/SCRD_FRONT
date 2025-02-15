@@ -40,9 +40,10 @@ const StyledHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #000;
 
   z-index: 1000;
-  backdrop-filter: blur(4px);
+  // backdrop-filter: blur(4px);
 `;
 
 const HeaderGap = styled.div`

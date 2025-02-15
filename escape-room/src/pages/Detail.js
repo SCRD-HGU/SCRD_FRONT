@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "../components/Header.js";
 import Reservation from "../components/Reservation.js";
+import Review from "../components/Review.js";
 import dongsan from "../assets/Theme.png";
 import { IoTimeOutline } from "react-icons/io5";
 import { PiPuzzlePieceFill } from "react-icons/pi";
@@ -124,11 +125,12 @@ const Detail = () => {
             />
           )}
         </Script>
-        <Date>
-          <Reservation />
-        </Date>
-        <Review></Review>
-        <Buttons></Buttons>
+        <Reservation />
+        <Review />
+        <Buttons>
+          <Other>다른 테마 보기</Other>
+          <Save>저장하기</Save>
+        </Buttons>
       </Container>
     </>
   );
@@ -439,10 +441,57 @@ const ToggleButton = styled.span`
   margin-left: 5px;
 `;
 
-const Date = styled.div``;
+const Buttons = styled.div`
+  width: 960px;
+  margin-top: 102px;
+  margin-bottom: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+`;
 
-const Review = styled.div``;
+const Other = styled.div`
+  display: flex;
+  width: 223px;
+  height: 79px;
+  padding: 23px 48px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 60px;
+  border: 2.5px solid #FFF;
+  backdrop-filter: blur(2px);
 
-const Buttons = styled.div``;
+  color: #FFF;
+  font-family: Pretendard;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+`;
+
+const Save = styled.div`
+  display: flex;
+  width: 223px;
+  height: 79px;
+  padding: 23px 48px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 60px;
+  background: #FFF;
+  backdrop-filter: blur(2px);
+
+  color: var(--foundation-red-normal-active, #D90206);
+  font-family: Pretendard;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`;
 
 export default Detail;
