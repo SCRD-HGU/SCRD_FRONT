@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "../components/Header.js";
 import Reservation from "../components/Reservation.js";
@@ -7,97 +7,132 @@ import { IoTimeOutline } from "react-icons/io5";
 import { PiPuzzlePieceFill } from "react-icons/pi";
 import { RiKnifeBloodLine } from "react-icons/ri";
 import { PiSneakerMoveFill } from "react-icons/pi";
+import LinesEllipsis from "react-lines-ellipsis"; // 라이브러리 import
 
 const GlobalStyle = createGlobalStyle`
-* {
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-
   html, body {
     display: flex;
     justify-content: center;
     min-width: 100vw;
     min-height: 100vh;
     background-color: #000000;
-
     overflow-x: hidden;
   }
 `;
 
 const Detail = () => {
+  const [expanded, setExpanded] = useState(false);
+  const themeDescription = `안녕하세요, 어른이 여러분. 오랜만에 우리 어른이 여러분들을 위해서 새로운 주제를 들고 왔는데, 뭘까~요?
+짜잔! 바로바로 키이스케이프사에서 야심 차게 출시한 시즌 2 '머니머니 부. 동. 산! 울고 싶을 만큼 혹독한 세상에서도
+이왕이면 내 건물 안에서 우는 게 나으니까! 본격 머니머니 르와 자본주의의 꽃, 부동산의 콜라보.
+지금 바로 주문하세요!`;
+
   return (
     <>
-    <GlobalStyle />
-    <Container>
-      <Header />
-      <ThemeImage />
-      <DetailInfo>
-        <BasicInfo>
-          <Title>머니머니 부동산</Title>
-          <Branch>키이스케이프 | 스테이션점</Branch>
-          <Price>30,000원</Price>
-        </BasicInfo>
-        <Semi>
-          <Local>
-            강남
-          </Local>
-          <RunningTime>
-            <IoTimeOutline />
-            80분
-          </RunningTime>
-        </Semi>
-        <Puzzle>
-          <Rest>
-          <Difficulty>
-            난이도
-            <PuzzleContainer>
-              <PuzzleIcon />
-              <span style={{ color: "#D90206", fontSize: "15px" }}>5</span>
-            </PuzzleContainer>
-          </Difficulty>
-            <Device>
-              장치비율
-              <span style={{ color: "#FFF", fontSize: "15px", fontWeight: "700" }}>7:3</span>
-            </Device>
-            <Horror>
-              공포도
-              <KnifeContainer>
-                <Knife />
-              </KnifeContainer>
-            </Horror>
-            <Activity>
-              활동성
-              <ShoeContainer>
-                <Shoe />
-              </ShoeContainer>
-            </Activity>
-          </Rest>
-          <ReserveButton>
-            예약하기
-          </ReserveButton>
-        </Puzzle>
+      <GlobalStyle />
+      <Container>
+        <Header />
+        <ThemeInfo>
+          <ThemeWrapper>
+            <Theme src={dongsan} alt="머니머니 부동산" />
+          </ThemeWrapper>
+          <DetailInfo>
+            <BasicInfo>
+              <Title>머니머니 부동산</Title>
+              <Branch>키이스케이프 | 스테이션점</Branch>
+            </BasicInfo>
+            <Semi>
+              <Local>강남</Local>
+              <RunningTime>
+                <IoTimeOutline />
+                80분
+              </RunningTime>
+            </Semi>
+            <Price>30,000원</Price>
+            <Puzzle>
+              <Rest>
+                <Difficulty>
+                  난이도
+                  <PuzzleContainer>
+                    <PuzzleIcon />
+                    <span style={{ color: "#D90206", fontSize: "15px" }}>5</span>
+                  </PuzzleContainer>
+                </Difficulty>
+                <Rating>
+                  평점
+                  <RatingContainer>
+                    <span style={{ color: "#FFF", fontSize: "15px", fontWeight: "700" }}>4.0</span>
+                  </RatingContainer>
+                </Rating>
+                <Device>
+                  장치 비율
+                  <DeviceContainer>
+                    <span style={{ color: "#FFF", fontSize: "15px", fontWeight: "700" }}>7:3</span>
+                  </DeviceContainer>
+                </Device>
+                <Horror>
+                  공포도
+                  <KnifeContainer>
+                    <Knife />
+                  </KnifeContainer>
+                </Horror>
+                <Activity>
+                  활동성
+                  <ShoeContainer>
+                    <Shoe />
+                  </ShoeContainer>
+                </Activity>
+              </Rest>
+              <ReserveButton>예약하기</ReserveButton>
+            </Puzzle>
+          </DetailInfo>
+        </ThemeInfo>
+        <Line />
         <Script>
-          안녕하세요, 어른이 여러분. 오랜만에 우리 어른이 여러분들을 위해서 새로운 주제를 들고 왔는데, 뭘까~요?<br />
-          짜잔! 바로바로 키이스케이프사에서 야심 차게 출시한 시즌 2 '머니머니 부. 동. 산!  울고 싶을 만큼 혹독한 세상에서도<br />
-          이왕이면 내 건물 안에서 우는 게 나으니까! 본격 머니머니 르와 자본주의의 꽃, 부동산의 콜라보.<br />
-          지금 바로 주문하세요!
+          테마 설명
+          {expanded ? (
+            <>
+              <FullScript>{themeDescription}</FullScript>
+              <ToggleButton onClick={() => setExpanded(false)}>접기</ToggleButton>
+            </>
+          ) : (
+            <LinesEllipsis
+              text={themeDescription}
+              maxLine="2"
+              ellipsis={
+                <span>
+                  ... <ToggleButton onClick={() => setExpanded(true)}>더보기</ToggleButton>
+                </span>
+              }
+              trimRight
+              basedOn="letters"
+              component="p"
+              style={{
+                color: "#929292",
+                fontFamily: "Inter",
+                fontSize: "17px",
+                fontStyle: "normal",
+                fontWeight: "400",
+                lineHeight: "1.4em",
+                marginTop: "30px",
+              }}
+            />
+          )}
         </Script>
-      </DetailInfo>
-      <Date>
-        <Reservation />
-      </Date>
-      <Review>
-
-      </Review>
-      <Buttons>
-
-      </Buttons>
-    </Container>
+        <Date>
+          <Reservation />
+        </Date>
+        <Review></Review>
+        <Buttons></Buttons>
+      </Container>
     </>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   width: 1037px;
@@ -108,34 +143,39 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const ThemeImage = styled.div`
-  width: 1034px;
-  height: 305px;
-  border-radius: 5px; /* 모서리를 둥글게 */
-  
-  background: 
-    linear-gradient(0deg, #000 0%, rgba(0, 0, 0, 0.00) 100%), /* 검정색 그라디언트 */
-    url(${dongsan}) lightgray 0px 2.798px / 100% 336.924% no-repeat; /* 이미지 적용 */
-  
-  background-size: cover;
-  background-position: top center;
-  background-repeat: no-repeat;
+const ThemeInfo = styled.div`
+  width: 1024px;
+  display: flex;
+  padding: 10px 37px;
+  margin-top: 150px;
 `;
 
-
-
 const DetailInfo = styled.div`
+  width: 850px;
+`;
+
+const ThemeWrapper = styled.div`
+  width: 260px;
+  height: 268px;
+  overflow: hidden;
+`;
+
+const Theme = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 `;
 
 const BasicInfo = styled.div`
-  width: 1024px;
+  width: 100%;
   display: flex;
   align-items: flex-end;
-  padding: 10px 36px;
+  padding: 10px 37px;
 `;
 
 const Title = styled.div`
-  color: #FFF;
+  color: #fff;
   font-family: "Pretendard Variable";
   font-size: 40px;
   font-style: normal;
@@ -145,30 +185,30 @@ const Title = styled.div`
 `;
 
 const Branch = styled.div`
-  color: #BABABA;
+  color: #bababa;
   font-family: "Pretendard Variable";
   font-size: 13px;
   font-style: normal;
   font-weight: 700;
-
   margin-left: 22px;
 `;
 
 const Price = styled.div`
-  color: #FFF;
+  color: #fff;
   font-family: Pretendard;
   font-size: 30px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-
-  margin-left: 412px;
+  width: 100%;
+  margin-top: 56px;
+  padding: 0 37px;
 `;
 
 const Semi = styled.div`
-  width: 1024px;
+  width: 100%;
   display: flex;
-  padding: 10px 36px;
+  padding: 10px 37px;
 `;
 
 const Local = styled.div`
@@ -179,11 +219,9 @@ const Local = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
-
   border-radius: 20px;
-  border: 1px solid #FFF;
-  background: #FFF;
-
+  border: 1px solid #fff;
+  background: #fff;
   color: #000;
   font-family: "Pretendard Variable";
   font-size: 16px;
@@ -193,29 +231,27 @@ const Local = styled.div`
 `;
 
 const RunningTime = styled.div`
-  color: #FFF;
+  color: #fff;
   font-family: Pretendard;
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
-
   margin-left: 21px;
   display: flex;
   align-items: center;
-
   svg {
     font-size: 24px;
     margin-right: 5px;
-    color: #FFF;
+    color: #fff;
   }
 `;
 
 const Puzzle = styled.div`
-  width: 1024px;
+  width: 100%;
   display: flex;
-  padding: 0px 36px;
-  justify-content: space-between;
+  padding: 0px 37px;
   align-items: flex-end;
+  justify-content: space-between;
   margin-top: 17px;
 `;
 
@@ -224,59 +260,81 @@ const Rest = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
-  gap: 53px;
+  gap: 23px;
 `;
 
 const Difficulty = styled.div`
-  color: #BABABA;
+  color: #bababa;
   font-family: Pretendard;
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
 
+const Rating = styled.div`
+  color: #bababa;
+  font-family: Pretendard;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const RatingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 15px;
+`;
+
 const PuzzleContainer = styled.div`
   display: flex;
-  align-items: center; /* 퍼즐 아이콘과 숫자 중앙 정렬 */
-  gap: 3px; /* 퍼즐 아이콘과 숫자 사이 간격 */
+  align-items: center;
+  gap: 3px;
   margin-top: 15px;
 `;
 
 const PuzzleIcon = styled(PiPuzzlePieceFill)`
   font-size: 18px;
-  color: var(--foundation-red-normal-active, #D90206);
+  color: var(--foundation-red-normal-active, #d90206);
 `;
 
 const Device = styled.div`
-  color: #BABABA;
+  color: #bababa;
   font-family: Pretendard;
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-
   display: flex;
-  flex-direction: column; /* 세로 정렬 */
-  align-items: center; /* 가운데 정렬 */
-  justify-content: center; /* 수직 가운데 정렬 */
-  gap: 10px; /* 텍스트와 값 간격 */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const DeviceContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 15px;
 `;
 
 const Horror = styled.div`
-  color: #BABABA;
+  color: #bababa;
   font-family: Pretendard;
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -285,14 +343,13 @@ const Horror = styled.div`
 
 const KnifeContainer = styled.div`
   display: flex;
-  align-items: center; /* 퍼즐 아이콘과 숫자 중앙 정렬 */
+  align-items: center;
   justify-content: center;
-  gap: 3px; /* 퍼즐 아이콘과 숫자 사이 간격 */
+  gap: 3px;
   margin-top: 15px;
-
   width: 20.367px;
   height: 20.367px;
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 50%;
 `;
 
@@ -302,13 +359,12 @@ const Knife = styled(RiKnifeBloodLine)`
 `;
 
 const Activity = styled.div`
-  color: #BABABA;
+  color: #bababa;
   font-family: Pretendard;
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -317,14 +373,13 @@ const Activity = styled.div`
 
 const ShoeContainer = styled.div`
   display: flex;
-  align-items: center; /* 퍼즐 아이콘과 숫자 중앙 정렬 */
+  align-items: center;
   justify-content: center;
-  gap: 3px; /* 퍼즐 아이콘과 숫자 사이 간격 */
+  gap: 3px;
   margin-top: 15px;
-
   width: 20.367px;
   height: 20.367px;
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 50%;
 `;
 
@@ -333,55 +388,61 @@ const Shoe = styled(PiSneakerMoveFill)`
   color: #000;
 `;
 
-const ReserveButton = styled.button`
-  width: 153px;
-  height: 65px;
+const ReserveButton = styled.div`
+  width: 135px;
+  height: 36px;
   flex-shrink: 0;
-  fill: #FFF;
-  backdrop-filter: blur(2px);
-  border-radius: 50px;
-  border: none;
-  transition: background 0.3s ease, fill 0.3s ease;
-  box-shadow: none;
-
-  color: var(--foundation-red-normal-active, #D90206);
-  font-family: Pretendard;
-  font-size: 21px;
+  color: #fff;
+  font-family: Inter;
+  font-size: 30px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+`;
 
-  &:hover {
-    backdrop-filter: blur(2px);
-    background: #B80205;
-    color: #FFF;
-    box-shadow: none;
-  }
+const Line = styled.div`
+  width: 960px;
+  height: 2.5px;
+  background-color: #9d9d9d;
+  margin: 16px auto 0;
+  border-radius: 1.25px;
 `;
 
 const Script = styled.div`
-  color: #FFF;
-  font-family: Pretendard;
+  color: #fff;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  width: 960px;
+  margin-top: 21px;
+`;
+
+const FullScript = styled.p`
+  color: #929292;
+  font-family: Inter;
   font-size: 17px;
   font-style: normal;
   font-weight: 400;
-  line-height: 25px; /* 147.059% */
-
-  width: 1024px;
-  display: flex;
-  padding: 0 36px;
-  margin-top: 38px;
+  line-height: 1.4em;
+  margin-top: 30px;
 `;
 
-const Date = styled.div`
-
+const ToggleButton = styled.span`
+  color: #fff;
+  font-family: Inter;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  cursor: pointer;
+  margin-left: 5px;
 `;
 
-const Review = styled.div`
-`;
+const Date = styled.div``;
 
+const Review = styled.div``;
 
-const Buttons = styled.div`
-`;
+const Buttons = styled.div``;
 
 export default Detail;
