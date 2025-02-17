@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle, keyframes } from "styled-components";
 import Header from "../components/Header.js";
 import Reservation from "../components/Reservation.js";
 import Review from "../components/Review.js";
@@ -390,16 +390,45 @@ const Shoe = styled(PiSneakerMoveFill)`
   color: #000;
 `;
 
+// 1. shimmer 애니메이션 정의
+const shimmer = keyframes`
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+`;
+
 const ReserveButton = styled.div`
   width: 135px;
   height: 36px;
   flex-shrink: 0;
-  color: #fff;
+  /* 폰트 관련 스타일 */
   font-family: Inter;
   font-size: 30px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  /* 반짝이 효과를 위한 그라디언트 배경 */
+  background: linear-gradient(
+    to right,
+    #d4d4d4 0%,
+    #ffffff 20%,
+    #d4d4d4 40%,
+    #d4d4d4 100%
+  );
+  background-size: 200% auto;
+
+  /* 텍스트만 그라디언트가 보이도록 설정 */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent; /* 텍스트 색상 투명화 */
+
+  /* 애니메이션 적용 */
+  animation: ${shimmer} 2s linear infinite;
 `;
 
 const Line = styled.div`

@@ -4,6 +4,7 @@ import Header from "../components/Header.js";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Noti1 from "../assets/Noti1.svg";
 import CardSwiper from "../components/CardSwiper.js";
+import CardSwiper2 from "../components/CardSwiper2.js";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -56,7 +57,10 @@ const ThemePage = () => {
           <StyledSwiperSlide>Slide 8</StyledSwiperSlide>
           <StyledSwiperSlide>Slide 9</StyledSwiperSlide>
         </StyledSwiper>
-        <CardSwiper />
+        <CardSwiperContainer>
+          <CardSwiper />
+          <CardSwiper2 />
+        </CardSwiperContainer>
       </Container>
     </>
   );
@@ -115,7 +119,16 @@ const StyledSwiperSlide = styled(SwiperSlide)`
 
 // ✅ Noti1 이미지 스타일 추가
 const SlideImage = styled.img`
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+`;
+
+const CardSwiperContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  margin-bottom: 150px;
 `;
 
 export default ThemePage;
