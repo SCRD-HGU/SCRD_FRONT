@@ -1,9 +1,8 @@
-// OptionBar.tsx (또는 .js)
-
 import React, { useState } from "react";
 import styled from "styled-components";
 import { RiKnifeBloodLine } from "react-icons/ri";
 import { PiSneakerMoveFill } from "react-icons/pi";
+import { IoIosSearch } from "react-icons/io";
 
 function OptionBar() {
   const [region, setRegion] = useState("전체");
@@ -11,10 +10,10 @@ function OptionBar() {
   const [isFearActive, setIsFearActive] = useState(false);
   const [isActivityActive, setIsActivityActive] = useState(false);
 
-  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleRegionChange = (e) => {
     setRegion(e.target.value);
   };
-  const handleDifficultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleDifficultyChange = (e) => {
     setDifficulty(e.target.value);
   };
   const toggleFear = () => {
@@ -33,7 +32,7 @@ function OptionBar() {
   return (
     <FixedBar>
       {/* 지역 드롭다운 */}
-      <div>
+      <Local>
         <label htmlFor="region" style={{ marginRight: 4 }}>
           지역
         </label>
@@ -43,10 +42,10 @@ function OptionBar() {
           <option value="경기">경기</option>
           <option value="부산">부산</option>
         </select>
-      </div>
+      </Local>
 
       {/* 난이도 드롭다운 */}
-      <div>
+      <Difficulty>
         <label htmlFor="difficulty" style={{ marginRight: 4 }}>
           난이도
         </label>
@@ -60,80 +59,114 @@ function OptionBar() {
           <option value="보통">보통</option>
           <option value="어려움">어려움</option>
         </select>
-      </div>
+      </Difficulty>
 
       {/* 공포도 아이콘 버튼 */}
-      <button
-        type="button"
-        onClick={toggleFear}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 4,
-          background: "none",
-          border: "1px solid #ccc",
-          borderRadius: 4,
-          padding: "4px 8px",
-          cursor: "pointer",
-          color: isFearActive ? "red" : "black",
-        }}
-      >
+      <Horror onClick={toggleFear} active={isFearActive}>
         <RiKnifeBloodLine />
-        공포도
-      </button>
+        <span>공포도</span>
+        <span style={{ marginLeft: "6px" }}>{isFearActive ? "o" : "x"}</span>
+      </Horror>
 
       {/* 활동성 아이콘 버튼 */}
-      <button
-        type="button"
-        onClick={toggleActivity}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 4,
-          background: "none",
-          border: "1px solid #ccc",
-          borderRadius: 4,
-          padding: "4px 8px",
-          cursor: "pointer",
-          color: isActivityActive ? "blue" : "black",
-        }}
-      >
+      <Move onClick={toggleActivity} active={isActivityActive}>
         <PiSneakerMoveFill />
-        활동성
-      </button>
+        <span>활동성</span>
+        <span style={{ marginLeft: "6px" }}>{isActivityActive ? "o" : "x"}</span>
+      </Move>
 
       {/* 검색 버튼 */}
-      <button
-        type="button"
-        onClick={handleSearch}
-        style={{
-          marginLeft: "auto",
-          padding: "8px 16px",
-          borderRadius: 4,
-          border: "1px solid #333",
-          backgroundColor: "#fff",
-          cursor: "pointer",
-        }}
-      >
-        검색
-      </button>
+      <Search onClick={handleSearch}>
+        <IoIosSearch />
+      </Search>
     </FixedBar>
   );
 }
 
 export default OptionBar;
 
-// 아래는 styled-components 예시
 const FixedBar = styled.div`
   position: fixed;
   bottom: 40px; /* 화면 하단에서 40px */
   left: 50%;
   transform: translateX(-50%); /* 수평 중앙 정렬 */
   display: flex;
-  gap: 1rem;
+  width: 600px;
+  height: 42px;
+  border-radius: 3px;
+  background: #fff;
+
+  z-index: 999;
+`;
+
+const Local = styled.div`
+  color: #000;
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-left: 38px;
+  margin-top: 13px;
+`;
+
+const Difficulty = styled.div`
+  color: #000;
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-left: 20px;
+  margin-top: 13px;
+`;
+
+const Horror = styled.div`
+  color: ${(props) =>
+    props.active
+      ? "var(--foundation-red-normal-active, #D90206)"
+      : "#000"};
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-left: 20px;
+  margin-top: 3px;
+  display: flex;
   align-items: center;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  background-color: #fff; /* 필요하면 배경색 지정 */
-  z-index: 999; /* 다른 요소 위로 올리려면 z-index 필요 */
+  cursor: pointer;
+
+  svg {
+    margin-right: 6px; /* 아이콘과 텍스트 사이 6px 간격 */
+  }
+`;
+
+const Move = styled.div`
+  color: ${(props) =>
+    props.active
+      ? "var(--foundation-red-normal-active, #D90206)"
+      : "#000"};
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-left: 20px;
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  svg {
+    margin-right: 6px; /* 아이콘과 텍스트 사이 6px 간격 */
+  }
+`;
+
+const Search = styled.div`
+  width: 20px;
+  height: 20px;
+  margin-left: 180px;
+  margin-top: 13px;
+  cursor: pointer;
 `;
