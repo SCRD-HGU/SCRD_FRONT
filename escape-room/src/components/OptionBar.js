@@ -5,8 +5,8 @@ import { PiSneakerMoveFill } from "react-icons/pi";
 import { IoIosSearch } from "react-icons/io";
 
 function OptionBar() {
-  const [region, setRegion] = useState("전체");
-  const [difficulty, setDifficulty] = useState("전체");
+  const [region, setRegion] = useState("지역");
+  const [difficulty, setDifficulty] = useState("난이도");
   const [isFearActive, setIsFearActive] = useState(false);
   const [isActivityActive, setIsActivityActive] = useState(false);
 
@@ -33,32 +33,28 @@ function OptionBar() {
     <FixedBar>
       {/* 지역 드롭다운 */}
       <Local>
-        <label htmlFor="region" style={{ marginRight: 4 }}>
-          지역
-        </label>
-        <select id="region" value={region} onChange={handleRegionChange}>
+        <Select id="region" value={region} onChange={handleRegionChange}>
+          <option value="지역" disabled hidden>
+            지역
+          </option>
           <option value="전체">전체</option>
           <option value="서울">서울</option>
           <option value="경기">경기</option>
           <option value="부산">부산</option>
-        </select>
+        </Select>
       </Local>
 
       {/* 난이도 드롭다운 */}
       <Difficulty>
-        <label htmlFor="difficulty" style={{ marginRight: 4 }}>
-          난이도
-        </label>
-        <select
-          id="difficulty"
-          value={difficulty}
-          onChange={handleDifficultyChange}
-        >
+        <Select id="difficulty" value={difficulty} onChange={handleDifficultyChange}>
+          <option value="난이도" disabled hidden>
+            난이도
+          </option>
           <option value="전체">전체</option>
           <option value="쉬움">쉬움</option>
           <option value="보통">보통</option>
           <option value="어려움">어려움</option>
-        </select>
+        </Select>
       </Difficulty>
 
       {/* 공포도 아이콘 버튼 */}
@@ -95,30 +91,42 @@ const FixedBar = styled.div`
   height: 42px;
   border-radius: 3px;
   background: #fff;
-
   z-index: 999;
 `;
 
 const Local = styled.div`
-  color: #000;
   font-family: "Pretendard Variable";
   font-size: 13px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
   margin-left: 38px;
-  margin-top: 13px;
+  margin-top: 14px;
 `;
 
 const Difficulty = styled.div`
-  color: #000;
   font-family: "Pretendard Variable";
   font-size: 13px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
   margin-left: 20px;
-  margin-top: 13px;
+  margin-top: 14px;
+`;
+
+const Select = styled.select`
+  border: none;
+  background: none;
+  outline: none;
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+  
+  /* 기본 드롭다운 화살표 제거 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 20px; /* 화살표 공간 확보 */
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5L5 1L9 5' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
 `;
 
 const Horror = styled.div`
@@ -128,17 +136,14 @@ const Horror = styled.div`
       : "#000"};
   font-family: "Pretendard Variable";
   font-size: 13px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
   margin-left: 20px;
-  margin-top: 3px;
   display: flex;
   align-items: center;
   cursor: pointer;
 
   svg {
-    margin-right: 6px; /* 아이콘과 텍스트 사이 6px 간격 */
+    margin-right: 6px;
   }
 `;
 
@@ -149,24 +154,21 @@ const Move = styled.div`
       : "#000"};
   font-family: "Pretendard Variable";
   font-size: 13px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
   margin-left: 20px;
-  margin-top: 3px;
   display: flex;
   align-items: center;
   cursor: pointer;
 
   svg {
-    margin-right: 6px; /* 아이콘과 텍스트 사이 6px 간격 */
+    margin-right: 6px;
   }
 `;
 
 const Search = styled.div`
   width: 20px;
   height: 20px;
-  margin-left: 180px;
+  margin-left: 230px;
   margin-top: 13px;
   cursor: pointer;
 `;
