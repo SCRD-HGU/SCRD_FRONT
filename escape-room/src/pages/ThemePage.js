@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "../components/Header.js";
+import OptionBar from "../components/OptionBar.js";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Noti1 from "../assets/Noti1.svg";
 import CardSwiper from "../components/CardSwiper.js";
@@ -36,6 +37,7 @@ const ThemePage = () => {
       <GlobalStyle />
       <Container>
         <Header />
+        <OptionBar />
         <StyledSwiper
           cssMode={true}
           navigation={true}
