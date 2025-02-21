@@ -32,8 +32,6 @@ import dayjs from "dayjs";
       // 오늘/내일 예외 처리
       if (dateStr === today.format("YYYY-MM-DD")) {
         dayLabel = "오늘";
-      } else if (dateStr === today.add(1, "day").format("YYYY-MM-DD")) {
-        dayLabel = "내일";
       }
 
       console.log(`📌 날짜 리스트 생성: ${dateStr}, 요일: ${dayLabel}`);
@@ -91,7 +89,7 @@ import dayjs from "dayjs";
             <TimeSlot key={index}>{time.replace(":", " : ")}</TimeSlot>
           ))
         ) : (
-          <NoTimeSlot>예약 가능한 시간이 없습니다.</NoTimeSlot>
+          <NoTimeSlot>예약 가능한 시간대가 없거나 해당 사이트의 서버 점검으로 인해 조회가 불가능합니다.</NoTimeSlot>
         )}
       </TimeContainer>
     </ReservationContainer>
@@ -225,6 +223,12 @@ const TimeSlot = styled.div`
 `;
 
 const NoTimeSlot = styled.div`
+  color: #F3F3F3;
+  font-family: Pretendard;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 `;
 
 export default Reservation;
