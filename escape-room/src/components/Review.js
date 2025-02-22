@@ -199,7 +199,7 @@ function ReviewItem({ review }) {
           <Rating>
             평점
             <RatingContainer>
-              <span style={{ color: "#FFF", fontSize: "15px", fontWeight: "700" }}>
+              <span style={{ color: "#FFF", fontSize: "17px", fontWeight: "700" }}>
                 {rating}
               </span>
             </RatingContainer>
