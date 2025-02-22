@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";  
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -62,14 +63,16 @@ const CardSwiper = () => {
         >
           {items.map((item, index) => (
             <SwiperSlide key={index}>
-              <Card>
-                <CardImage src={item.img} alt={item.title} />
-                <CardTitle>{item.title}</CardTitle>
-                <CardInfo>
-                  <RegionText>{item.region} </RegionText>
-                  <BranchText>{item.branch}</BranchText>
-                </CardInfo>
-              </Card>
+              <Link to={`/detail`}>
+                <Card>
+                  <CardImage src={item.img} alt={item.title} />
+                  <CardTitle>{item.title}</CardTitle>
+                  <CardInfo>
+                    <RegionText>{item.region} </RegionText>
+                    <BranchText>{item.branch}</BranchText>
+                  </CardInfo>
+                </Card>
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
