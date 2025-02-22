@@ -11,7 +11,7 @@ import dayjs from "dayjs";
     console.log("📅 선택된 날짜(selectedDate):", selectedDate);
 
     const timeSlots = {
-      "2025-02-19": ["11:00", "12:10", "13:20", "14:30", "18:00"],
+      "2025-02-22": ["11:00", "12:10", "13:20", "14:30", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
       "2025-02-20": ["10:00", "12:00", "15:00"],
       "2025-02-21": ["09:30", "11:30", "16:00"],
     };
@@ -198,7 +198,6 @@ const TimeSlot = styled.div`
   font-weight: 700;
   line-height: normal;
   white-space: nowrap;
-
   display: flex;
   width: 86.029px;
   height: 34.798px;
