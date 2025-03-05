@@ -11,9 +11,9 @@ import dayjs from "dayjs";
     console.log("📅 선택된 날짜(selectedDate):", selectedDate);
 
     const timeSlots = {
-      "2025-02-22": ["11:00", "12:10", "13:20", "14:30", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
-      "2025-02-20": ["10:00", "12:00", "15:00"],
-      "2025-02-21": ["09:30", "11:30", "16:00"],
+      "2025-03-05": ["11:00", "12:10", "13:20", "14:30", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
+      "2025-03-06": ["10:00", "12:00", "15:00"],
+      "2025-03-07": ["09:30", "11:30", "16:00"],
     };
 
 
@@ -28,11 +28,6 @@ import dayjs from "dayjs";
       const dayOfWeekMap = ["일", "월", "화", "수", "목", "금", "토"];
       const dayIndex = date.day(); // 0(일) ~ 6(토)
       let dayLabel = dayOfWeekMap[dayIndex]; // 기본 한글 요일 설정
-    
-      // 오늘/내일 예외 처리
-      if (dateStr === today.format("YYYY-MM-DD")) {
-        dayLabel = "오늘";
-      }
 
       console.log(`📌 날짜 리스트 생성: ${dateStr}, 요일: ${dayLabel}`);
     
@@ -182,9 +177,9 @@ const Line = styled.div`
 
 const TimeContainer = styled.div`
   display: flex;
-  gap: 12px;
+  gap: 34px;
   flex-wrap: wrap;
-  justify-content: center; /* 중앙 정렬 */
+  justify-content: flex-start; /* 중앙 정렬 */
   margin-top: 20px; /* 위쪽 구분선과 간격 */
   min-height: 50px; /* 최소 높이 설정 */
 `;
@@ -222,12 +217,15 @@ const TimeSlot = styled.div`
 `;
 
 const NoTimeSlot = styled.div`
-  color: #F3F3F3;
-  font-family: Pretendard;
+  color: #929292;
+  font-family: Inter;
   font-size: 17px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   line-height: normal;
+
+  margin-left: 200px;
+  margin-top: 63px;
 `;
 
 export default Reservation;
