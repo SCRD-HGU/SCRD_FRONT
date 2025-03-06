@@ -8,6 +8,7 @@ const MyPage = lazy(() => import("./pages/MyPage"));
 const TierPage = lazy(() => import("./pages/TierPage"));
 const ThemePage = lazy(() => import("./pages/ThemePage"));
 const Detail = lazy(() => import("./pages/Detail"));
+const MyDetailPage = lazy(() => import("./pages/MyDetailPage"));
 
 const AppRouter = () => {
   return (
@@ -21,6 +22,7 @@ const AppRouter = () => {
           <Route path="/tier" element={<TierPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/detail" element={<Detail />} />
+          <Route path="/mydetailpage" element={<MyDetailPage />} />
         </Routes>
       </Suspense>
     </Router>
