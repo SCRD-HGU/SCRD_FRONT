@@ -29,6 +29,41 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const SwiperReviewPage = () => {
+  return (
+    <>
+      <GlobalStyle />
+      <Container>
+        <Header/>
+        <StyledSwiper
+          cssMode={true}
+          navigation={true}
+          pagination={{ clickable: true }}
+          mousewheel={true}
+          keyboard={true}
+          modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+          className="mySwiper"
+        >
+          <StyledSwiperSlide>
+            <SlideImage src={Noti1} alt="Notification 1" />
+          </StyledSwiperSlide>
+          <StyledSwiperSlide>Slide 2</StyledSwiperSlide>
+          <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
+          <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
+          <StyledSwiperSlide>Slide 5</StyledSwiperSlide>
+          <StyledSwiperSlide>Slide 6</StyledSwiperSlide>
+          <StyledSwiperSlide>Slide 7</StyledSwiperSlide>
+          <StyledSwiperSlide>Slide 8</StyledSwiperSlide>
+          <StyledSwiperSlide>Slide 9</StyledSwiperSlide>
+        </StyledSwiper>
+
+        {/* Swiper 아래에 리뷰 섹션 추가 */}
+        <ReviewSection useImageVersion={true}/>
+      </Container>
+    </>
+  );
+};
+
 const Container = styled.div`
   width: 1037px;
   height: 100%;
@@ -82,40 +117,5 @@ const SlideImage = styled.img`
   height: 100%;
   object-fit: contain;
 `;
-
-const SwiperReviewPage = () => {
-  return (
-    <>
-      <GlobalStyle />
-      <Container>
-        <Header/>
-        <StyledSwiper
-          cssMode={true}
-          navigation={true}
-          pagination={{ clickable: true }}
-          mousewheel={true}
-          keyboard={true}
-          modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-          className="mySwiper"
-        >
-          <StyledSwiperSlide>
-            <SlideImage src={Noti1} alt="Notification 1" />
-          </StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 2</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 5</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 6</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 7</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 8</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 9</StyledSwiperSlide>
-        </StyledSwiper>
-
-        {/* Swiper 아래에 리뷰 섹션 추가 */}
-        <ReviewSection />
-      </Container>
-    </>
-  );
-};
 
 export default SwiperReviewPage;
