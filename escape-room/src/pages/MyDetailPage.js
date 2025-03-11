@@ -1,15 +1,12 @@
 import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
-// Swiper 스타일 import
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-// Swiper 기능 모듈 import
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
-
 import Noti1 from "../assets/Noti1.svg";
-import ReviewSection from "../components/Review.js"; // Review.js 파일에서 기본 내보내기를 가져옴
+import ReviewSection from "../components/Review.js";
 import Header from "../components/Header.js";
 
 const GlobalStyle = createGlobalStyle`
@@ -58,6 +55,8 @@ const SwiperReviewPage = () => {
         </StyledSwiper>
 
         {/* Swiper 아래에 리뷰 섹션 추가 */}
+        <SelectTitle>저장한 테마 | 내가 쓴 리뷰</SelectTitle>
+        <Line />
         <ReviewSection useImageVersion={true}/>
       </Container>
     </>
@@ -116,6 +115,27 @@ const SlideImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
+`;
+
+const SelectTitle = styled.div`
+  color: #FFF;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  margin-top: 60px;
+  margin-left: 35px;
+  align-self: flex-start;
+`;
+
+const Line = styled.div`
+  width: 960px;
+  height: 1px;
+  background-color: #242424;
+  border-radius: 1.25px;
+  margin-top: 35px;
 `;
 
 export default SwiperReviewPage;

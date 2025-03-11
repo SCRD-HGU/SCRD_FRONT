@@ -211,7 +211,7 @@ function ReviewSection({ useImageVersion = false }) {
   return (
     <SectionContainer>
       <SlideTransitionStyles />
-      <SectionTitle>리뷰</SectionTitle>
+      {!useImageVersion && <SectionTitle>리뷰</SectionTitle>}
 
       {recentReviews.map((review) => (
         <React.Fragment key={review.id}>
@@ -256,7 +256,7 @@ export default ReviewSection;
  */
 const SectionContainer = styled.div`
   width: 1034px;
-  margin-top: 96px;
+  margin-top: ${({ marginTop }) => marginTop || "96px"};
   padding: 0 36px;
 `;
 
@@ -334,6 +334,7 @@ const MetaInfo = styled.span`
   display: inline-flex;
   gap: 30px;
   margin-left: 55px; /* 기본 코드 유지 */
+  margin-top: 8px;
   color: #C9C9C9;
   font-family: Pretendard;
   font-size: 15px;
