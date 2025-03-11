@@ -8,6 +8,7 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 import Noti1 from "../assets/Noti1.svg";
 import ReviewSection from "../components/Review.js";
 import Header from "../components/Header.js";
+import MyTheme from "../components/MyTheme.js";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -76,7 +77,7 @@ const SwiperReviewPage = () => {
         {selectedTab === "reviews" ? (
           <ReviewSection useImageVersion={true} marginTop="17px" />
         ) : (
-          <Placeholder>저장한 테마 컨텐츠 (추후 구현)</Placeholder>
+          <MyTheme />
         )}
       </Container>
     </>
@@ -166,13 +167,6 @@ const Line = styled.div`
   height: 1px;
   background-color: #242424;
   border-radius: 1.25px;
-  margin-top: 17px;
-`;
-
-const Placeholder = styled.div`
-  color: #FFF;
-  font-family: Inter;
-  font-size: 16px;
   margin-top: 17px;
 `;
 
