@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{ useState }from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -27,6 +27,8 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const SwiperReviewPage = () => {
+  const [selectedTab, setSelectedTab] = useState("reviews");
+
   return (
     <>
       <GlobalStyle />
@@ -55,9 +57,27 @@ const SwiperReviewPage = () => {
         </StyledSwiper>
 
         {/* Swiper 아래에 리뷰 섹션 추가 */}
-        <SelectTitle>저장한 테마 | 내가 쓴 리뷰</SelectTitle>
+        <TabsContainer>
+          <Tab
+            selected={selectedTab === "themes"}
+            onClick={() => setSelectedTab("themes")}
+          >
+            저장한 테마
+          </Tab>
+          <Separator />
+          <Tab
+            selected={selectedTab === "reviews"}
+            onClick={() => setSelectedTab("reviews")}
+          >
+            내가 쓴 리뷰
+          </Tab>
+        </TabsContainer>
         <Line />
-        <ReviewSection useImageVersion={true}/>
+        {selectedTab === "reviews" ? (
+          <ReviewSection useImageVersion={true} marginTop="17px" />
+        ) : (
+          <Placeholder>저장한 테마 컨텐츠 (추후 구현)</Placeholder>
+        )}
       </Container>
     </>
   );
@@ -117,17 +137,28 @@ const SlideImage = styled.img`
   object-fit: contain;
 `;
 
-const SelectTitle = styled.div`
-  color: #FFF;
+const TabsContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-top: 60px;
+  margin-left: 35px;
+  align-self: flex-start;
+`;
+
+const Tab = styled.div`
   font-family: Inter;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  cursor: pointer;
+  color: ${({ selected }) => (selected ? "var(--red-6, #D90206)" : "#FFF")};
+`;
 
-  margin-top: 60px;
-  margin-left: 35px;
-  align-self: flex-start;
+const Separator = styled.div`
+  width: 1px;
+  height: 16.016px;
+  background: #898989;
 `;
 
 const Line = styled.div`
@@ -135,7 +166,14 @@ const Line = styled.div`
   height: 1px;
   background-color: #242424;
   border-radius: 1.25px;
-  margin-top: 35px;
+  margin-top: 17px;
+`;
+
+const Placeholder = styled.div`
+  color: #FFF;
+  font-family: Inter;
+  font-size: 16px;
+  margin-top: 17px;
 `;
 
 export default SwiperReviewPage;

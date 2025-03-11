@@ -201,7 +201,7 @@ function ReviewItem({ review, useImageVersion = false }) {
 /**
  * 3) 전체 리뷰 섹션
  */
-function ReviewSection({ useImageVersion = false }) {
+function ReviewSection({ useImageVersion = false, marginTop }) {
   const [showAllReviews, setShowAllReviews] = useState(false);
 
   const sortedReviews = [...dummyReviews].sort((a, b) => b.id - a.id);
@@ -209,7 +209,7 @@ function ReviewSection({ useImageVersion = false }) {
   const restReviews = sortedReviews.slice(2);
 
   return (
-    <SectionContainer>
+    <SectionContainer marginTop={marginTop}>
       <SlideTransitionStyles />
       {!useImageVersion && <SectionTitle>리뷰</SectionTitle>}
 
@@ -258,6 +258,7 @@ const SectionContainer = styled.div`
   width: 1034px;
   margin-top: ${({ marginTop }) => marginTop || "96px"};
   padding: 0 36px;
+  margin-bottom: 102px;
 `;
 
 const SectionTitle = styled.h2`
