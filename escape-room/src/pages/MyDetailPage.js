@@ -168,6 +168,7 @@ const Line = styled.div`
   background-color: #242424;
   border-radius: 1.25px;
   margin-top: 17px;
+  margin-bottom: 40px;
 `;
 
 export default SwiperReviewPage;

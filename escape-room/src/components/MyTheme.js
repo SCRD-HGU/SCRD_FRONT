@@ -1,6 +1,5 @@
-// ThemeSection.js
 import React from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import dongsan from "../assets/Theme.png";
 import { IoTimeOutline } from "react-icons/io5";
 import { PiPuzzlePieceFill } from "react-icons/pi";
@@ -8,71 +7,89 @@ import { RiKnifeBloodLine } from "react-icons/ri";
 import { PiSneakerMoveFill } from "react-icons/pi";
 
 const ThemeSection = () => {
+  // ✅ 더미 데이터 (활동성과 공포도는 true/false로 설정)
+  const themeData = [
+    { id: 1, title: "머니머니 부동산", branch: "키이스케이프 | 스테이션점", local: "강남", time: 80, price: 30000, difficulty: 5, rating: 4.0, activity: true, horror: false },
+    { id: 2, title: "머니머니 부동산", branch: "키이스케이프 | 스테이션점", local: "강남", time: 80, price: 30000, difficulty: 5, rating: 4.0, activity: false, horror: true },
+    { id: 3, title: "머니머니 부동산", branch: "키이스케이프 | 스테이션점", local: "강남", time: 80, price: 30000, difficulty: 5, rating: 4.0, activity: false, horror: false },
+    { id: 4, title: "머니머니 부동산", branch: "키이스케이프 | 스테이션점", local: "강남", time: 80, price: 30000, difficulty: 5, rating: 4.0, activity: true, horror: true }
+  ];
+
   return (
-    <>
-      <ThemeInfo>
-        <ThemeWrapper>
-          <Theme src={dongsan} alt="머니머니 부동산" />
-        </ThemeWrapper>
-        <DetailInfo>
-          <BasicInfo>
-            <Title>머니머니 부동산</Title>
-          </BasicInfo>
-          <Branch>키이스케이프 | 스테이션점</Branch>
-          <Semi>
-            <Local>강남</Local>
-            <RunningTime>
-              <IoTimeOutline />
-              80분
-            </RunningTime>
-          </Semi>
-          <Price>30,000원</Price>
-          <Puzzle>
-            <Rest>
-              <Difficulty>
-                난이도
-                <PuzzleContainer>
-                  <PuzzleIcon />
-                  <span style={{ color: "#D90206", fontSize: "12px" }}>5</span>
-                </PuzzleContainer>
-              </Difficulty>
-              <Rating>
-                평점
-                <RatingContainer>
-                  <span style={{ color: "#FFF", fontSize: "12px", fontWeight: "700" }}>4.0</span>
-                </RatingContainer>
-              </Rating>
-              <Horror>
-                공포도
-                <KnifeContainer>
-                  <Knife />
-                </KnifeContainer>
-              </Horror>
-              <Activity>
-                활동성
-                <ShoeContainer>
-                  <Shoe />
-                </ShoeContainer>
-              </Activity>
-            </Rest>
-            {/* 예약하기 버튼은 여기서 제외 */}
-          </Puzzle>
-        </DetailInfo>
-      </ThemeInfo>
-      <Line />
-    </>
+    <ThemesContainer>
+      {themeData.map((theme) => (
+        <ThemeInfo key={theme.id}>
+          <ThemeWrapper>
+            <Theme src={dongsan} alt={theme.title} />
+          </ThemeWrapper>
+          <DetailInfo>
+            <BasicInfo>
+              <Title>{theme.title}</Title>
+            </BasicInfo>
+            <Branch>{theme.branch}</Branch>
+            <Semi>
+              <Local>{theme.local}</Local>
+              <RunningTime>
+                <IoTimeOutline />
+                {theme.time}분
+              </RunningTime>
+            </Semi>
+            <Price>{theme.price.toLocaleString()}원</Price>
+            <Puzzle>
+              <Rest>
+                <Difficulty>
+                  난이도
+                  <PuzzleContainer>
+                    <PuzzleIcon />
+                    <span style={{ color: "#D90206", fontSize: "12px" }}>{theme.difficulty}</span>
+                  </PuzzleContainer>
+                </Difficulty>
+                <Rating>
+                  평점
+                  <RatingContainer>
+                    <span style={{ color: "#FFF", fontSize: "12px", fontWeight: "700" }}>{theme.rating.toFixed(1)}</span>
+                  </RatingContainer>
+                </Rating>
+                <Horror>
+                  공포도
+                  <KnifeContainer $isActive={theme.horror}>
+                    <Knife $isActive={theme.horror} />
+                  </KnifeContainer>
+                </Horror>
+                <Activity>
+                  활동성
+                  <ShoeContainer $isActive={theme.activity}>
+                    <Shoe $isActive={theme.activity} />
+                  </ShoeContainer>
+                </Activity>
+              </Rest>
+            </Puzzle>
+          </DetailInfo>
+        </ThemeInfo>
+      ))}
+    </ThemesContainer>
   );
 };
 
-const ThemeInfo = styled.div`
-  width: 1024px;
+/** ✅ 부모 컨테이너 */
+const ThemesContainer = styled.div`
   display: flex;
-  padding: 10px 37px;
-  margin-top: 40px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 0 auto;
+`;
+
+/** ✅ 개별 카드 */
+const ThemeInfo = styled.div`
+  display: flex;
+  width: 420px;
+  margin-bottom: 68px;
+  background-color: transparent;
 `;
 
 const ThemeWrapper = styled.div`
-  width: 183px;
+  width: 183.9px;
   height: 180px;
   overflow: hidden;
 `;
@@ -80,121 +97,88 @@ const ThemeWrapper = styled.div`
 const Theme = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
 `;
 
 const DetailInfo = styled.div`
-  width: 850px;
-  margin-left: 40px;
+  margin-left: 46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const BasicInfo = styled.div`
-  width: 100%;
   display: flex;
   align-items: flex-end;
 `;
 
 const Title = styled.div`
-  color: #FFF;
-  font-family: Pretendard;
-  font-size: 17px;
-  font-style: normal;
+  color: #fff;
+  font-size: 16px;
   font-weight: 700;
-  line-height: normal;
 `;
 
 const Branch = styled.div`
-  color: #BABABA;
-  font-family: Pretendard;
-  font-size: 11px;
-  font-style: normal;
+  margin-top: 8px;
+  color: #bababa;
+  font-size: 12px;
   font-weight: 600;
-  line-height: normal;
-
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-  margin-top: 12px;
 `;
 
 const Semi = styled.div`
-  width: 100%;
+  margin-top: 12px;
   display: flex;
-  margin-top: 15px;
+  align-items: center;
 `;
 
 const Local = styled.div`
-  display: flex;
-  width: 36.78px;
-  padding: 4px 5px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border-radius: 20px;
-  border: 1px solid #FFF;
-  background: #FFF;
-  
+  padding: 4px 6px;
+  border-radius: 12px;
+  border: 1px solid #fff;
+  background: #fff;
   color: #000;
-  font-family: Pretendard;
   font-size: 10px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
 `;
 
 const RunningTime = styled.div`
-  color: #FFF;
-  font-family: Pretendard;
+  margin-left: 12px;
+  color: #fff;
   font-size: 14px;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
-
-  margin-left: 21px;
   display: flex;
   align-items: center;
   svg {
-    font-size: 20px;
+    font-size: 18px;
     margin-right: 5px;
-    color: #fff;
   }
 `;
 
 const Price = styled.div`
-  color: #FFF;
-  font-family: Pretendard;
+  margin-top: 16px;
+  color: #fff;
   font-size: 15px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
-
-  margin-top: 20px;
 `;
 
 const Puzzle = styled.div`
-  width: 100%;
+  margin-top: 14px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-top: 17px;
 `;
 
 const Rest = styled.div`
   display: flex;
   align-items: center;
-  gap: 23px;
+  gap: 15px;
 `;
 
 const Difficulty = styled.div`
-  color: #BABABA;
-  font-family: Pretendard;
+  color: #bababa;
   font-size: 10px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -204,47 +188,31 @@ const PuzzleContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 3px;
-  margin-top: 15px;
+  margin-top: 10px;
 `;
 
 const PuzzleIcon = styled(PiPuzzlePieceFill)`
-  font-size: 15px;
-  color: var(--foundation-red-normal-active, #d90206);
+  font-size: 14px;
+  color: #d90206;
 `;
 
 const Rating = styled.div`
-  color: #BABABA;
-  font-family: Pretendard;
+  color: #bababa;
   font-size: 10px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
-
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const RatingContainer = styled.div`
+  margin-top: 10px;
   display: flex;
   align-items: center;
   gap: 3px;
-  margin-top: 15px;
 `;
 
-const Horror = styled.div`
-  color: #BABABA;
-  font-family: Pretendard;
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
+/** ✅ 공포도 & 활동성 아이콘 색상 변경 */
 const KnifeContainer = styled.div`
   display: flex;
   align-items: center;
@@ -257,7 +225,22 @@ const KnifeContainer = styled.div`
 `;
 
 const Knife = styled(RiKnifeBloodLine)`
-  color: #000;
+  color: ${(props) => (props.$isActive ? "#000" : "#5B5B5B")};
+`;
+
+const ShoeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  background-color: #fff;
+  border-radius: 50%;
+  margin-top: 15px;
+`;
+
+const Shoe = styled(PiSneakerMoveFill)`
+  color: ${(props) => (props.$isActive ? "#000" : "#5B5B5B")};
 `;
 
 const Activity = styled.div`
@@ -273,28 +256,17 @@ const Activity = styled.div`
   align-items: center;
 `;
 
-const ShoeContainer = styled.div`
+const Horror = styled.div`
+  color: #BABABA;
+  font-family: Pretendard;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 17px;
-  height: 17px;
-  background-color: #fff;
-  border-radius: 50%;
-  margin-top: 15px;
-`;
-
-const Shoe = styled(PiSneakerMoveFill)`
-  color: #000;
-`;
-
-// 하단 구분선 (필요시)
-const Line = styled.div`
-  width: 960px;
-  height: 2.5px;
-  background-color: #9d9d9d;
-  margin: 16px auto 0;
-  border-radius: 1.25px;
 `;
 
 export default ThemeSection;
