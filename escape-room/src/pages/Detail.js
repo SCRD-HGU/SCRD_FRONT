@@ -472,7 +472,6 @@ const ToggleButton = styled.span`
 
 const Buttons = styled.div`
   width: 960px;
-  margin-top: 102px;
   margin-bottom: 100px;
   display: flex;
   align-items: center;

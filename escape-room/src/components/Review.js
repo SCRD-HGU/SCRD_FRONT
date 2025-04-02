@@ -4,10 +4,10 @@ import { CSSTransition } from "react-transition-group";
 import { PiPuzzlePieceFill } from "react-icons/pi";
 import { RiKnifeBloodLine } from "react-icons/ri";
 import { PiSneakerMoveFill } from "react-icons/pi";
+import ReviewImage from "../assets/ReviewImage.svg";
 
 /** 
  * 0) 슬라이드 애니메이션 전역 스타일
- *    - slide-enter, slide-enter-active, slide-exit, slide-exit-active를 정의
  */
 const SlideTransitionStyles = createGlobalStyle`
   .slide-enter {
@@ -15,7 +15,7 @@ const SlideTransitionStyles = createGlobalStyle`
     overflow: hidden;
   }
   .slide-enter.slide-enter-active {
-    max-height: 2000px; /* 충분히 큰 값 */
+    max-height: 2000px;
     transition: max-height 300ms ease;
   }
   .slide-exit {
@@ -29,7 +29,7 @@ const SlideTransitionStyles = createGlobalStyle`
 `;
 
 /** 
- * 1) 더미 데이터 (ID가 높을수록 "가장 최근" 리뷰)
+ * 1) 더미 데이터
  */
 const dummyReviews = [
   {
@@ -99,69 +99,12 @@ const dummyReviews = [
   },
 ];
 
-/**
- * 2) 전체 리뷰 섹션
+/** 
+ * 2) 리뷰 아이템
+ *    - useImageVersion = false (기본): userName + MetaInfo (가로 배치)
+ *    - useImageVersion = true  (두 번째 버전): ReviewImage(왼쪽) + (오른쪽) Title/Branch/MetaInfo(수직)
  */
-function ReviewSection() {
-  const [showAllReviews, setShowAllReviews] = useState(false);
-
-  // ID 내림차순 (가장 최근이 맨 앞)
-  const sortedReviews = [...dummyReviews].sort((a, b) => b.id - a.id);
-
-  // 최근 2개, 나머지
-  const recentReviews = sortedReviews.slice(0, 2);
-  const restReviews = sortedReviews.slice(2);
-
-  return (
-    <SectionContainer>
-      {/* 슬라이드 전역 스타일 삽입 */}
-      <SlideTransitionStyles />
-
-      <SectionTitle>리뷰</SectionTitle>
-
-      {/* 항상 보이는 "최근 2개" */}
-      {recentReviews.map((review) => (
-        <React.Fragment key={review.id}>
-          <ReviewItem review={review} />
-          <Line />
-        </React.Fragment>
-      ))}
-
-      {/* 나머지 리뷰들: CSSTransition으로 슬라이드 */}
-      <CSSTransition
-        in={showAllReviews}       // true면 enter, false면 exit
-        timeout={300}            // 300ms
-        classNames="slide"       // 위에서 정의한 .slide-xxx
-        unmountOnExit            // exit 후 DOM 제거
-      >
-        <div>
-          {restReviews.map((review) => (
-            <React.Fragment key={review.id}>
-              <ReviewItem review={review} />
-              <Line />
-            </React.Fragment>
-          ))}
-        </div>
-      </CSSTransition>
-
-      {/* 버튼: showAllReviews 토글 */}
-      {showAllReviews ? (
-        <AllReviewButton onClick={() => setShowAllReviews(false)}>
-          접기
-        </AllReviewButton>
-      ) : (
-        <AllReviewButton onClick={() => setShowAllReviews(true)}>
-          전체 리뷰
-        </AllReviewButton>
-      )}
-    </SectionContainer>
-  );
-}
-
-/**
- * 3) 리뷰 아이템 (UI 그대로)
- */
-function ReviewItem({ review }) {
+function ReviewItem({ review, useImageVersion = false }) {
   const {
     userName,
     success,
@@ -178,14 +121,37 @@ function ReviewItem({ review }) {
   return (
     <ReviewCard>
       <Header>
-        <UserInfo>{userName}</UserInfo>
-        <MetaInfo>
-          <span>{success ? "성공" : "실패"}</span>
-          <span>|</span>
-          <span>힌트 {hintCount}개</span>
-          <span>|</span>
-          <span>{clearTime}</span>
-        </MetaInfo>
+        {useImageVersion ? (
+          // === [두 번째 버전] 이미지 왼쪽, 오른쪽에 (테마명/지점/MetaInfo) 수직 정렬
+          <LeftRow>
+            <UserImage src={ReviewImage} alt="Review" />
+            <LeftStack>
+              <Title>머니머니 부동산</Title>
+              <Branch>키이스케이프 | 스테이션점</Branch>
+              <MetaInfo style={{ marginLeft: 0 }}>
+                <span>{success ? "성공" : "실패"}</span>
+                <span>|</span>
+                <span>힌트 {hintCount}개</span>
+                <span>|</span>
+                <span>{clearTime}</span>
+              </MetaInfo>
+            </LeftStack>
+          </LeftRow>
+        ) : (
+          // === [기본 버전] userName + MetaInfo (가로 배치)
+          <>
+            <UserInfo>{userName}</UserInfo>
+            <MetaInfo>
+              <span>{success ? "성공" : "실패"}</span>
+              <span>|</span>
+              <span>힌트 {hintCount}개</span>
+              <span>|</span>
+              <span>{clearTime}</span>
+            </MetaInfo>
+          </>
+        )}
+
+        {/* 오른쪽 (난이도, 평점, 공포도, 활동성) */}
         <Rest>
           <Difficulty>
             난이도
@@ -219,26 +185,80 @@ function ReviewItem({ review }) {
         </Rest>
       </Header>
 
+      {/* 태그 */}
       <TagWrapper>
         {tags.map((tag, index) => (
           <TagItem key={index}>{tag}</TagItem>
         ))}
       </TagWrapper>
 
+      {/* 리뷰 내용 */}
       <Content>{content}</Content>
     </ReviewCard>
   );
 }
 
+/**
+ * 3) 전체 리뷰 섹션
+ */
+function ReviewSection({ useImageVersion = false, marginTop }) {
+  const [showAllReviews, setShowAllReviews] = useState(false);
+
+  const sortedReviews = [...dummyReviews].sort((a, b) => b.id - a.id);
+  const recentReviews = sortedReviews.slice(0, 2);
+  const restReviews = sortedReviews.slice(2);
+
+  return (
+    <SectionContainer marginTop={marginTop}>
+      <SlideTransitionStyles />
+      {!useImageVersion && <SectionTitle>리뷰</SectionTitle>}
+
+      {recentReviews.map((review) => (
+        <React.Fragment key={review.id}>
+          <ReviewItem review={review} useImageVersion={useImageVersion} />
+          <Line />
+        </React.Fragment>
+      ))}
+
+      <CSSTransition
+        in={showAllReviews}
+        timeout={300}
+        classNames="slide"
+        unmountOnExit
+      >
+        <div>
+          {restReviews.map((review) => (
+            <React.Fragment key={review.id}>
+              <ReviewItem review={review} useImageVersion={useImageVersion} />
+              <Line />
+            </React.Fragment>
+          ))}
+        </div>
+      </CSSTransition>
+
+      {showAllReviews ? (
+        <AllReviewButton onClick={() => setShowAllReviews(false)}>
+          접기
+        </AllReviewButton>
+      ) : (
+        <AllReviewButton onClick={() => setShowAllReviews(true)}>
+          전체 리뷰
+        </AllReviewButton>
+      )}
+    </SectionContainer>
+  );
+}
+
 export default ReviewSection;
 
-/**
- * 4) 스타일 정의 (styled-components)
+/** 
+ * 4) 스타일 정의
  */
 const SectionContainer = styled.div`
   width: 1034px;
-  margin-top: 96px;
+  margin-top: ${({ marginTop }) => marginTop || "96px"};
   padding: 0 36px;
+  margin-bottom: 102px;
 `;
 
 const SectionTitle = styled.h2`
@@ -247,7 +267,6 @@ const SectionTitle = styled.h2`
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
-  line-height: normal;
   margin-bottom: 38px;
 `;
 
@@ -263,28 +282,64 @@ const Header = styled.div`
   align-items: center;
 `;
 
+/** 
+ * [두 번째 버전]에서 
+ * - 왼쪽에 이미지, 오른쪽에 (Title + Branch + MetaInfo) 수직으로 쌓기 위한 컨테이너
+ */
+const LeftRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 10px; /* 이미지와 텍스트 사이 간격 */
+`;
+
+const UserImage = styled.img`
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  margin-right: 30px;
+`;
+
+/** 왼쪽 텍스트 부분(Title + Branch + MetaInfo)을 수직으로 쌓는 컨테이너 */
+const LeftStack = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* 항목 간 간격 */
+`;
+
+const Title = styled.div`
+  color: #fff;
+  font-family: "Inter";
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 35px;
+  text-transform: uppercase;
+`;
+
+const Branch = styled.div`
+  color: #bababa;
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-weight: 700;
+`;
+
+/** [기본 버전]에서 userName을 보여주기 위한 스타일 */
 const UserInfo = styled.span`
   color: #FFF;
   font-family: Pretendard;
   font-size: 13px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
   margin-right: 8px;
 `;
 
 const MetaInfo = styled.span`
   display: inline-flex;
   gap: 30px;
-  margin-right: 8px;
-  margin-left: 55px;
-
+  margin-left: 55px; /* 기본 코드 유지 */
+  margin-top: 8px;
   color: #C9C9C9;
   font-family: Pretendard;
   font-size: 15px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
 `;
 
 const Rest = styled.span`
@@ -293,7 +348,6 @@ const Rest = styled.span`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
   gap: 23px;
 `;
 
@@ -301,13 +355,10 @@ const Difficulty = styled.div`
   color: #bababa;
   font-family: Pretendard;
   font-size: 15px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `;
 
 const PuzzleContainer = styled.div`
@@ -326,13 +377,10 @@ const Rating = styled.div`
   color: #bababa;
   font-family: Pretendard;
   font-size: 15px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `;
 
 const RatingContainer = styled.div`
@@ -346,13 +394,10 @@ const Horror = styled.div`
   color: #bababa;
   font-family: Pretendard;
   font-size: 15px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `;
 
 const KnifeContainer = styled.div`
@@ -368,7 +413,6 @@ const KnifeContainer = styled.div`
 `;
 
 const Knife = styled(RiKnifeBloodLine)`
-  flex-shrink: 0;
   color: #000;
 `;
 
@@ -376,13 +420,10 @@ const Activity = styled.div`
   color: #bababa;
   font-family: Pretendard;
   font-size: 15px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `;
 
 const ShoeContainer = styled.div`
@@ -398,18 +439,7 @@ const ShoeContainer = styled.div`
 `;
 
 const Shoe = styled(PiSneakerMoveFill)`
-  flex-shrink: 0;
   color: #000;
-`;
-
-const Content = styled.div`
-  margin-bottom: 8px;
-  color: #FFF;
-  font-family: Inter;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 `;
 
 const TagWrapper = styled.div`
@@ -422,13 +452,18 @@ const TagItem = styled.span`
   background-color: #333;
   padding: 4px 8px;
   border-radius: 4px;
-  
   color: #D8D8D8;
   font-family: Pretendard;
   font-size: 15px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
+`;
+
+const Content = styled.div`
+  margin-bottom: 8px;
+  color: #FFF;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 400;
 `;
 
 const AllReviewButton = styled.button`
@@ -438,13 +473,10 @@ const AllReviewButton = styled.button`
   cursor: pointer;
   background: transparent;
   border: none;
-
   color: var(--foundation-red-normal-active, #D90206);
   font-family: Pretendard;
   font-size: 15px;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
 `;
 
 const Line = styled.div`
