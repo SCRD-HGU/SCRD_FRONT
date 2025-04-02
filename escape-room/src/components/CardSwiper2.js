@@ -42,7 +42,7 @@ const CardSwiper = () => {
         >
           {items.map((item, index) => (
             <SwiperSlide key={index}>
-              <Link to={`/detail`}>
+              <StyledLink to={`/detail`}>
                 <Card>
                   <CardImage src={item.img} alt={item.title} />
                   <CardTitle>{item.title}</CardTitle>
@@ -51,7 +51,7 @@ const CardSwiper = () => {
                     <BranchText>{item.branch}</BranchText>
                   </CardInfo>
                 </Card>
-              </Link>
+              </StyledLink>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -106,6 +106,11 @@ const Overlay = styled.div`
   background: linear-gradient(90deg, rgba(102, 102, 102, 0.00) 84.5%, #000 100%);
   pointer-events: none; /* Swiper 조작에 영향 없도록 */
   z-index: 10;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
 `;
 
 const Card = styled.div`
