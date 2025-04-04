@@ -5,7 +5,6 @@ import OptionBar from "../components/OptionBar.js";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Noti1 from "../assets/Noti1.svg";
 import CardSwiper from "../components/CardSwiper.js";
-import CardSwiper2 from "../components/CardSwiper2.js";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -61,7 +60,6 @@ const ThemePage = () => {
         </StyledSwiper>
         <CardSwiperContainer>
           <CardSwiper />
-          <CardSwiper2 />
         </CardSwiperContainer>
       </Container>
     </>

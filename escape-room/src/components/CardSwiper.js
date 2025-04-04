@@ -6,26 +6,27 @@ import {
   refreshTokenState,
 } from "../store/atom"; // ✅ store/atom 경로 맞춰야 해
 import styled from "styled-components";
-import { Link } from "react-router-dom";  
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Link } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
 import dongsan from "../assets/Theme.png";
-
-const regions = ["지역", "강남", "홍대", "종로", "신촌", "잠실"];
-
-function getRandomRegion() {
-  const availableRegions = regions.slice(1);
-  return availableRegions[Math.floor(Math.random() * availableRegions.length)];
-}
+import { FaAngleDown } from "react-icons/fa";
 
 const CardSwiper = () => {
-  const [selectedRegion, setSelectedRegion] = useState("지역");
+  const [selectedRegion, setSelectedRegion] = useState("전체"); // "전체"로 기본값 변경
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [items, setItems] = useState([]);
   const [accessToken, setAccessToken] = useRecoilState(tokenState);
   const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
+  
+  // 🆕 고유한 지역(location) 리스트 추출
+  const locationList = ["전체", ...new Set(items.map((item) => item.location))];
+  
+  // 🆕 지역 필터링된 항목들
+  const filteredItems =
+    selectedRegion === "전체"
+      ? items
+      : items.filter((item) => item.location === selectedRegion);
 
   // ✅ accessToken 만료 여부 검사 함수
   const isTokenExpired = () => {
@@ -92,40 +93,33 @@ const CardSwiper = () => {
 
   return (
     <Container>
-      <Region onClick={toggleDropdown}>{selectedRegion} ⌄</Region>
+      <Region onClick={toggleDropdown}>
+        <span>{selectedRegion}</span>
+        <FaAngleDown style={{ fontSize: "16px" }} />
+      </Region>
       {isDropdownOpen && (
         <Dropdown>
-          {regions.map((region, index) => (
+          {locationList.map((region, index) => (
             <DropdownItem key={index} onClick={() => selectRegion(region)}>
               {region}
             </DropdownItem>
           ))}
         </Dropdown>
       )}
-      <Theme>
-        <Swiper
-          modules={[Navigation]}
-          spaceBetween={10}
-          slidesPerView={6}
-          navigation
-        >
-          {items.map((item, index) => (
-            <SwiperSlide key={index}>
-              <StyledLink to={`/detail`}>
-                <Card>
-                  <CardImage src={item.img || dongsan} alt={item.title} />
-                  <CardTitle>{item.title}</CardTitle>
-                  <CardInfo>
-                    <RegionText>{item.region}</RegionText>
-                    <BranchText>{item.branch}</BranchText>
-                  </CardInfo>
-                </Card>
-              </StyledLink>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        <Overlay />
-      </Theme>
+      <CardList>
+        {filteredItems.map((item, index) => (
+          <StyledLink key={index} to={`/detail`}>
+            <Card>
+              <CardImage src={item.image || dongsan} alt={item.title} />
+              <CardTitle>{item.title}</CardTitle>
+              <CardInfo>
+                <RegionText>{item.location}</RegionText>
+                <BranchText>{`${item.brand} ${item.branch}`}</BranchText>
+              </CardInfo>
+            </Card>
+          </StyledLink>
+        ))}
+      </CardList>
     </Container>
   );
 };
@@ -138,7 +132,17 @@ const Container = styled.div`
   position: relative;
 `;
 
+const CardList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 한 줄에 6개 */
+  gap: 10px; /* 카드 간 간격 (기존 swiper 간격 비슷하게 유지) */
+  margin-top: 16px;
+`;
+
 const Region = styled.div`
+  display: inline-flex;
+  align-items: center; /* 텍스트 + 아이콘 수직 정렬 */
+  gap: 6px; /* 텍스트와 아이콘 간격 */
   color: #FFF;
   font-size: 22px;
   font-weight: 700;
@@ -163,29 +167,6 @@ const DropdownItem = styled.div`
   &:hover {
     background: rgba(255, 255, 255, 0.2);
   }
-`;
-
-const Theme = styled.div`
-  margin-top: 9px;
-  .swiper-button-next, .swiper-button-prev {
-    color: #808080;
-    font-size: 24px;
-    z-index: 30;
-  }
-  .swiper-button-next::after, .swiper-button-prev::after {
-    font-size: 24px;
-  }
-`;
-
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, rgba(102, 102, 102, 0.00) 84.5%, #000 100%);
-  pointer-events: none;
-  z-index: 10;
 `;
 
 const StyledLink = styled(Link)`
@@ -221,13 +202,23 @@ const CardInfo = styled.div`
 `;
 
 const RegionText = styled.div`
+  display: flex;
+  width: 26.629px;
+  height: 10px;
   padding: 4px 5px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border-radius: 20px;
   border: 1px solid #FFF;
   background: #FFF;
+
   color: #000;
+  font-family: Pretendard;
   font-size: 7px;
+  font-style: normal;
   font-weight: 700;
+  line-height: normal;
 `;
 
 const BranchText = styled.div`
