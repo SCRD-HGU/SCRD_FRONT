@@ -22,9 +22,9 @@ const GlobalStyle = createGlobalStyle`
 
 const LoginPage = () => {
   const clickLogin = () => {
-    // window.location.href = process.env.REACT_APP_KAKAO_URL;
+    window.location.href = process.env.REACT_APP_KAKAO_URL;
     // 아래는 임시로 그냥 메인으로 이동하도록
-    window.location.href = "/main";
+    // window.location.href = "/main";
   };
   return (
     <>

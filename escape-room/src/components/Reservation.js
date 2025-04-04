@@ -11,8 +11,8 @@ import dayjs from "dayjs";
     console.log("📅 선택된 날짜(selectedDate):", selectedDate);
 
     const timeSlots = {
-      "2025-03-05": ["11:00", "12:10", "13:20", "14:30", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
-      "2025-03-06": ["10:00", "12:00", "15:00"],
+      "2025-03-13": ["11:00", "12:10", "13:20", "14:30", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
+      "2025-03-14": ["10:00", "12:00", "15:00"],
       "2025-03-07": ["09:30", "11:30", "16:00"],
     };
 
@@ -23,18 +23,19 @@ import dayjs from "dayjs";
     const days = Array.from({ length: 7 }, (_, i) => {
       const date = startDate.add(i, "day");
       const dateStr = date.format("YYYY-MM-DD");
+      const isToday = date.isSame(today, "day");
     
       // 한글 요일 매핑
       const dayOfWeekMap = ["일", "월", "화", "수", "목", "금", "토"];
-      const dayIndex = date.day(); // 0(일) ~ 6(토)
-      let dayLabel = dayOfWeekMap[dayIndex]; // 기본 한글 요일 설정
-
+      const dayIndex = date.day();
+      let dayLabel = dayOfWeekMap[dayIndex];
+    
       console.log(`📌 날짜 리스트 생성: ${dateStr}, 요일: ${dayLabel}`);
     
       return {
         date: dateStr,
-        label: date.format("M.D"), // ex) "2.11"
-        day: dayLabel, // 한글 요일 or "오늘" or "내일"
+        label: isToday ? date.format("M/D") : date.format("D"), // 오늘만 M/D, 나머지는 D
+        day: dayLabel,
       };
     });
 
