@@ -1,20 +1,22 @@
-import React, { useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { tokenState } from "../store/atom";
 import { CSSTransition } from "react-transition-group";
+import styled, { createGlobalStyle } from "styled-components";
 import { PiPuzzlePieceFill } from "react-icons/pi";
 import { RiKnifeBloodLine } from "react-icons/ri";
 import { PiSneakerMoveFill } from "react-icons/pi";
 import ReviewImage from "../assets/ReviewImage.svg";
 
-/** 
- * 0) 슬라이드 애니메이션 전역 스타일
- */
+// ✨ 애니메이션용 글로벌 스타일
 const SlideTransitionStyles = createGlobalStyle`
   .slide-enter {
     max-height: 0;
     overflow: hidden;
   }
-  .slide-enter.slide-enter-active {
+  .slide-enter-active {
     max-height: 2000px;
     transition: max-height 300ms ease;
   }
@@ -22,88 +24,12 @@ const SlideTransitionStyles = createGlobalStyle`
     max-height: 2000px;
     overflow: hidden;
   }
-  .slide-exit.slide-exit-active {
+  .slide-exit-active {
     max-height: 0;
     transition: max-height 300ms ease;
   }
 `;
 
-/** 
- * 1) 더미 데이터
- */
-const dummyReviews = [
-  {
-    id: 1,
-    userName: "oldUser01(tier1)",
-    success: false,
-    hintCount: 1,
-    clearTime: "90분 / 120분",
-    rating: 2.0,
-    difficulty: 3,
-    horror: false,
-    activity: false,
-    content: "첫 번째 오래된 리뷰 내용...",
-    tags: ["#오래된", "#초보자용"],
-  },
-  {
-    id: 2,
-    userName: "oldUser02(tier2)",
-    success: true,
-    hintCount: 2,
-    clearTime: "80분 / 90분",
-    rating: 3.5,
-    difficulty: 4,
-    horror: false,
-    activity: true,
-    content: "두 번째 오래된 리뷰 내용...",
-    tags: ["#보통난이도", "#중간스포"],
-  },
-  {
-    id: 3,
-    userName: "midUser03(tier2)",
-    success: true,
-    hintCount: 3,
-    clearTime: "70분 / 75분",
-    rating: 4.0,
-    difficulty: 4,
-    horror: true,
-    activity: false,
-    content: "세 번째 중간 시점 리뷰 내용...",
-    tags: ["#감정적인", "#퀴즈요", "#추리빨간", "#스포일러는", "#미스터리함"],
-  },
-  {
-    id: 4,
-    userName: "saint03(tier3)",
-    success: true,
-    hintCount: 2,
-    clearTime: "60분 35초 / 75분",
-    rating: 4.5,
-    difficulty: 5,
-    horror: true,
-    activity: true,
-    content: "네 번째(최근) 리뷰 내용...",
-    tags: ["#재밌었음", "#미스터리", "#힐링"],
-  },
-  {
-    id: 5,
-    userName: "saint03(tier3)",
-    success: true,
-    hintCount: 3,
-    clearTime: "50분 / 75분",
-    rating: 4.0,
-    difficulty: 5,
-    horror: false,
-    activity: true,
-    content: "다섯 번째(가장 최근) 리뷰 내용...",
-    tags: ["#감정적인", "#퀴즈요", "#추리빨간", "#스포일러는", "#미스터리함"],
-  },
-];
-
-/** 
- * 2) 리뷰 아이템
- *    - useImageVersion = false (기본): userName + MetaInfo (가로 배치)
- *    - useImageVersion = true  (두 번째 버전): ReviewImage(왼쪽) + (오른쪽) Title/Branch/MetaInfo(수직)
- */
 function ReviewItem({ review, useImageVersion = false }) {
   const {
     userName,
@@ -122,7 +48,6 @@ function ReviewItem({ review, useImageVersion = false }) {
     <ReviewCard>
       <Header>
         {useImageVersion ? (
-          // === [두 번째 버전] 이미지 왼쪽, 오른쪽에 (테마명/지점/MetaInfo) 수직 정렬
           <LeftRow>
             <UserImage src={ReviewImage} alt="Review" />
             <LeftStack>
@@ -138,7 +63,6 @@ function ReviewItem({ review, useImageVersion = false }) {
             </LeftStack>
           </LeftRow>
         ) : (
-          // === [기본 버전] userName + MetaInfo (가로 배치)
           <>
             <UserInfo>{userName}</UserInfo>
             <MetaInfo>
@@ -151,23 +75,18 @@ function ReviewItem({ review, useImageVersion = false }) {
           </>
         )}
 
-        {/* 오른쪽 (난이도, 평점, 공포도, 활동성) */}
         <Rest>
           <Difficulty>
             난이도
             <PuzzleContainer>
               <PuzzleIcon />
-              <span style={{ color: "#D90206", fontSize: "15px" }}>
-                {difficulty}
-              </span>
+              <span>{difficulty}</span>
             </PuzzleContainer>
           </Difficulty>
           <Rating>
             평점
             <RatingContainer>
-              <span style={{ color: "#FFF", fontSize: "17px", fontWeight: "700" }}>
-                {rating}
-              </span>
+              <span>{Number(rating).toFixed(1)}</span>
             </RatingContainer>
           </Rating>
           <Horror>
@@ -184,27 +103,54 @@ function ReviewItem({ review, useImageVersion = false }) {
           </Activity>
         </Rest>
       </Header>
-
-      {/* 태그 */}
       <TagWrapper>
-        {tags.map((tag, index) => (
-          <TagItem key={index}>{tag}</TagItem>
+        {tags?.map((tag, idx) => (
+          <TagItem key={idx}>{tag}</TagItem>
         ))}
       </TagWrapper>
-
-      {/* 리뷰 내용 */}
       <Content>{content}</Content>
     </ReviewCard>
   );
 }
 
-/**
- * 3) 전체 리뷰 섹션
- */
 function ReviewSection({ useImageVersion = false, marginTop }) {
+  const { id } = useParams();
+  const accessToken = useRecoilValue(tokenState);
+  const [reviews, setReviews] = useState([]);
   const [showAllReviews, setShowAllReviews] = useState(false);
 
-  const sortedReviews = [...dummyReviews].sort((a, b) => b.id - a.id);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/review/theme/${id}`,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+        const formatted = res.data.map((r) => ({
+          id: r.id,
+          userName: "익명 유저",
+          success: true,
+          hintCount: 0,
+          clearTime: "",
+          rating: r.stars,
+          difficulty: r.level,
+          horror: r.horror === 1,
+          activity: r.activity === 1,
+          content: r.text,
+          tags: [],
+        }));
+        setReviews(formatted);
+      } catch (err) {
+        console.error("❌ 리뷰 로딩 실패:", err);
+      }
+    };
+
+    if (accessToken && id) fetchReviews();
+  }, [accessToken, id]);
+
+  const sortedReviews = [...reviews].sort((a, b) => b.id - a.id);
   const recentReviews = sortedReviews.slice(0, 2);
   const restReviews = sortedReviews.slice(2);
 
@@ -236,13 +182,9 @@ function ReviewSection({ useImageVersion = false, marginTop }) {
         </div>
       </CSSTransition>
 
-      {showAllReviews ? (
-        <AllReviewButton onClick={() => setShowAllReviews(false)}>
-          접기
-        </AllReviewButton>
-      ) : (
-        <AllReviewButton onClick={() => setShowAllReviews(true)}>
-          전체 리뷰
+      {restReviews.length > 0 && (
+        <AllReviewButton onClick={() => setShowAllReviews((prev) => !prev)}>
+          {showAllReviews ? "접기" : "전체 리뷰"}
         </AllReviewButton>
       )}
     </SectionContainer>
@@ -251,9 +193,6 @@ function ReviewSection({ useImageVersion = false, marginTop }) {
 
 export default ReviewSection;
 
-/** 
- * 4) 스타일 정의
- */
 const SectionContainer = styled.div`
   width: 1034px;
   margin-top: ${({ marginTop }) => marginTop || "96px"};

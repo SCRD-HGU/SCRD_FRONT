@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { createGlobalStyle, keyframes } from "styled-components";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { tokenState } from "../store/atom";
 import Header from "../components/Header.js";
 import Reservation from "../components/Reservation.js";
 import Review from "../components/Review.js";
-import dongsan from "../assets/Theme.png";
 import { IoTimeOutline } from "react-icons/io5";
 import { PiPuzzlePieceFill } from "react-icons/pi";
 import { RiKnifeBloodLine } from "react-icons/ri";
 import { PiSneakerMoveFill } from "react-icons/pi";
-import LinesEllipsis from "react-lines-ellipsis"; // 라이브러리 import
+import LinesEllipsis from "react-lines-ellipsis";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -27,11 +30,32 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Detail = () => {
+  const { id } = useParams();
+  const accessToken = useRecoilValue(tokenState);
+  const [theme, setTheme] = useState(null);
   const [expanded, setExpanded] = useState(false);
-  const themeDescription = `안녕하세요, 어른이 여러분. 오랜만에 우리 어른이 여러분들을 위해서 새로운 주제를 들고 왔는데, 뭘까~요?
-짜잔! 바로바로 키이스케이프사에서 야심 차게 출시한 시즌 2 '머니머니 부. 동. 산! 울고 싶을 만큼 혹독한 세상에서도
-이왕이면 내 건물 안에서 우는 게 나으니까! 본격 머니머니 르와 자본주의의 꽃, 부동산의 콜라보.
-지금 바로 주문하세요!`;
+
+  useEffect(() => {
+    const fetchTheme = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/theme/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setTheme(res.data);
+      } catch (err) {
+        console.error("❌ 테마 정보 불러오기 실패:", err);
+      }
+    };
+
+    if (accessToken) fetchTheme();
+  }, [id, accessToken]);
+
+  if (!theme) return <div style={{ color: "#fff" }}>로딩 중...</div>;
 
   return (
     <>
@@ -40,21 +64,21 @@ const Detail = () => {
         <Header />
         <ThemeInfo>
           <ThemeWrapper>
-            <Theme src={dongsan} alt="머니머니 부동산" />
+            <Theme src={theme.image} alt={theme.title} />
           </ThemeWrapper>
           <DetailInfo>
             <BasicInfo>
-              <Title>머니머니 부동산</Title>
-              <Branch>키이스케이프 | 스테이션점</Branch>
+              <Title>{theme.title}</Title>
+              <Branch>{theme.brand} | {theme.branch}</Branch>
             </BasicInfo>
             <Semi>
-              <Local>강남</Local>
+              <Local>{theme.location}</Local>
               <RunningTime>
                 <IoTimeOutline />
-                80분
+                {theme.playtime}분
               </RunningTime>
             </Semi>
-            <Price>30,000원</Price>
+            <Price>{theme.price.toLocaleString()}원</Price>
             <Puzzle>
               <Rest>
                 <Difficulty>
@@ -67,13 +91,17 @@ const Detail = () => {
                 <Rating>
                   평점
                   <RatingContainer>
-                    <span style={{ color: "#FFF", fontSize: "15px", fontWeight: "700" }}>4.0</span>
+                    <span style={{ color: "#FFF", fontSize: "15px", fontWeight: "700" }}>
+                      {Number(theme.rating).toFixed(1)}
+                    </span>
                   </RatingContainer>
                 </Rating>
                 <Device>
                   장치 비율
                   <DeviceContainer>
-                    <span style={{ color: "#FFF", fontSize: "15px", fontWeight: "700" }}>7:3</span>
+                    <span style={{ color: "#FFF", fontSize: "15px", fontWeight: "700" }}>
+                      7:3
+                    </span>
                   </DeviceContainer>
                 </Device>
                 <Horror>
@@ -98,12 +126,12 @@ const Detail = () => {
           테마 설명
           {expanded ? (
             <>
-              <FullScript>{themeDescription}</FullScript>
+              <FullScript>{theme.description}</FullScript>
               <ToggleButton onClick={() => setExpanded(false)}>접기</ToggleButton>
             </>
           ) : (
             <LinesEllipsis
-              text={themeDescription}
+              text={theme.description}
               maxLine="2"
               ellipsis={
                 <span>
@@ -135,6 +163,8 @@ const Detail = () => {
     </>
   );
 };
+
+// 💅 styled-components (기존과 동일, 중복 생략 가능하지만 요청에 따라 유지)
 
 const Container = styled.div`
   width: 1037px;

@@ -108,7 +108,7 @@ const CardSwiper = () => {
       )}
       <CardList>
         {filteredItems.map((item, index) => (
-          <StyledLink key={index} to={`/detail`}>
+          <StyledLink key={index} to={`/detail/${item.id}`}>
             <Card>
               <CardImage src={item.image || dongsan} alt={item.title} />
               <CardTitle>{item.title}</CardTitle>
