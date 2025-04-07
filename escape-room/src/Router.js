@@ -21,7 +21,7 @@ const AppRouter = () => {
           <Route path="/main" element={<ThemePage />} />
           <Route path="/tier" element={<TierPage />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/detail" element={<Detail />} />
+          <Route path="/detail/:id" element={<Detail />} />
           <Route path="/mydetailpage" element={<MyDetailPage />} />
         </Routes>
       </Suspense>

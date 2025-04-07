@@ -1,63 +1,76 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { tokenState } from "../store/atom";
+import axios from "axios";
 
-  const Reservation = () => {
-    const today = dayjs();
-    const [startDate, setStartDate] = useState(today);
-    const [selectedDate, setSelectedDate] = useState(today.format("YYYY-MM-DD"));
+const Reservation = () => {
+  const today = dayjs();
+  const [startDate, setStartDate] = useState(today);
+  const [selectedDate, setSelectedDate] = useState(today.format("YYYY-MM-DD"));
+  const [timeSlots, setTimeSlots] = useState({});
+  const { id } = useParams();
+  const accessToken = useRecoilValue(tokenState);
 
-    console.log("🚀 현재 날짜(today):", today.format("YYYY-MM-DD"));
-    console.log("📅 선택된 날짜(selectedDate):", selectedDate);
-
-    const timeSlots = {
-      "2025-03-13": ["11:00", "12:10", "13:20", "14:30", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
-      "2025-03-14": ["10:00", "12:00", "15:00"],
-      "2025-03-07": ["09:30", "11:30", "16:00"],
-    };
-
-
-    console.log("🕒 예약 가능 시간 목록(timeSlots):", timeSlots);
-    console.log("🕒 선택된 날짜의 예약 가능 시간:", timeSlots[selectedDate] || "없음");
-    
-    const days = Array.from({ length: 7 }, (_, i) => {
-      const date = startDate.add(i, "day");
-      const dateStr = date.format("YYYY-MM-DD");
-      const isToday = date.isSame(today, "day");
-    
-      // 한글 요일 매핑
-      const dayOfWeekMap = ["일", "월", "화", "수", "목", "금", "토"];
-      const dayIndex = date.day();
-      let dayLabel = dayOfWeekMap[dayIndex];
-    
-      console.log(`📌 날짜 리스트 생성: ${dateStr}, 요일: ${dayLabel}`);
-    
-      return {
-        date: dateStr,
-        label: isToday ? date.format("M/D") : date.format("D"), // 오늘만 M/D, 나머지는 D
-        day: dayLabel,
-      };
-    });
-
-    const handleDateSelect = (date) => {
-      setSelectedDate(date);
-    };
-
-    const goNextWeek = () => {
-      setStartDate(startDate.add(7, "day"));
-    };
-
-    const goPreWeek = () => {
-      if(startDate.isAfter(today, "day")) {
-        setStartDate(startDate.subtract(7, "day"));
+  // ✅ API 호출하여 예약 가능 시간 받아오기
+  useEffect(() => {
+    const fetchReservationData = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/theme/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        const available = res.data.themeAvailableTime || {};
+        setTimeSlots(available);
+      } catch (err) {
+        console.error("❌ 예약 시간 불러오기 실패:", err);
       }
     };
 
+    if (accessToken && id) {
+      fetchReservationData();
+    }
+  }, [accessToken, id]);
+
+  const days = Array.from({ length: 7 }, (_, i) => {
+    const date = startDate.add(i, "day");
+    const dateStr = date.format("YYYY-MM-DD");
+    const isToday = date.isSame(today, "day");
+
+    const dayOfWeekMap = ["일", "월", "화", "수", "목", "금", "토"];
+    const dayIndex = date.day();
+    const dayLabel = dayOfWeekMap[dayIndex];
+
+    return {
+      date: dateStr,
+      label: isToday ? date.format("M/D") : date.format("D"),
+      day: dayLabel,
+    };
+  });
+
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+  };
+
+  const goNextWeek = () => {
+    setStartDate(startDate.add(7, "day"));
+  };
+
+  const goPreWeek = () => {
+    if (startDate.isAfter(today, "day")) {
+      setStartDate(startDate.subtract(7, "day"));
+    }
+  };
+
   return (
     <ReservationContainer>
-      <Text>
-        예약 시간
-      </Text>
+      <Text>예약 시간</Text>
       <DateBox>
         <NavButton onClick={goPreWeek}>&lt;</NavButton>
         <DateList>
@@ -85,11 +98,12 @@ import dayjs from "dayjs";
             <TimeSlot key={index}>{time.replace(":", " : ")}</TimeSlot>
           ))
         ) : (
-          <NoTimeSlot>예약 가능한 시간대가 없거나 해당 사이트의 서버 점검으로 인해 조회가 불가능합니다.</NoTimeSlot>
+          <NoTimeSlot>
+            예약 가능한 시간대가 없거나 해당 사이트의 서버 점검으로 인해 조회가 불가능합니다.
+          </NoTimeSlot>
         )}
       </TimeContainer>
     </ReservationContainer>
-
   );
 };
 
