@@ -69,7 +69,7 @@ const ThemePage = () => {
 // ✅ 헤더와 Carousel을 감싸는 컨테이너 추가
 const Container = styled.div`
   width: 1037px;
-  height: 100%;
+  min-height: 100vh;
   background: #000;
   display: flex;
   flex-direction: column;
