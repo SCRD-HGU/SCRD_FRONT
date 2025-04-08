@@ -9,6 +9,7 @@ function OptionBar() {
   const [difficulty, setDifficulty] = useState("난이도");
   const [isFearActive, setIsFearActive] = useState(false);
   const [isActivityActive, setIsActivityActive] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleRegionChange = (e) => {
     setRegion(e.target.value);
@@ -72,6 +73,12 @@ function OptionBar() {
       </Move>
 
       {/* 검색 버튼 */}
+      <SearchInput
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="검색어 입력"
+      />
       <Search onClick={handleSearch}>
         <IoIosSearch />
       </Search>
@@ -165,10 +172,27 @@ const Move = styled.div`
   }
 `;
 
+const SearchInput = styled.input`
+  width: 200px;
+  background: none;
+  border: none;
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-weight: 500;
+  outline: none;
+  margin-left: auto;
+  padding: 2px 4px;
+  color: #000;
+
+  &::placeholder {
+    color: #aaa;
+  }
+`;
+
 const Search = styled.div`
   width: 20px;
   height: 20px;
-  margin-left: 230px;
   margin-top: 13px;
+  margin-right: 15px;
   cursor: pointer;
 `;
