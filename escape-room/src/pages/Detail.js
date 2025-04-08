@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled, { createGlobalStyle, keyframes } from "styled-components";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { tokenState } from "../store/atom";
-import Header from "../components/Header.js";
-import Reservation from "../components/Reservation.js";
-import Review from "../components/Review.js";
+import useAxiosInstance from "../api/axiosInstance"; // ✅ 인터셉터 적용된 axios
+import Header from "../components/Header";
+import Reservation from "../components/Reservation";
+import Review from "../components/Review";
 import { IoTimeOutline } from "react-icons/io5";
-import { PiPuzzlePieceFill } from "react-icons/pi";
+import { PiPuzzlePieceFill, PiSneakerMoveFill } from "react-icons/pi";
 import { RiKnifeBloodLine } from "react-icons/ri";
-import { PiSneakerMoveFill } from "react-icons/pi";
 import LinesEllipsis from "react-lines-ellipsis";
 
 const GlobalStyle = createGlobalStyle`
@@ -31,29 +28,16 @@ const GlobalStyle = createGlobalStyle`
 
 const Detail = () => {
   const { id } = useParams();
-  const accessToken = useRecoilValue(tokenState);
+  const axiosInstance = useAxiosInstance(); // ✅ 새 axios 인스턴스 사용
   const [theme, setTheme] = useState(null);
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    const fetchTheme = async () => {
-      try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/theme/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        setTheme(res.data);
-      } catch (err) {
-        console.error("❌ 테마 정보 불러오기 실패:", err);
-      }
-    };
-
-    if (accessToken) fetchTheme();
-  }, [id, accessToken]);
+    axiosInstance
+      .get(`/api/theme/${id}`)
+      .then((res) => setTheme(res.data))
+      .catch((err) => console.error("❌ 테마 정보 불러오기 실패:", err));
+  }, [id, axiosInstance]);
 
   if (!theme) return <div style={{ color: "#fff" }}>로딩 중...</div>;
 

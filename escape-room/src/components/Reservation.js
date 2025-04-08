@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { tokenState } from "../store/atom";
-import axios from "axios";
+import useAxiosInstance from "../api/axiosInstance"; // ✅ 추가
+
 
 const Reservation = () => {
   const today = dayjs();
@@ -12,20 +11,14 @@ const Reservation = () => {
   const [selectedDate, setSelectedDate] = useState(today.format("YYYY-MM-DD"));
   const [timeSlots, setTimeSlots] = useState({});
   const { id } = useParams();
-  const accessToken = useRecoilValue(tokenState);
+  const axiosInstance = useAxiosInstance(); // ✅ axiosInstance 불러오기
 
-  // ✅ API 호출하여 예약 가능 시간 받아오기
   useEffect(() => {
     const fetchAvailableTimes = async () => {
       try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/theme/${id}/available-times`,
-          {
-            params: { date: selectedDate },
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
+        const res = await axiosInstance.get(
+          `/api/theme/${id}/available-times`,
+          { params: { date: selectedDate } }
         );
         setTimeSlots((prev) => ({
           ...prev,
@@ -35,11 +28,11 @@ const Reservation = () => {
         console.error("❌ 예약 시간 불러오기 실패:", err);
       }
     };
-  
-    if (accessToken && id && selectedDate) {
+
+    if (id && selectedDate) {
       fetchAvailableTimes();
     }
-  }, [accessToken, id, selectedDate]);
+  }, [id, selectedDate, axiosInstance]);
 
   const days = Array.from({ length: 7 }, (_, i) => {
     const date = startDate.add(i, "day");

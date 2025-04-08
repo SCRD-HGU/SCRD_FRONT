@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { tokenState } from "../store/atom";
+import useAxiosInstance from "../api/axiosInstance"; // ✅ axiosInstance 불러오기
 import { CSSTransition } from "react-transition-group";
 import styled, { createGlobalStyle } from "styled-components";
 import { PiPuzzlePieceFill } from "react-icons/pi";
@@ -12,37 +10,14 @@ import ReviewImage from "../assets/ReviewImage.svg";
 
 // ✨ 애니메이션용 글로벌 스타일
 const SlideTransitionStyles = createGlobalStyle`
-  .slide-enter {
-    max-height: 0;
-    overflow: hidden;
-  }
-  .slide-enter-active {
-    max-height: 2000px;
-    transition: max-height 300ms ease;
-  }
-  .slide-exit {
-    max-height: 2000px;
-    overflow: hidden;
-  }
-  .slide-exit-active {
-    max-height: 0;
-    transition: max-height 300ms ease;
-  }
+  .slide-enter { max-height: 0; overflow: hidden; }
+  .slide-enter-active { max-height: 2000px; transition: max-height 300ms ease; }
+  .slide-exit { max-height: 2000px; overflow: hidden; }
+  .slide-exit-active { max-height: 0; transition: max-height 300ms ease; }
 `;
 
 function ReviewItem({ review, useImageVersion = false }) {
-  const {
-    userName,
-    success,
-    hintCount,
-    clearTime,
-    rating,
-    difficulty,
-    horror,
-    activity,
-    content,
-    tags,
-  } = review;
+  const { userName, success, hintCount, clearTime, rating, difficulty, horror, activity, content, tags } = review;
 
   return (
     <ReviewCard>
@@ -115,19 +90,14 @@ function ReviewItem({ review, useImageVersion = false }) {
 
 function ReviewSection({ useImageVersion = false, marginTop }) {
   const { id } = useParams();
-  const accessToken = useRecoilValue(tokenState);
+  const axiosInstance = useAxiosInstance(); // ✅ axiosInstance 사용
   const [reviews, setReviews] = useState([]);
   const [showAllReviews, setShowAllReviews] = useState(false);
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/review/theme/${id}`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
+        const res = await axiosInstance.get(`/api/review/theme/${id}`);
         const formatted = res.data.map((r) => ({
           id: r.id,
           userName: "익명 유저",
@@ -147,8 +117,8 @@ function ReviewSection({ useImageVersion = false, marginTop }) {
       }
     };
 
-    if (accessToken && id) fetchReviews();
-  }, [accessToken, id]);
+    if (id) fetchReviews();
+  }, [id, axiosInstance]);
 
   const sortedReviews = [...reviews].sort((a, b) => b.id - a.id);
   const recentReviews = sortedReviews.slice(0, 2);

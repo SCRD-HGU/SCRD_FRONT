@@ -51,6 +51,10 @@ const KakaoLogin = () => {
           setUserToken({ isLoggedIn: true });
           setToken(accessToken); // accessToken 저장
           setRefreshToken(refreshToken); // refreshToken 저장
+
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", refreshToken);
+          
           navigate("/main");
         })
         .catch((error) => {
