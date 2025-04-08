@@ -16,27 +16,30 @@ const Reservation = () => {
 
   // ✅ API 호출하여 예약 가능 시간 받아오기
   useEffect(() => {
-    const fetchReservationData = async () => {
+    const fetchAvailableTimes = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/theme/${id}`,
+          `${process.env.REACT_APP_BASE_URL}/api/theme/${id}/available-times`,
           {
+            params: { date: selectedDate },
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
           }
         );
-        const available = res.data.themeAvailableTime || {};
-        setTimeSlots(available);
+        setTimeSlots((prev) => ({
+          ...prev,
+          [selectedDate]: res.data.availableTime,
+        }));
       } catch (err) {
         console.error("❌ 예약 시간 불러오기 실패:", err);
       }
     };
-
-    if (accessToken && id) {
-      fetchReservationData();
+  
+    if (accessToken && id && selectedDate) {
+      fetchAvailableTimes();
     }
-  }, [accessToken, id]);
+  }, [accessToken, id, selectedDate]);
 
   const days = Array.from({ length: 7 }, (_, i) => {
     const date = startDate.add(i, "day");

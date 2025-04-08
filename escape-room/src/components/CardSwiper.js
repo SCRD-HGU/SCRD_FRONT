@@ -127,7 +127,6 @@ const CardSwiper = () => {
 
 const Container = styled.div`
   width: 988px;
-  height: 211px;
   margin-top: 20px;
   position: relative;
 `;
