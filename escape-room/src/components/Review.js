@@ -6,7 +6,6 @@ import styled, { createGlobalStyle } from "styled-components";
 import { PiPuzzlePieceFill } from "react-icons/pi";
 import { RiKnifeBloodLine } from "react-icons/ri";
 import { PiSneakerMoveFill } from "react-icons/pi";
-import ReviewImage from "../assets/ReviewImage.svg";
 
 // ✨ 애니메이션용 글로벌 스타일
 const SlideTransitionStyles = createGlobalStyle`
@@ -16,39 +15,17 @@ const SlideTransitionStyles = createGlobalStyle`
   .slide-exit-active { max-height: 0; transition: max-height 300ms ease; }
 `;
 
-function ReviewItem({ review, useImageVersion = false }) {
-  const { userName, success, hintCount, clearTime, rating, difficulty, horror, activity, content, tags } = review;
+function ReviewItem({ review = false }) {
+  const { userName, userTier, rating, difficulty, horror, activity, content, tags } = review;
 
   return (
     <ReviewCard>
       <Header>
-        {useImageVersion ? (
-          <LeftRow>
-            <UserImage src={ReviewImage} alt="Review" />
-            <LeftStack>
-              <Title>머니머니 부동산</Title>
-              <Branch>키이스케이프 | 스테이션점</Branch>
-              <MetaInfo style={{ marginLeft: 0 }}>
-                <span>{success ? "성공" : "실패"}</span>
-                <span>|</span>
-                <span>힌트 {hintCount}개</span>
-                <span>|</span>
-                <span>{clearTime}</span>
-              </MetaInfo>
-            </LeftStack>
-          </LeftRow>
-        ) : (
-          <>
-            <UserInfo>{userName}</UserInfo>
-            <MetaInfo>
-              <span>{success ? "성공" : "실패"}</span>
-              <span>|</span>
-              <span>힌트 {hintCount}개</span>
-              <span>|</span>
-              <span>{clearTime}</span>
-            </MetaInfo>
-          </>
-        )}
+      <UserInfo>
+        <span>티어 {userTier}</span>
+        <Divider>|</Divider>
+        <span>{userName}</span>
+      </UserInfo>
 
         <Rest>
           <Difficulty>
@@ -100,23 +77,21 @@ function ReviewSection({ useImageVersion = false, marginTop }) {
         const res = await axiosInstance.get(`/api/review/theme/${id}`);
         const formatted = res.data.map((r) => ({
           id: r.id,
-          userName: "익명 유저",
-          success: true,
-          hintCount: 0,
-          clearTime: "",
+          userName: r.userName || "익명 유저", // null이면 기본값
+          userTier: r.userTier || "0",
           rating: r.stars,
           difficulty: r.level,
           horror: r.horror === 1,
           activity: r.activity === 1,
           content: r.text,
-          tags: [],
+          tags: r.tagNames || [], // 새로 추가된 tagNames 사용
         }));
         setReviews(formatted);
       } catch (err) {
         console.error("❌ 리뷰 로딩 실패:", err);
       }
     };
-
+  
     if (id) fetchReviews();
   }, [id, axiosInstance]);
 
@@ -191,46 +166,6 @@ const Header = styled.div`
   align-items: center;
 `;
 
-/** 
- * [두 번째 버전]에서 
- * - 왼쪽에 이미지, 오른쪽에 (Title + Branch + MetaInfo) 수직으로 쌓기 위한 컨테이너
- */
-const LeftRow = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 10px; /* 이미지와 텍스트 사이 간격 */
-`;
-
-const UserImage = styled.img`
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  margin-right: 30px;
-`;
-
-/** 왼쪽 텍스트 부분(Title + Branch + MetaInfo)을 수직으로 쌓는 컨테이너 */
-const LeftStack = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px; /* 항목 간 간격 */
-`;
-
-const Title = styled.div`
-  color: #fff;
-  font-family: "Inter";
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 35px;
-  text-transform: uppercase;
-`;
-
-const Branch = styled.div`
-  color: #bababa;
-  font-family: "Pretendard Variable";
-  font-size: 13px;
-  font-weight: 700;
-`;
-
 /** [기본 버전]에서 userName을 보여주기 위한 스타일 */
 const UserInfo = styled.span`
   color: #FFF;
@@ -240,15 +175,9 @@ const UserInfo = styled.span`
   margin-right: 8px;
 `;
 
-const MetaInfo = styled.span`
-  display: inline-flex;
-  gap: 30px;
-  margin-left: 55px; /* 기본 코드 유지 */
-  margin-top: 8px;
+const Divider = styled.span`
+  margin: 0 12px;
   color: #C9C9C9;
-  font-family: Pretendard;
-  font-size: 15px;
-  font-weight: 600;
 `;
 
 const Rest = styled.span`

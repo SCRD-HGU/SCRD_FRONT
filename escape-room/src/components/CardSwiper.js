@@ -5,17 +5,11 @@ import { Link } from "react-router-dom";
 import dongsan from "../assets/Theme.png";
 import { FaAngleDown } from "react-icons/fa";
 
-const CardSwiper = () => {
+const CardSwiper = ({ searchedItems = [] }) => {
   const [selectedRegion, setSelectedRegion] = useState("전체");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [items, setItems] = useState([]);
   const axiosInstance = useAxiosInstance();
-
-  const locationList = ["전체", ...new Set(items.map((item) => item.location))];
-  const filteredItems =
-    selectedRegion === "전체"
-      ? items
-      : items.filter((item) => item.location === selectedRegion);
 
   useEffect(() => {
     axiosInstance
@@ -23,6 +17,14 @@ const CardSwiper = () => {
       .then((res) => setItems(res.data))
       .catch((err) => console.error("❌ 테마 요청 실패:", err));
   }, [axiosInstance]);
+
+  const dataToShow = searchedItems.length > 0 ? searchedItems : items;
+  const locationList = ["전체", ...new Set(dataToShow.map((item) => item.location))];
+
+  const filteredItems =
+    selectedRegion === "전체"
+      ? dataToShow
+      : dataToShow.filter((item) => item.location === selectedRegion);
 
   return (
     <Container>

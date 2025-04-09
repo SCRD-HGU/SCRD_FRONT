@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "../components/Header.js";
 import OptionBar from "../components/OptionBar.js";
@@ -9,7 +9,6 @@ import CardSwiper from "../components/CardSwiper.js";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 
@@ -31,12 +30,14 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const ThemePage = () => {
+  const [searchedItems, setSearchedItems] = useState([]);
+  
   return (
     <>
       <GlobalStyle />
       <Container>
         <Header />
-        <OptionBar />
+        <OptionBar setSearchedItems={setSearchedItems} />
         <StyledSwiper
           cssMode={true}
           navigation={true}
@@ -59,7 +60,7 @@ const ThemePage = () => {
           <StyledSwiperSlide>Slide 9</StyledSwiperSlide>
         </StyledSwiper>
         <CardSwiperContainer>
-          <CardSwiper />
+          <CardSwiper searchedItems={searchedItems} />
         </CardSwiperContainer>
       </Container>
     </>
