@@ -101,7 +101,9 @@ const Detail = () => {
                   </ShoeContainer>
                 </Activity>
               </Rest>
-              <ReserveButton>예약하기</ReserveButton>
+              <ReserveButton onClick={() => window.open(theme.url, "_blank")}>
+                예약하기
+              </ReserveButton>
             </Puzzle>
           </DetailInfo>
         </ThemeInfo>
@@ -115,7 +117,7 @@ const Detail = () => {
             </>
           ) : (
             <LinesEllipsis
-              text={theme.description}
+              text={theme.description || ''}
               maxLine="2"
               ellipsis={
                 <span>
@@ -418,6 +420,7 @@ const ReserveButton = styled.div`
   width: 135px;
   height: 36px;
   flex-shrink: 0;
+  cursor: pointer;
   /* 폰트 관련 스타일 */
   font-family: Inter;
   font-size: 30px;
