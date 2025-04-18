@@ -1,72 +1,83 @@
-import React from "react";
-import styled, { keyframes, createGlobalStyle } from "styled-components";
+import React, { useEffect, useState } from "react";
+import styled, { createGlobalStyle } from "styled-components";
 import { BsFillChatFill } from "react-icons/bs";
 import LogoImage from "../assets/RedLogo.svg";
 import LoginMarkImage from "../assets/LoginMark.svg";
 
 const GlobalStyle = createGlobalStyle`
-* {
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-  body {
-    display: flex;
-    justify-content: center; /* 수평 중앙 정렬 */
-    min-width: 100vw;
+  html, body {
+    width: 100%;
     min-height: 100vh;
-    background-color: #000000;
-    overflow-x: hidden;
-}
+    background-color: #000;
+    overflow: hidden;
+  }
 `;
 
 const LoginPage = () => {
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      const scaleValue = window.innerWidth / 1440;
+      setScale(scaleValue);
+    };
+    window.addEventListener("resize", updateScale);
+    updateScale();
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
   const clickLogin = () => {
     window.location.href = process.env.REACT_APP_KAKAO_URL;
-    // 아래는 임시로 그냥 메인으로 이동하도록
-    // window.location.href = "/main";
   };
+
   return (
     <>
       <GlobalStyle />
-      <Container>
-        <SemiContainer>
+      <Wrapper style={{ transform: `scale(${scale})` }}>
+        <ContentBox>
           <LoginMark src={LoginMarkImage} />
           <Logo src={LogoImage} alt="Company Logo" />
           <LoginText>log in</LoginText>
           <LoginBT onClick={clickLogin}>
-          <BsFillChatFill />
-          Log in with Kakao
+            <BsFillChatFill />
+            Log in with Kakao
           </LoginBT>
-        </SemiContainer>
-      </Container>
+        </ContentBox>
+      </Wrapper>
     </>
   );
 };
 
-const Container = styled.div`
-  transform: scale(var(--scale)); /* scale 속성 적용 */
-  transform-origin: top left; /* 확대/축소 기준 */
-  width: 1440px; /* 기준 너비 */
-  height: 900px; /* 기준 높이 */
-  background: #000; /* 전체 배경색 */
-  display: flex;
-  justify-content: center;
-`;
+export default LoginPage;
 
-const SemiContainer = styled.div`
-  width: 1037px;
-  height: 100%;
+const Wrapper = styled.div`
+  width: 1440px;
+  height: 900px;
   background: #000;
   display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  transform-origin: top left;
+`;
+
+const ContentBox = styled.div`
+  width: 1037px;
+  height: 100%;
+  display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 const Logo = styled.img`
   width: 48px;
   height: 48px;
   margin-top: 38px;
-  margin-left: 90%;
+  margin-left: auto;
 `;
 
 const LoginMark = styled.img`
@@ -83,7 +94,8 @@ const LoginText = styled.p`
   font-weight: bold;
   margin-bottom: 23px;
   margin-top: 35%;
-  margin-left: 55%;
+  margin-left: auto;
+  z-index: 2;
 `;
 
 const LoginBT = styled.button`
@@ -98,8 +110,10 @@ const LoginBT = styled.button`
   background: #00ff0000;
   font-size: 15px;
   padding-right: 20px;
-  margin-left: 55%;
+  margin-left: auto;
   cursor: pointer;
+  z-index: 2;
+
   svg {
     width: 20px;
     height: 19px;
@@ -108,5 +122,3 @@ const LoginBT = styled.button`
     display: inline-block;
   }
 `;
-
-export default LoginPage;

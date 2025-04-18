@@ -44,7 +44,7 @@ const KakaoLogin = () => {
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
 
-          navigate("/main");
+          navigate("/main", { replace: true });
         })
         .catch((error) => {
           console.error("Error during Kakao login:", error);
