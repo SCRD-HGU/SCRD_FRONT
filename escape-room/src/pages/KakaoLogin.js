@@ -75,7 +75,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #fffef9;
+  background-color: #000;
 `;
 
 const Logo = styled.img`
@@ -87,7 +87,7 @@ const Logo = styled.img`
 const Message = styled.div`
   font-size: 18px;
   margin-bottom: 16px;
-  color: #333;
+  color: #fff;
 `;
 
 const Spinner = styled.div`
