@@ -74,62 +74,111 @@ export default OptionBar;
 // ✅ Styled-components 그대로 유지
 const FixedBar = styled.div`
   position: fixed;
-  bottom: 40px;
+  bottom: 40px; /* 화면 하단에서 40px */
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); /* 수평 중앙 정렬 */
   display: flex;
   width: 600px;
   height: 42px;
   border-radius: 3px;
   background: #fff;
   z-index: 999;
-`;
+;`
+
+const Local = styled.div`
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: 38px;
+  margin-top: 14px;
+;`
 
 const Difficulty = styled.div`
   margin-left: 20px;
+  margin-top: 14px;
+  font-family: "Pretendard Variable";
   font-size: 13px;
   font-weight: 600;
-`;
+;`
 
 const Select = styled.select`
   border: none;
   background: none;
+  outline: none;
+  font-family: "Pretendard Variable";
   font-size: 13px;
   font-weight: 600;
+  color: #000;
+  margin-right: 4px; /* 숫자 간 간격 조절 */
   padding-right: 16px;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5L5 1L9 5' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
 `;
 
 const Tilde = styled.span`
   margin: 0 8px;
   font-size: 13px;
   font-weight: 600;
-`;
+  color: #000;
+;`
 
 const Horror = styled.div`
-  color: ${(props) => (props.active ? "#D90206" : "#000")};
+  color: ${(props) =>
+    props.active
+      ? "var(--foundation-red-normal-active, #D90206)"
+      : "#000"};
+  font-family: "Pretendard Variable";
   font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
+  margin-left: 20px;
   display: flex;
   align-items: center;
+  cursor: pointer;
+
+  svg {
+    margin-right: 6px;
+  }
 `;
 
 const Move = styled.div`
-  color: ${(props) => (props.active ? "#D90206" : "#000")};
+  color: ${(props) =>
+    props.active
+      ? "var(--foundation-red-normal-active, #D90206)"
+      : "#000"};
+  font-family: "Pretendard Variable";
   font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
+  margin-left: 20px;
   display: flex;
   align-items: center;
+  cursor: pointer;
+
+  svg {
+    margin-right: 6px;
+  }
 `;
 
 const SearchInput = styled.input`
   width: 200px;
   background: none;
   border: none;
+  font-family: "Pretendard Variable";
   font-size: 13px;
-  padding: 2px 4px;
+  font-weight: 500;
   outline: none;
+  margin-left: auto;
+  padding: 2px 4px;
+  color: #000;
+
+  &::placeholder {
+    color: #aaa;
+  }
 `;
 
 const Search = styled.div`
@@ -138,4 +187,4 @@ const Search = styled.div`
   margin-top: 13px;
   margin-right: 15px;
   cursor: pointer;
-`;
+;`
