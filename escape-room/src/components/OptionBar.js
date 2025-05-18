@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useMemo } from "react";
+// src/components/OptionBar.js
+import React, { useState } from "react";
 import styled from "styled-components";
 import { RiKnifeBloodLine } from "react-icons/ri";
 import { PiSneakerMoveFill } from "react-icons/pi";
 import { IoIosSearch } from "react-icons/io";
-import useAxiosInstance from "../api/axiosInstance";
-import _debounce from "lodash/debounce";
+import { useFetchFilteredThemes } from "../hooks/useFetchFilteredThemes";
 
-function OptionBar({ allThemes = [], setSearchedItems }) {
-  const axiosInstance = useAxiosInstance();
-
-  // ✅ 상태 변수들
+function OptionBar({ setSearchedItems }) {
+  // ✅ 필터 상태
   const [region, setRegion] = useState("");
   const [levelMin, setLevelMin] = useState(1);
   const [levelMax, setLevelMax] = useState(5);
@@ -17,96 +15,23 @@ function OptionBar({ allThemes = [], setSearchedItems }) {
   const [isActivityActive, setIsActivityActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // ✅ 지역 필터용 유니크 리스트 생성
-  const uniqueLocations = useMemo(() => {
-    const locations = allThemes.map((t) => t.location).filter(Boolean);
-    return ["지역", ...new Set(locations)];
-  }, [allThemes]);
+  // ✅ React Query로 필터된 데이터 가져오기
+  const { data: filteredItems = [], isLoading, isError } = useFetchFilteredThemes({
+    region,
+    levelMin,
+    levelMax,
+    isFearActive,
+    isActivityActive,
+    searchTerm,
+  });
 
-  // ✅ 기본 필터 상태인지 확인하는 함수
-  const isDefaultFilter = () => {
-    return (
-      region === "" &&
-      levelMin === 1 &&
-      levelMax === 5 &&
-      !isFearActive &&
-      !isActivityActive
-    );
-  };
+  // ✅ React Query의 상태를 직접 사용 (setSearchedItems 제거)
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error: Failed to load data.</p>;
 
-  // ✅ 필터 값 변경 시 자동 검색 (검색어가 없고, 기본 필터 상태가 아닐 때만)
-  useEffect(() => {
-    if (searchTerm.trim() !== "") return;
-  
-    const applyFilter = _debounce(() => {
-      if (isDefaultFilter()) {
-        axiosInstance
-          .get("/api/theme?sort=rating")
-          .then((res) => setSearchedItems(res.data))
-          .catch((err) => {
-            console.error("❌ 기본 테마 요청 실패:", err);
-            setSearchedItems([]);
-          });
-      } else {
-        const params = {};
-        if (region !== "") params.location = region;
-        params.levelMin = levelMin;
-        params.levelMax = levelMax;
-        if (isFearActive) params.horror = 1;
-        if (isActivityActive) params.activity = 1;
-  
-        const query = new URLSearchParams(params).toString();
-  
-        axiosInstance
-          .get(`/api/theme/filter?${query}`)
-          .then((res) => setSearchedItems(res.data))
-          .catch((err) => {
-            console.error("❌ 필터 요청 실패:", err);
-            setSearchedItems([]);
-          });
-      }
-    }, 300);
-  
-    applyFilter();
-    return () => applyFilter.cancel();
-  }, [region, levelMin, levelMax, isFearActive, isActivityActive, searchTerm]);
-
-  // ✅ 검색어 기반 검색
-  const handleFilterSearch = async () => {
-    if (searchTerm.trim() === "") {
-      axiosInstance
-        .get("/api/theme?sort=rating")
-        .then((res) => setSearchedItems(res.data))
-        .catch((err) => {
-          console.error("❌ 기본 테마 요청 실패:", err);
-          setSearchedItems([]);
-        });
-      return;
-    }
-  
-    try {
-      const res = await axiosInstance.get(
-        `/api/theme/search?keyword=${searchTerm.trim()}`
-      );
-      setSearchedItems(res.data);
-    } catch (err) {
-      console.error("❌ 검색 실패:", err);
-      setSearchedItems([]);
-    }
-  };
-
+  // ✅ React Query에서 불러온 데이터 바로 사용
   return (
     <FixedBar>
-      {/* <Local>
-        <Select value={region} onChange={(e) => setRegion(e.target.value)}>
-          {uniqueLocations.map((loc, i) => (
-            <option key={i} value={loc}>
-              {loc}
-            </option>
-          ))}
-        </Select>
-      </Local> */}
-
       <Difficulty>
         <Select value={levelMin} onChange={(e) => setLevelMin(Number(e.target.value))}>
           {[1, 2, 3, 4, 5].map((n) => (
@@ -134,13 +59,10 @@ function OptionBar({ allThemes = [], setSearchedItems }) {
       <SearchInput
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") handleFilterSearch();
-        }}
         placeholder="검색어 입력"
       />
 
-      <Search onClick={handleFilterSearch}>
+      <Search>
         <IoIosSearch />
       </Search>
     </FixedBar>
@@ -149,11 +71,12 @@ function OptionBar({ allThemes = [], setSearchedItems }) {
 
 export default OptionBar;
 
+// ✅ Styled-components 그대로 유지
 const FixedBar = styled.div`
   position: fixed;
-  bottom: 40px; /* 화면 하단에서 40px */
+  bottom: 40px;
   left: 50%;
-  transform: translateX(-50%); /* 수평 중앙 정렬 */
+  transform: translateX(-50%);
   display: flex;
   width: 600px;
   height: 42px;
@@ -162,18 +85,8 @@ const FixedBar = styled.div`
   z-index: 999;
 `;
 
-const Local = styled.div`
-  font-family: "Pretendard Variable";
-  font-size: 13px;
-  font-weight: 600;
-  margin-left: 38px;
-  margin-top: 14px;
-`;
-
 const Difficulty = styled.div`
   margin-left: 20px;
-  margin-top: 14px;
-  font-family: "Pretendard Variable";
   font-size: 13px;
   font-weight: 600;
 `;
@@ -181,81 +94,42 @@ const Difficulty = styled.div`
 const Select = styled.select`
   border: none;
   background: none;
-  outline: none;
-  font-family: "Pretendard Variable";
   font-size: 13px;
   font-weight: 600;
-  color: #000;
-  margin-right: 4px; /* 숫자 간 간격 조절 */
   padding-right: 16px;
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5L5 1L9 5' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right center;
 `;
 
 const Tilde = styled.span`
   margin: 0 8px;
   font-size: 13px;
   font-weight: 600;
-  color: #000;
 `;
 
 const Horror = styled.div`
-  color: ${(props) =>
-    props.active
-      ? "var(--foundation-red-normal-active, #D90206)"
-      : "#000"};
-  font-family: "Pretendard Variable";
+  color: ${(props) => (props.active ? "#D90206" : "#000")};
   font-size: 13px;
   font-weight: 600;
-  margin-left: 20px;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  cursor: pointer;
-
-  svg {
-    margin-right: 6px;
-  }
 `;
 
 const Move = styled.div`
-  color: ${(props) =>
-    props.active
-      ? "var(--foundation-red-normal-active, #D90206)"
-      : "#000"};
-  font-family: "Pretendard Variable";
+  color: ${(props) => (props.active ? "#D90206" : "#000")};
   font-size: 13px;
   font-weight: 600;
-  margin-left: 20px;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  cursor: pointer;
-
-  svg {
-    margin-right: 6px;
-  }
 `;
 
 const SearchInput = styled.input`
   width: 200px;
   background: none;
   border: none;
-  font-family: "Pretendard Variable";
   font-size: 13px;
-  font-weight: 500;
-  outline: none;
-  margin-left: auto;
   padding: 2px 4px;
-  color: #000;
-
-  &::placeholder {
-    color: #aaa;
-  }
+  outline: none;
 `;
 
 const Search = styled.div`
