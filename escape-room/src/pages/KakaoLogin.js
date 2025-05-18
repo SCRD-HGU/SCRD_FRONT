@@ -28,11 +28,7 @@ const KakaoLogin = () => {
       const apiUrl = `${process.env.REACT_APP_BASE_URL}/auth/kakao-login?code=${code}`;
 
       axios
-        .get(apiUrl, {
-          headers: {
-            Referer: "http://localhost:3000",
-          },
-        })
+        .get(apiUrl)
         .then((response) => {
           const accessToken = response.headers["authorization"].split(" ")[1];
           const refreshToken = response.headers["x-refresh-token"];

@@ -10,7 +10,7 @@ function OptionBar({ allThemes = [], setSearchedItems }) {
   const axiosInstance = useAxiosInstance();
 
   // ✅ 상태 변수들
-  const [region, setRegion] = useState(""); // ""은 placeholder "지역" 의미
+  const [region, setRegion] = useState("");
   const [levelMin, setLevelMin] = useState(1);
   const [levelMax, setLevelMax] = useState(5);
   const [isFearActive, setIsFearActive] = useState(false);
@@ -40,7 +40,6 @@ function OptionBar({ allThemes = [], setSearchedItems }) {
   
     const applyFilter = _debounce(() => {
       if (isDefaultFilter()) {
-        // ✅ 기본 상태일 때: /api/theme?sort=rating
         axiosInstance
           .get("/api/theme?sort=rating")
           .then((res) => setSearchedItems(res.data))
@@ -49,7 +48,6 @@ function OptionBar({ allThemes = [], setSearchedItems }) {
             setSearchedItems([]);
           });
       } else {
-        // ✅ 필터 조건 있을 때: /api/theme/filter
         const params = {};
         if (region !== "") params.location = region;
         params.levelMin = levelMin;
@@ -71,15 +69,24 @@ function OptionBar({ allThemes = [], setSearchedItems }) {
   
     applyFilter();
     return () => applyFilter.cancel();
-  }, [region, levelMin, levelMax, isFearActive, isActivityActive]);
+  }, [region, levelMin, levelMax, isFearActive, isActivityActive, searchTerm]);
 
   // ✅ 검색어 기반 검색
   const handleFilterSearch = async () => {
-    if (searchTerm.trim() === "") return;
-
+    if (searchTerm.trim() === "") {
+      axiosInstance
+        .get("/api/theme?sort=rating")
+        .then((res) => setSearchedItems(res.data))
+        .catch((err) => {
+          console.error("❌ 기본 테마 요청 실패:", err);
+          setSearchedItems([]);
+        });
+      return;
+    }
+  
     try {
       const res = await axiosInstance.get(
-        `/scrd/api/theme/search?keyword=${searchTerm.trim()}`
+        `/api/theme/search?keyword=${searchTerm.trim()}`
       );
       setSearchedItems(res.data);
     } catch (err) {
@@ -90,62 +97,40 @@ function OptionBar({ allThemes = [], setSearchedItems }) {
 
   return (
     <FixedBar>
-      {/* 지역 필터 */}
-      <Local>
+      {/* <Local>
         <Select value={region} onChange={(e) => setRegion(e.target.value)}>
-          <option value="" disabled hidden>
-            지역
-          </option>
-          {uniqueLocations.slice(1).map((loc, i) => (
+          {uniqueLocations.map((loc, i) => (
             <option key={i} value={loc}>
               {loc}
             </option>
           ))}
         </Select>
-      </Local>
+      </Local> */}
 
-      {/* 난이도 필터 */}
       <Difficulty>
-        <Select
-          value={levelMin}
-          onChange={(e) => setLevelMin(Number(e.target.value))}
-        >
+        <Select value={levelMin} onChange={(e) => setLevelMin(Number(e.target.value))}>
           {[1, 2, 3, 4, 5].map((n) => (
-            <option key={n} value={n}>
-              {n}
-            </option>
+            <option key={n} value={n}>{n}</option>
           ))}
         </Select>
 
         <Tilde>~</Tilde>
 
-        <Select
-          value={levelMax}
-          onChange={(e) => setLevelMax(Number(e.target.value))}
-        >
+        <Select value={levelMax} onChange={(e) => setLevelMax(Number(e.target.value))}>
           {[1, 2, 3, 4, 5].map((n) => (
-            <option key={n} value={n}>
-              {n}
-            </option>
+            <option key={n} value={n}>{n}</option>
           ))}
         </Select>
       </Difficulty>
 
-      {/* 공포도 필터 */}
       <Horror onClick={() => setIsFearActive(!isFearActive)} active={isFearActive}>
-        <RiKnifeBloodLine />
-        <span>공포도</span>
-        <span style={{ marginLeft: "6px" }}>{isFearActive ? "o" : "x"}</span>
+        <RiKnifeBloodLine /> 공포도
       </Horror>
 
-      {/* 활동성 필터 */}
       <Move onClick={() => setIsActivityActive(!isActivityActive)} active={isActivityActive}>
-        <PiSneakerMoveFill />
-        <span>활동성</span>
-        <span style={{ marginLeft: "6px" }}>{isActivityActive ? "o" : "x"}</span>
+        <PiSneakerMoveFill /> 활동성
       </Move>
 
-      {/* 검색창 */}
       <SearchInput
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -155,7 +140,6 @@ function OptionBar({ allThemes = [], setSearchedItems }) {
         placeholder="검색어 입력"
       />
 
-      {/* 검색 아이콘 */}
       <Search onClick={handleFilterSearch}>
         <IoIosSearch />
       </Search>

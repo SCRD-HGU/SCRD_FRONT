@@ -50,14 +50,14 @@ const ThemePage = () => {
           <StyledSwiperSlide>
             <SlideImage src={Noti1} alt="Notification 1" />
           </StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 2</StyledSwiperSlide>
+          {/* <StyledSwiperSlide>Slide 2</StyledSwiperSlide>
           <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
           <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
           <StyledSwiperSlide>Slide 5</StyledSwiperSlide>
           <StyledSwiperSlide>Slide 6</StyledSwiperSlide>
           <StyledSwiperSlide>Slide 7</StyledSwiperSlide>
           <StyledSwiperSlide>Slide 8</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 9</StyledSwiperSlide>
+          <StyledSwiperSlide>Slide 9</StyledSwiperSlide> */}
         </StyledSwiper>
         <CardSwiperContainer>
           <CardSwiper searchedItems={searchedItems} />
