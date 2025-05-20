@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+// ✅ React Query 기반으로 리팩토링된 CardSwiper.js
+import React, { useState } from "react";
+import { useQuery } from "react-query";
 import useAxiosInstance from "../api/axiosInstance";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -8,15 +10,22 @@ import { FaAngleDown } from "react-icons/fa";
 const CardSwiper = ({ searchedItems = [] }) => {
   const [selectedRegion, setSelectedRegion] = useState("전체");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [items, setItems] = useState([]);
   const axiosInstance = useAxiosInstance();
 
-  useEffect(() => {
-    axiosInstance
-      .get("/api/theme?sort=rating")
-      .then((res) => setItems(res.data))
-      .catch((err) => console.error("❌ 테마 요청 실패:", err));
-  }, [axiosInstance]);
+  const {
+    data: items = [],
+    isLoading,
+    isError,
+  } = useQuery(
+    ["themes"],
+    () => axiosInstance.get("/api/theme?sort=rating").then((res) => res.data),
+    {
+      staleTime: 5 * 60 * 1000,
+      cacheTime: 10 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      enabled: searchedItems.length === 0,
+    }
+  );
 
   const dataToShow = searchedItems.length > 0 ? searchedItems : items;
   const locationList = ["전체", ...new Set(dataToShow.map((item) => item.location))];
@@ -25,6 +34,9 @@ const CardSwiper = ({ searchedItems = [] }) => {
     selectedRegion === "전체"
       ? dataToShow
       : dataToShow.filter((item) => item.location === selectedRegion);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Failed to load themes.</p>;
 
   return (
     <Container>
@@ -36,10 +48,13 @@ const CardSwiper = ({ searchedItems = [] }) => {
       {isDropdownOpen && (
         <Dropdown>
           {locationList.map((region, idx) => (
-            <DropdownItem key={idx} onClick={() => {
-              setSelectedRegion(region);
-              setIsDropdownOpen(false);
-            }}>
+            <DropdownItem
+              key={idx}
+              onClick={() => {
+                setSelectedRegion(region);
+                setIsDropdownOpen(false);
+              }}
+            >
               {region}
             </DropdownItem>
           ))}
