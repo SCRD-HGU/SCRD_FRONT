@@ -15,6 +15,7 @@ function OptionBar({ setSearchedItems }) {
   const [isActivityActive, setIsActivityActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
+
   // ✅ React Query로 필터된 데이터 가져오기
   const { data: filteredItems = [], isLoading, isError } = useFetchFilteredThemes({
     region,
