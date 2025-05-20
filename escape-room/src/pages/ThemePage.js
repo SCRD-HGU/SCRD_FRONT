@@ -116,13 +116,17 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 `;
 
 // ✅ Noti1 이미지 스타일 추가
 const SlideImage = styled.img`
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
+  display: block;
 `;
 
 const CardSwiperContainer = styled.div`
