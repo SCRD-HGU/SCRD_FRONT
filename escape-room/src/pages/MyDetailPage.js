@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
-import Noti1 from "../assets/Noti1.svg";
+import Noti1 from "../assets/Noti1.jpg";
 import ReviewSection from "../components/Review.js";
 import Header from "../components/Header.js";
 import MyTheme from "../components/MyTheme.js";
