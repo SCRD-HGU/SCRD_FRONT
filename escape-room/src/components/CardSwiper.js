@@ -1,4 +1,3 @@
-// ✅ React Query 기반으로 리팩토링된 CardSwiper.js
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import useAxiosInstance from "../api/axiosInstance";

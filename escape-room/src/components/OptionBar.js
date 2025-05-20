@@ -41,40 +41,50 @@ function OptionBar() {
 
   return (
     <FixedBar>
-      <Difficulty>
-        <Select value={levelMin} onChange={(e) => setLevelMin(Number(e.target.value))}>
-          {[1, 2, 3, 4, 5].map((n) => (
-            <option key={n} value={n}>{n}</option>
-          ))}
-        </Select>
-
-        <Tilde>~</Tilde>
-
-        <Select value={levelMax} onChange={(e) => setLevelMax(Number(e.target.value))}>
-          {[1, 2, 3, 4, 5].map((n) => (
-            <option key={n} value={n}>{n}</option>
-          ))}
-        </Select>
-      </Difficulty>
-
-      <Horror onClick={() => setIsFearActive(!isFearActive)} active={isFearActive}>
-        <RiKnifeBloodLine /> 공포도
-      </Horror>
-
-      <Move onClick={() => setIsActivityActive(!isActivityActive)} active={isActivityActive}>
-        <PiSneakerMoveFill /> 활동성
-      </Move>
-
-      <SearchInput
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder="검색어 입력"
-      />
-
-      <Search onClick={handleSearchClick}>
-        <IoIosSearch />
-      </Search>
+      {isLoading && <p style={{ marginLeft: "20px" }}>불러오는 중...</p>}
+      {isError && <p style={{ color: "red", marginLeft: "20px" }}>데이터 로딩 실패</p>}
+  
+      {!isLoading && !isError && (
+        <>
+          {/* 난이도 선택 */}
+          <Difficulty>
+            <Select value={levelMin} onChange={(e) => setLevelMin(Number(e.target.value))}>
+              {[1, 2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </Select>
+  
+            <Tilde>~</Tilde>
+  
+            <Select value={levelMax} onChange={(e) => setLevelMax(Number(e.target.value))}>
+              {[1, 2, 3, 4, 5].map((n) => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </Select>
+          </Difficulty>
+  
+          {/* 공포도/활동성 */}
+          <Horror onClick={() => setIsFearActive(!isFearActive)} active={isFearActive}>
+            <RiKnifeBloodLine /> 공포도
+          </Horror>
+  
+          <Move onClick={() => setIsActivityActive(!isActivityActive)} active={isActivityActive}>
+            <PiSneakerMoveFill /> 활동성
+          </Move>
+  
+          {/* 검색 */}
+          <SearchInput
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="검색어 입력"
+          />
+  
+          <Search onClick={handleSearchClick}>
+            <IoIosSearch />
+          </Search>
+        </>
+      )}
     </FixedBar>
   );
 }
