@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import Header from "../components/Header.js";
 import OptionBar from "../components/OptionBar.js";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Noti1 from "../assets/Noti1.svg";
+import Noti1 from "../assets/Noti1.jpg";
 import CardSwiper from "../components/CardSwiper.js";
 // Import Swiper styles
 import "swiper/css";
