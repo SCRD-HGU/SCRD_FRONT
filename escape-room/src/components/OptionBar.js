@@ -1,108 +1,173 @@
-// src/components/OptionBar.js
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { RiKnifeBloodLine } from "react-icons/ri";
 import { PiSneakerMoveFill } from "react-icons/pi";
 import { IoIosSearch } from "react-icons/io";
-import { useFetchFilteredThemes } from "../hooks/useFetchFilteredThemes";
+import useAxiosInstance from "../api/axiosInstance";
+import _debounce from "lodash/debounce";
 
-function OptionBar() {
-  // ✅ 필터 상태
+function OptionBar({ allThemes = [], setSearchedItems }) {
+  const axiosInstance = useAxiosInstance();
+
+  // ✅ 상태 변수들
+  const [region, setRegion] = useState("");
   const [levelMin, setLevelMin] = useState(1);
   const [levelMax, setLevelMax] = useState(5);
   const [isFearActive, setIsFearActive] = useState(false);
   const [isActivityActive, setIsActivityActive] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const [searchTerm, setSearchTerm] = useState(""); // 입력 중인 검색어
-  const [submittedSearchTerm, setSubmittedSearchTerm] = useState(""); // 실제 검색용 검색어
+  // ✅ 지역 필터용 유니크 리스트 생성
+  const uniqueLocations = useMemo(() => {
+    const locations = allThemes.map((t) => t.location).filter(Boolean);
+    return ["지역", ...new Set(locations)];
+  }, [allThemes]);
 
-  // ✅ 검색 트리거 핸들러
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      setSubmittedSearchTerm(searchTerm);
+  // ✅ 기본 필터 상태인지 확인하는 함수
+  const isDefaultFilter = () => {
+    return (
+      region === "" &&
+      levelMin === 1 &&
+      levelMax === 5 &&
+      !isFearActive &&
+      !isActivityActive
+    );
+  };
+
+  // ✅ 필터 값 변경 시 자동 검색 (검색어가 없고, 기본 필터 상태가 아닐 때만)
+  useEffect(() => {
+    if (searchTerm.trim() !== "") return;
+  
+    const applyFilter = _debounce(() => {
+      if (isDefaultFilter()) {
+        axiosInstance
+          .get("/api/theme?sort=rating")
+          .then((res) => setSearchedItems(res.data))
+          .catch((err) => {
+            console.error("❌ 기본 테마 요청 실패:", err);
+            setSearchedItems([]);
+          });
+      } else {
+        const params = {};
+        if (region !== "") params.location = region;
+        params.levelMin = levelMin;
+        params.levelMax = levelMax;
+        if (isFearActive) params.horror = 1;
+        if (isActivityActive) params.activity = 1;
+  
+        const query = new URLSearchParams(params).toString();
+  
+        axiosInstance
+          .get(`/api/theme/filter?${query}`)
+          .then((res) => setSearchedItems(res.data))
+          .catch((err) => {
+            console.error("❌ 필터 요청 실패:", err);
+            setSearchedItems([]);
+          });
+      }
+    }, 300);
+  
+    applyFilter();
+    return () => applyFilter.cancel();
+  }, [region, levelMin, levelMax, isFearActive, isActivityActive, searchTerm]);
+
+  // ✅ 검색어 기반 검색
+  const handleFilterSearch = async () => {
+    if (searchTerm.trim() === "") {
+      axiosInstance
+        .get("/api/theme?sort=rating")
+        .then((res) => setSearchedItems(res.data))
+        .catch((err) => {
+          console.error("❌ 기본 테마 요청 실패:", err);
+          setSearchedItems([]);
+        });
+      return;
+    }
+  
+    try {
+      const res = await axiosInstance.get(
+        `/api/theme/search?keyword=${searchTerm.trim()}`
+      );
+      setSearchedItems(res.data);
+    } catch (err) {
+      console.error("❌ 검색 실패:", err);
+      setSearchedItems([]);
     }
   };
 
-  const handleSearchClick = () => {
-    setSubmittedSearchTerm(searchTerm);
-  };
-
-  // ✅ React Query로 필터된 데이터 가져오기
-  const { data: filteredItems = [], isLoading, isError } = useFetchFilteredThemes({
-    levelMin,
-    levelMax,
-    isFearActive,
-    isActivityActive,
-    searchTerm: submittedSearchTerm,
-  });
-
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error: Failed to load data.</p>;
-
   return (
     <FixedBar>
-      {isLoading && <p style={{ marginLeft: "20px" }}>불러오는 중...</p>}
-      {isError && <p style={{ color: "red", marginLeft: "20px" }}>데이터 로딩 실패</p>}
-  
-      {!isLoading && !isError && (
-        <>
-          {/* 난이도 선택 */}
-          <Difficulty>
-            <Select value={levelMin} onChange={(e) => setLevelMin(Number(e.target.value))}>
-              {[1, 2, 3, 4, 5].map((n) => (
-                <option key={n} value={n}>{n}</option>
-              ))}
-            </Select>
-  
-            <Tilde>~</Tilde>
-  
-            <Select value={levelMax} onChange={(e) => setLevelMax(Number(e.target.value))}>
-              {[1, 2, 3, 4, 5].map((n) => (
-                <option key={n} value={n}>{n}</option>
-              ))}
-            </Select>
-          </Difficulty>
-  
-          {/* 공포도/활동성 */}
-          <Horror onClick={() => setIsFearActive(!isFearActive)} active={isFearActive}>
-            <RiKnifeBloodLine /> 공포도
-          </Horror>
-  
-          <Move onClick={() => setIsActivityActive(!isActivityActive)} active={isActivityActive}>
-            <PiSneakerMoveFill /> 활동성
-          </Move>
-  
-          {/* 검색 */}
-          <SearchInput
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="검색어 입력"
-          />
-  
-          <Search onClick={handleSearchClick}>
-            <IoIosSearch />
-          </Search>
-        </>
-      )}
+      {/* <Local>
+        <Select value={region} onChange={(e) => setRegion(e.target.value)}>
+          {uniqueLocations.map((loc, i) => (
+            <option key={i} value={loc}>
+              {loc}
+            </option>
+          ))}
+        </Select>
+      </Local> */}
+
+      <Difficulty>
+        <Select value={levelMin} onChange={(e) => setLevelMin(Number(e.target.value))}>
+          {[1, 2, 3, 4, 5].map((n) => (
+            <option key={n} value={n}>{n}</option>
+          ))}
+        </Select>
+
+        <Tilde>~</Tilde>
+
+        <Select value={levelMax} onChange={(e) => setLevelMax(Number(e.target.value))}>
+          {[1, 2, 3, 4, 5].map((n) => (
+            <option key={n} value={n}>{n}</option>
+          ))}
+        </Select>
+      </Difficulty>
+
+      <Horror onClick={() => setIsFearActive(!isFearActive)} active={isFearActive}>
+        <RiKnifeBloodLine /> 공포도
+      </Horror>
+
+      <Move onClick={() => setIsActivityActive(!isActivityActive)} active={isActivityActive}>
+        <PiSneakerMoveFill /> 활동성
+      </Move>
+
+      <SearchInput
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleFilterSearch();
+        }}
+        placeholder="검색어 입력"
+      />
+
+      <Search onClick={handleFilterSearch}>
+        <IoIosSearch />
+      </Search>
     </FixedBar>
   );
 }
 
 export default OptionBar;
 
-// ✅ Styled-components
 const FixedBar = styled.div`
   position: fixed;
-  bottom: 40px;
+  bottom: 40px; /* 화면 하단에서 40px */
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); /* 수평 중앙 정렬 */
   display: flex;
   width: 600px;
   height: 42px;
   border-radius: 3px;
   background: #fff;
   z-index: 999;
+`;
+
+const Local = styled.div`
+  font-family: "Pretendard Variable";
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: 38px;
+  margin-top: 14px;
 `;
 
 const Difficulty = styled.div`
@@ -121,11 +186,13 @@ const Select = styled.select`
   font-size: 13px;
   font-weight: 600;
   color: #000;
-  margin-right: 4px;
+  margin-right: 4px; /* 숫자 간 간격 조절 */
   padding-right: 16px;
+
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+
   background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5L5 1L9 5' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right center;
@@ -139,7 +206,10 @@ const Tilde = styled.span`
 `;
 
 const Horror = styled.div`
-  color: ${(props) => (props.active ? "#D90206" : "#000")};
+  color: ${(props) =>
+    props.active
+      ? "var(--foundation-red-normal-active, #D90206)"
+      : "#000"};
   font-family: "Pretendard Variable";
   font-size: 13px;
   font-weight: 600;
@@ -154,7 +224,10 @@ const Horror = styled.div`
 `;
 
 const Move = styled.div`
-  color: ${(props) => (props.active ? "#D90206" : "#000")};
+  color: ${(props) =>
+    props.active
+      ? "var(--foundation-red-normal-active, #D90206)"
+      : "#000"};
   font-family: "Pretendard Variable";
   font-size: 13px;
   font-weight: 600;
