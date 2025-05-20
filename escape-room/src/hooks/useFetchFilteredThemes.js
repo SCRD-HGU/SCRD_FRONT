@@ -16,7 +16,7 @@ export const useFetchFilteredThemes = (filters) => {
         isFearActive,
         isActivityActive,
         searchTerm,
-        selectedDate = new Date().toISOString().split("T")[0], // 기본값: 오늘 날짜
+        selectedDate = new Date().toISOString().split("T")[0],
         page = 0,
         size = 5,
       } = filters;
