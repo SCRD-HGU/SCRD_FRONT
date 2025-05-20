@@ -1,3 +1,6 @@
+import { useQuery } from "react-query"; // ✅ 추가
+import useAxiosInstance from "../api/axiosInstance"; // ✅ 추가
+
 export const useFetchFilteredThemes = (filters) => {
   const axiosInstance = useAxiosInstance();
 
