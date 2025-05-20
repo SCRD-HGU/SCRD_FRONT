@@ -1,21 +1,22 @@
-// src/components/CardSwiper.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import useAxiosInstance from "../api/axiosInstance";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import dongsan from "../assets/Theme.png";
 import { FaAngleDown } from "react-icons/fa";
-import useApi from "../hooks/useApi";
 
 const CardSwiper = ({ searchedItems = [] }) => {
-  const { useGet } = useApi();
   const [selectedRegion, setSelectedRegion] = useState("전체");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [items, setItems] = useState([]);
+  const axiosInstance = useAxiosInstance();
 
-  // ✅ React Query로 테마 목록 불러오기
-  const { data: items = [], isLoading, isError } = useGet("/api/theme?sort=rating");
-
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Failed to load themes.</p>;
+  useEffect(() => {
+    axiosInstance
+      .get("/api/theme?sort=rating")
+      .then((res) => setItems(res.data))
+      .catch((err) => console.error("❌ 테마 요청 실패:", err));
+  }, [axiosInstance]);
 
   const dataToShow = searchedItems.length > 0 ? searchedItems : items;
   const locationList = ["전체", ...new Set(dataToShow.map((item) => item.location))];
@@ -51,6 +52,10 @@ const CardSwiper = ({ searchedItems = [] }) => {
             <Card>
               <CardImage src={item.image || dongsan} alt={item.title} />
               <CardTitle>{item.title}</CardTitle>
+              <CardInfo>
+                <RegionText>{item.location}</RegionText>
+                <BranchText>{`${item.brand} ${item.branch}`}</BranchText>
+              </CardInfo>
             </Card>
           </StyledLink>
         ))}
