@@ -1,22 +1,18 @@
-import { useQuery } from "react-query"; // ✅ 추가
-import useAxiosInstance from "../api/axiosInstance"; // ✅ 추가
+// 기존 import 제거: useAxiosInstance ❌
+import { useQuery } from "react-query";
 
-export const useFetchFilteredThemes = (filters) => {
-  const axiosInstance = useAxiosInstance();
-
+export const useFetchFilteredThemes = (filters, axiosInstance) => {
   return useQuery(
     ["filteredThemes", filters],
     async () => {
       const { levelMin, levelMax, isFearActive, isActivityActive, searchTerm } = filters;
 
-      // ✅ 1. 검색어가 있으면 search endpoint
       if (searchTerm.trim()) {
         const endpoint = `/api/theme/search?keyword=${searchTerm.trim()}`;
         const response = await axiosInstance.get(endpoint);
         return response.data;
       }
 
-      // ✅ 2. 아무 필터도 선택되지 않은 기본 상태 → 인기순 반환
       const isDefaultLevel = levelMin === 1 && levelMax === 5;
       const isDefaultFilter = !isFearActive && !isActivityActive;
 
@@ -25,7 +21,6 @@ export const useFetchFilteredThemes = (filters) => {
         return response.data;
       }
 
-      // ✅ 3. 그 외에는 filter endpoint
       const params = new URLSearchParams();
       params.append("horror", isFearActive ? 1 : 0);
       params.append("activity", isActivityActive ? 1 : 0);
