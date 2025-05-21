@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import dongsan from "../assets/Theme.png";
 import { FaAngleDown } from "react-icons/fa";
 
+// 📍 대분류 지역 정의
 const regionGroups = {
   "서울": ["강남", "홍대", "건대", "잠실", "신림", "혜화", "신촌", "동작", "성수", "노원", "명동"],
   "경기/인천": ["인천", "고양", "안산", "안양", "수원", "화성", "평택"],
@@ -37,6 +38,7 @@ const CardSwiper = ({ searchedItems = [] }) => {
 
   const dataToShow = searchedItems.length > 0 ? searchedItems : items;
 
+  // 📍 대분류 + 기타 분류 정리
   const groupRegionData = (data) => {
     const grouped = {};
     const includedRegions = new Set();
@@ -47,20 +49,17 @@ const CardSwiper = ({ searchedItems = [] }) => {
         includedRegions.add(region);
         return { region, count };
       });
-
       const total = regionCounts.reduce((sum, rc) => sum + rc.count, 0);
       grouped[groupName] = { regions: regionCounts, total };
     });
 
     const allRegions = [...new Set(data.map((item) => item.location))];
     const otherRegions = allRegions.filter((r) => !includedRegions.has(r));
-
     if (otherRegions.length > 0) {
       const otherCounts = otherRegions.map((region) => {
         const count = data.filter((item) => item.location === region).length;
         return { region, count };
       });
-
       const total = otherCounts.reduce((sum, rc) => sum + rc.count, 0);
       grouped["기타"] = { regions: otherCounts, total };
     }
@@ -68,10 +67,16 @@ const CardSwiper = ({ searchedItems = [] }) => {
     return grouped;
   };
 
-  const filteredItems =
-    selectedRegion === "전체"
-      ? dataToShow
-      : dataToShow.filter((item) => item.location === selectedRegion);
+  // 📍 필터링 처리
+  const filteredItems = (() => {
+    if (selectedRegion === "전체") return dataToShow;
+    if (regionGroups[selectedRegion]) {
+      return dataToShow.filter((item) =>
+        regionGroups[selectedRegion].includes(item.location)
+      );
+    }
+    return dataToShow.filter((item) => item.location === selectedRegion);
+  })();
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Failed to load themes.</p>;
@@ -85,9 +90,25 @@ const CardSwiper = ({ searchedItems = [] }) => {
 
       {isDropdownOpen && (
         <Dropdown>
+          <DropdownItem
+            onClick={() => {
+              setSelectedRegion("전체");
+              setIsDropdownOpen(false);
+            }}
+          >
+            전체
+          </DropdownItem>
+          <Divider />
           {Object.entries(groupRegionData(dataToShow)).map(([groupName, { regions, total }]) => (
             <div key={groupName}>
-              <GroupTitle>📍 {groupName}</GroupTitle>
+              <GroupTitle
+                onClick={() => {
+                  setSelectedRegion(groupName);
+                  setIsDropdownOpen(false);
+                }}
+              >
+                📍 {groupName} (전체 보기)
+              </GroupTitle>
               {regions.map(({ region, count }) => (
                 <DropdownItem
                   key={region}
@@ -124,7 +145,7 @@ const CardSwiper = ({ searchedItems = [] }) => {
   );
 };
 
-// ✅ styled-components
+// 💅 styled-components
 const Container = styled.div`
   width: 988px;
   margin-top: 20px;
@@ -155,7 +176,7 @@ const Dropdown = styled.div`
   border-radius: 5px;
   z-index: 100;
   display: block;
-  max-height: 300px;
+  max-height: 400px;
   max-width: 300px;
   padding: 12px;
   overflow-y: auto;
@@ -167,7 +188,6 @@ const DropdownItem = styled.div`
   cursor: pointer;
   font-size: 14px;
   border-radius: 4px;
-
   &:hover {
     background: rgba(255, 255, 255, 0.2);
   }
@@ -175,7 +195,8 @@ const DropdownItem = styled.div`
 const GroupTitle = styled.div`
   font-weight: bold;
   color: #fff;
-  margin-bottom: 4px;
+  margin: 6px 0 2px;
+  cursor: pointer;
 `;
 const SubTotal = styled.div`
   font-size: 12px;
