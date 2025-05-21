@@ -59,7 +59,7 @@ const MyPage = () => {
               COLOURLESS SKEIN <br />
               OF LIFE
             </HeaderText>
-            <Link to="/">
+            <Link to="/main">
               <Logo src={LogoImage} alt="Company Logo" />
             </Link>
           </HeaderLogoWrapper>
