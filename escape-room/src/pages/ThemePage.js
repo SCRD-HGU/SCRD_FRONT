@@ -20,12 +20,11 @@ const GlobalStyle = createGlobalStyle`
   }
   
   html, body {
-    display: flex;
-    justify-content: center;
+    display: block; /* 또는 제거 */
     min-width: 100vw;
     min-height: 100vh;
     background-color: #000000;
-    overflow-x: hidden;
+    overflow-x: auto; /* 확대 시 스크롤 허용 */
   }
 `;
 
