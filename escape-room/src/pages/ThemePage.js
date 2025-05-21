@@ -18,13 +18,18 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
-  
+
+  html {
+    zoom: 1.25; /* ✅ 핵심 */
+  }
+
   html, body {
-    display: block; /* 또는 제거 */
+    display: flex;
+    justify-content: center;
     min-width: 100vw;
     min-height: 100vh;
     background-color: #000000;
-    overflow-x: auto; /* 확대 시 스크롤 허용 */
+    overflow-x: hidden;
   }
 `;
 
@@ -68,7 +73,7 @@ const ThemePage = () => {
 
 // ✅ 헤더와 Carousel을 감싸는 컨테이너 추가
 const Container = styled.div`
-  width: 1296px;
+  width: 1037px;
   min-height: 100vh;
   background: #000;
   display: flex;
