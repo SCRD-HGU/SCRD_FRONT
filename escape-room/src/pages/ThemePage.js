@@ -18,11 +18,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
-
-  html {
-    zoom: 1.25; /* ✅ 핵심 */
-  }
-
+  
   html, body {
     display: flex;
     justify-content: center;
@@ -39,39 +35,47 @@ const ThemePage = () => {
   return (
     <>
       <GlobalStyle />
-      <Container>
-        <Header />
-        <OptionBar setSearchedItems={setSearchedItems} />
-        <StyledSwiper
-          cssMode={true}
-          navigation={true}
-          pagination={{ clickable: true }}
-          mousewheel={true}
-          keyboard={true}
-          modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-          className="mySwiper"
-        >
-          <StyledSwiperSlide>
-            <SlideImage src={Noti1} alt="Notification 1" />
-          </StyledSwiperSlide>
-          {/* <StyledSwiperSlide>Slide 2</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 5</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 6</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 7</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 8</StyledSwiperSlide>
-          <StyledSwiperSlide>Slide 9</StyledSwiperSlide> */}
-        </StyledSwiper>
-        <CardSwiperContainer>
-          <CardSwiper searchedItems={searchedItems} />
-        </CardSwiperContainer>
-      </Container>
+      <ZoomWrapper>
+        <Container>
+          <Header />
+          <OptionBar setSearchedItems={setSearchedItems} />
+          <StyledSwiper
+            cssMode={true}
+            navigation={true}
+            pagination={{ clickable: true }}
+            mousewheel={true}
+            keyboard={true}
+            modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+            className="mySwiper"
+          >
+            <StyledSwiperSlide>
+              <SlideImage src={Noti1} alt="Notification 1" />
+            </StyledSwiperSlide>
+            {/* <StyledSwiperSlide>Slide 2</StyledSwiperSlide>
+            <StyledSwiperSlide>Slide 3</StyledSwiperSlide>
+            <StyledSwiperSlide>Slide 4</StyledSwiperSlide>
+            <StyledSwiperSlide>Slide 5</StyledSwiperSlide>
+            <StyledSwiperSlide>Slide 6</StyledSwiperSlide>
+            <StyledSwiperSlide>Slide 7</StyledSwiperSlide>
+            <StyledSwiperSlide>Slide 8</StyledSwiperSlide>
+            <StyledSwiperSlide>Slide 9</StyledSwiperSlide> */}
+          </StyledSwiper>
+          <CardSwiperContainer>
+            <CardSwiper searchedItems={searchedItems} />
+          </CardSwiperContainer>
+        </Container>
+      </ZoomWrapper>
     </>
   );
 };
 
 // ✅ 헤더와 Carousel을 감싸는 컨테이너 추가
+const ZoomWrapper = styled.div`
+  transform: scale(1.25);
+  transform-origin: top center;
+  width: 100%;
+`;
+
 const Container = styled.div`
   width: 1037px;
   min-height: 100vh;
