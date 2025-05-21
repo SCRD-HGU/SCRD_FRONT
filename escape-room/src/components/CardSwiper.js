@@ -6,6 +6,15 @@ import { Link } from "react-router-dom";
 import dongsan from "../assets/Theme.png";
 import { FaAngleDown } from "react-icons/fa";
 
+const regionGroups = {
+  "서울": ["강남", "홍대", "건대", "잠실", "신림", "혜화", "신촌", "동작", "성수", "노원", "명동"],
+  "경기/인천": ["인천", "고양", "안산", "안양", "수원", "화성", "평택"],
+  "충청": ["대전", "천안", "충주"],
+  "경상": ["부산", "대구"],
+  "전라": ["익산", "전주"],
+  "제주": ["제주", "서귀포"],
+};
+
 const CardSwiper = ({ searchedItems = [] }) => {
   const [selectedRegion, setSelectedRegion] = useState("전체");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -27,7 +36,37 @@ const CardSwiper = ({ searchedItems = [] }) => {
   );
 
   const dataToShow = searchedItems.length > 0 ? searchedItems : items;
-  const locationList = ["전체", ...new Set(dataToShow.map((item) => item.location))];
+
+  const groupRegionData = (data) => {
+    const grouped = {};
+    const includedRegions = new Set();
+
+    Object.entries(regionGroups).forEach(([groupName, subRegions]) => {
+      const regionCounts = subRegions.map((region) => {
+        const count = data.filter((item) => item.location === region).length;
+        includedRegions.add(region);
+        return { region, count };
+      });
+
+      const total = regionCounts.reduce((sum, rc) => sum + rc.count, 0);
+      grouped[groupName] = { regions: regionCounts, total };
+    });
+
+    const allRegions = [...new Set(data.map((item) => item.location))];
+    const otherRegions = allRegions.filter((r) => !includedRegions.has(r));
+
+    if (otherRegions.length > 0) {
+      const otherCounts = otherRegions.map((region) => {
+        const count = data.filter((item) => item.location === region).length;
+        return { region, count };
+      });
+
+      const total = otherCounts.reduce((sum, rc) => sum + rc.count, 0);
+      grouped["기타"] = { regions: otherCounts, total };
+    }
+
+    return grouped;
+  };
 
   const filteredItems =
     selectedRegion === "전체"
@@ -46,16 +85,23 @@ const CardSwiper = ({ searchedItems = [] }) => {
 
       {isDropdownOpen && (
         <Dropdown>
-          {locationList.map((region, idx) => (
-            <DropdownItem
-              key={idx}
-              onClick={() => {
-                setSelectedRegion(region);
-                setIsDropdownOpen(false);
-              }}
-            >
-              {region}
-            </DropdownItem>
+          {Object.entries(groupRegionData(dataToShow)).map(([groupName, { regions, total }]) => (
+            <div key={groupName}>
+              <GroupTitle>📍 {groupName}</GroupTitle>
+              {regions.map(({ region, count }) => (
+                <DropdownItem
+                  key={region}
+                  onClick={() => {
+                    setSelectedRegion(region);
+                    setIsDropdownOpen(false);
+                  }}
+                >
+                  {region} ({count})
+                </DropdownItem>
+              ))}
+              <SubTotal>소계: {total}건</SubTotal>
+              <Divider />
+            </div>
           ))}
         </Dropdown>
       )}
@@ -78,7 +124,7 @@ const CardSwiper = ({ searchedItems = [] }) => {
   );
 };
 
-// ✅ styled-components는 그대로 유지
+// ✅ styled-components
 const Container = styled.div`
   width: 988px;
   margin-top: 20px;
@@ -108,15 +154,11 @@ const Dropdown = styled.div`
   border: 1px solid white;
   border-radius: 5px;
   z-index: 100;
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-rows: repeat(5, auto);
-  gap: 4px;
-  max-height: 200px;
+  display: block;
+  max-height: 300px;
   max-width: 300px;
-  padding: 8px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  padding: 12px;
+  overflow-y: auto;
   white-space: nowrap;
 `;
 const DropdownItem = styled.div`
@@ -129,6 +171,23 @@ const DropdownItem = styled.div`
   &:hover {
     background: rgba(255, 255, 255, 0.2);
   }
+`;
+const GroupTitle = styled.div`
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 4px;
+`;
+const SubTotal = styled.div`
+  font-size: 12px;
+  color: #bbb;
+  margin-top: 4px;
+  margin-bottom: 8px;
+`;
+const Divider = styled.hr`
+  border: 0;
+  height: 1px;
+  background: #333;
+  margin: 4px 0 10px;
 `;
 const StyledLink = styled(Link)`
   text-decoration: none;
