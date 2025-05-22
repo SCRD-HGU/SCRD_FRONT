@@ -35,10 +35,10 @@ const ThemePage = () => {
   return (
     <>
       <GlobalStyle />
+      <OptionBar setSearchedItems={setSearchedItems} />
       <ZoomWrapper>
         <Container>
           <Header />
-          <OptionBar setSearchedItems={setSearchedItems} />
           <StyledSwiper
             cssMode={true}
             navigation={true}
