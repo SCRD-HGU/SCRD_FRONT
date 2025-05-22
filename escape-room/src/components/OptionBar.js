@@ -108,6 +108,7 @@ function OptionBar({ allThemes = [], setSearchedItems }) {
       </Local> */}
 
       <Difficulty>
+        <Label>난이도</Label>
         <Select value={levelMin} onChange={(e) => setLevelMin(Number(e.target.value))}>
           {[1, 2, 3, 4, 5].map((n) => (
             <option key={n} value={n}>{n}</option>
@@ -176,6 +177,13 @@ const Difficulty = styled.div`
   font-family: "Pretendard Variable";
   font-size: 13px;
   font-weight: 600;
+`;
+
+const Label = styled.span`
+  margin-right: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
 `;
 
 const Select = styled.select`
